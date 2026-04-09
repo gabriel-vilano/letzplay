@@ -3,6 +3,7 @@
 @ROADMAP.md
 @AGENTS.md
 @GIT_WORKFLOW.md
+@docs/TOKENS.md
 
 ## Sobre o projeto
 
@@ -27,6 +28,7 @@ O desenvolvedor é um designer (~4 anos em branding/marketing/gráfico, ~2 anos 
 - **Linguagem:** TypeScript 5
 - **UI:** React 19
 - **Estilização:** CSS customizado com CSS Modules (escopo de componente) + CSS Custom Properties (design tokens)
+- **Ícones:** Phosphor Icons (`@phosphor-icons/react`) — sempre via componente `<Icon />`
 - **Backend:** Supabase (Auth, PostgreSQL, Storage, Data API, RLS automático)
   - `@supabase/supabase-js` ^2.101.1
   - `@supabase/ssr` ^0.10.0
@@ -69,6 +71,31 @@ O desenvolvedor é um designer (~4 anos em branding/marketing/gráfico, ~2 anos 
 - Design tokens definidos como CSS Custom Properties em `styles/tokens/`
 - Nomenclatura BEM dentro dos arquivos `.module.css`: `.card__header`, `.btn--primary`
 - Mobile-first, responsivo depois
+
+### Ícones
+
+- Lib: `@phosphor-icons/react`
+- Sempre via wrapper: `<Icon icon={Trophy} size="md" weight="regular" />`
+- Importar o ícone Phosphor no consumidor: `import { Trophy } from '@phosphor-icons/react'`
+- Cor sempre via `currentColor` — nunca definir cor dentro do componente `Icon`
+- Ícones decorativos: `aria-hidden={true}` (default — não precisa declarar)
+- Ícones com significado semântico: `aria-label="descrição"` + `aria-hidden={false}`
+- Botão com ícone sem texto: `aria-label` vai no `<button>`, não no `<Icon>`
+- Ícones customizados de marca: `src/components/icons/` (SVG próprio, fora do Phosphor)
+- Referência completa: `@docs/components/icon.md`
+
+## Documentação de componentes
+
+Cada componente do sistema tem seu arquivo de documentação em `docs/components/`.
+Incluir o arquivo relevante no início da sessão quando for trabalhar num componente específico.
+
+```
+docs/
+  TOKENS.md              ← tokens primitivos e semânticos (referenciado via @ acima)
+  components/
+    icon.md              ← componente Icon
+    button.md            ← (a criar quando Button for documentado)
+```
 
 ## Supabase
 
