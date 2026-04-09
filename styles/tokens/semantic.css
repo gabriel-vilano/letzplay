@@ -1,0 +1,157 @@
+/* =============================================================
+   TOKENS SEMÂNTICOS — LetzPlay Design System
+
+   Intenções de design. Sempre apontam para primitivos.
+   Esses são os tokens usados nos componentes.
+   ============================================================= */
+
+:root {
+
+  /* -----------------------------------------------------------
+     ESCALA TIPOGRÁFICA SEMÂNTICA
+
+     Tokens definidos por propriedade individual.
+     Nos componentes, usar font-size, font-weight e line-height
+     separadamente — nunca o shorthand font:.
+  ----------------------------------------------------------- */
+
+  /* Display */
+  --text-display-1-size:        var(--font-size-4xl);
+  --text-display-1-weight:      var(--font-weight-bold);
+  --text-display-1-line-height: var(--line-height-4xl);
+  --text-display-1-tracking:    var(--font-letter-spacing-display);
+
+  --text-display-2-size:        var(--font-size-3xl);
+  --text-display-2-weight:      var(--font-weight-bold);
+  --text-display-2-line-height: var(--line-height-3xl);
+  --text-display-2-tracking:    var(--font-letter-spacing-display);
+
+  --text-display-3-size:        var(--font-size-2xl);
+  --text-display-3-weight:      var(--font-weight-bold);
+  --text-display-3-line-height: var(--line-height-2xl);
+  --text-display-3-tracking:    var(--font-letter-spacing-display);
+
+  /* Title */
+  --text-title-1-size:        var(--font-size-xl);
+  --text-title-1-weight:      var(--font-weight-bold);
+  --text-title-1-line-height: var(--line-height-xl);
+
+  --text-title-2-size:        var(--font-size-lg);
+  --text-title-2-weight:      var(--font-weight-bold);
+  --text-title-2-line-height: var(--line-height-lg);
+
+  --text-title-3-size:        var(--font-size-md);
+  --text-title-3-weight:      var(--font-weight-bold);
+  --text-title-3-line-height: var(--line-height-md);
+
+  /* Body */
+  --text-body-lg-size:          var(--font-size-md);
+  --text-body-lg-weight:        var(--font-weight-regular);
+  --text-body-lg-line-height:   var(--line-height-md);
+
+  --text-body-size:             var(--font-size-body);
+  --text-body-weight:           var(--font-weight-regular);
+  --text-body-line-height:      var(--line-height-sm);
+
+  --text-body-bold-size:        var(--font-size-body);
+  --text-body-bold-weight:      var(--font-weight-bold);
+  --text-body-bold-line-height: var(--line-height-sm);
+
+  /* Caption */
+  --text-caption-size:             var(--font-size-sm);
+  --text-caption-weight:           var(--font-weight-regular);
+  --text-caption-line-height:      var(--line-height-xs);
+
+  --text-caption-bold-size:        var(--font-size-sm);
+  --text-caption-bold-weight:      var(--font-weight-bold);
+  --text-caption-bold-line-height: var(--line-height-xs);
+
+  /* Signal */
+  --text-signal-size:        var(--font-size-xs);
+  --text-signal-weight:      var(--font-weight-bold);
+  --text-signal-line-height: var(--line-height-xs);
+  --text-signal-tracking:    var(--font-letter-spacing-signal);
+
+  /* -----------------------------------------------------------
+     COR — BACKGROUND
+  ----------------------------------------------------------- */
+  --color-background-primary:          var(--color-neutral-100);
+  --color-background-secondary:        var(--color-neutral-200);
+  --color-background-tertiary:         var(--color-neutral-300);
+  --color-background-elevated:         var(--color-neutral-100);
+  --color-background-inverse:          var(--color-neutral-700);
+  --color-background-strong:           var(--color-neutral-800);
+  --color-background-accent:           var(--color-coral-500);
+  --color-background-attention:        var(--color-red-600);
+  --color-background-success:          var(--color-kiwi-600);
+  --color-background-disabled:         var(--color-neutral-400);
+  --color-background-accent-subtle:    var(--color-coral-100);
+  --color-background-attention-subtle: var(--color-red-100);
+  --color-background-success-subtle:   var(--color-kiwi-100);
+
+  /* -----------------------------------------------------------
+     COR — FOREGROUND
+  ----------------------------------------------------------- */
+  --color-foreground-primary:      var(--color-neutral-800);
+  --color-foreground-secondary:    var(--color-neutral-600);
+  --color-foreground-disabled:     var(--color-neutral-400);
+  --color-foreground-accent:       var(--color-coral-500);
+  --color-foreground-attention:    var(--color-red-600);
+  --color-foreground-success:      var(--color-kiwi-600);
+  --color-foreground-on-accent:    var(--color-neutral-100);
+  --color-foreground-on-attention: var(--color-neutral-100);
+  --color-foreground-on-success:   var(--color-neutral-100);
+  --color-foreground-on-inverse:   var(--color-neutral-100);
+  --color-foreground-on-strong:    var(--color-neutral-100);
+  --color-foreground-on-disabled:  var(--color-neutral-100);
+  --color-foreground-link:         var(--color-blue-500);
+
+  /* -----------------------------------------------------------
+     COR — BORDER
+  ----------------------------------------------------------- */
+  --color-border-subtle:      var(--color-neutral-300);
+  --color-border-medium:      var(--color-neutral-500);
+  --color-border-strong:      var(--color-neutral-700);
+  --color-border-inverse:     var(--color-neutral-100);
+  --color-border-accent:      var(--color-coral-500);
+  --color-border-attention:   var(--color-red-600);
+  --color-border-success:     var(--color-kiwi-600);
+  --color-border-disabled:    var(--color-neutral-400);
+  --color-border-on-accent:   var(--color-neutral-100);
+  --color-border-on-attention:var(--color-neutral-100);
+  --color-border-on-success:  var(--color-neutral-100);
+  --color-border-on-disabled: var(--color-neutral-100);
+  --color-border-on-inverse:  var(--color-neutral-100);
+
+  /* -----------------------------------------------------------
+     STATE LAYERS
+  ----------------------------------------------------------- */
+  --color-state-layer-neutral:          rgba(0, 0, 0, 0);
+  --color-state-layer-hover:            rgba(0, 0, 0, 0.04);
+  --color-state-layer-focus:            rgba(0, 0, 0, 0.04);
+  --color-state-layer-pressed:          rgba(0, 0, 0, 0.08);
+  --color-state-layer-selected:         rgba(0, 0, 0, 0.12);
+  --color-state-layer-hover-on-strong:    rgba(255, 255, 255, 0.12);
+  --color-state-layer-focus-on-strong:    rgba(255, 255, 255, 0.12);
+  --color-state-layer-pressed-on-strong:  rgba(255, 255, 255, 0.16);
+  --color-state-layer-selected-on-strong: rgba(255, 255, 255, 0.20);
+  --color-state-focus-ring: #005fcc;
+
+  /* -----------------------------------------------------------
+     MARCA
+  ----------------------------------------------------------- */
+  --color-brand: var(--color-coral-500);
+
+  /* -----------------------------------------------------------
+     LOADING / SKELETON
+  ----------------------------------------------------------- */
+  --color-loading-fill:   #ededed;
+  --color-loading-first:  var(--color-neutral-200);
+  --color-loading-second: var(--color-neutral-300);
+
+  /* -----------------------------------------------------------
+     SCRIM
+  ----------------------------------------------------------- */
+  --color-scrim: rgba(0, 0, 0, 0.3);
+
+}

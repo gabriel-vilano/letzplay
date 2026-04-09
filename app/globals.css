@@ -1,32 +1,24 @@
-/* ============================================
-   RESET
-   Normaliza comportamentos padrão do browser
-   ============================================ */
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+/* =============================================================
+   GLOBALS — LetzPlay
 
-/* ============================================
-   TOKENS GLOBAIS
-   Fonte da verdade do design system
-   ============================================ */
-:root {
-  /* Fontes — valores injetados pelo next/font via layout.tsx */
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+   Importa o design system e define os estilos base
+   do documento. Não contém estilos de componente.
+   ============================================================= */
 
-/* ============================================
-   BASE
-   Estilos fundamentais do documento
-   ============================================ */
+@import "../styles/reset.css";
+@import "../styles/tokens/primitives.css";
+@import "../styles/tokens/semantic.css";
+
+/* -----------------------------------------------------------
+   BASE DO DOCUMENTO
+----------------------------------------------------------- */
 html {
-  font-family: var(--font-sans), system-ui, sans-serif;
-  -webkit-font-smoothing: antialiased;
+  font-family: var(--font-sans);
+  font-size: var(--font-size-body);
+  color: var(--color-foreground-primary);
+  background-color: var(--color-background-primary);
 }
 
 body {
-  min-height: 100dvh;
+  line-height: var(--line-height-sm);
 }

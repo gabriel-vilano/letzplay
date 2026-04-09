@@ -1,0 +1,224 @@
+/* =============================================================
+   TOKENS PRIMITIVOS — LetzPlay Design System
+
+   Valores brutos. Sem semântica. Nunca use diretamente
+   em componentes — use sempre os tokens semânticos.
+   Referência: eBay Evo Web (adaptado)
+   ============================================================= */
+
+:root {
+
+  /* -----------------------------------------------------------
+     FAMÍLIA TIPOGRÁFICA
+  ----------------------------------------------------------- */
+  --font-sans: "Arimo", system-ui, sans-serif;
+
+  /* -----------------------------------------------------------
+     TAMANHOS DE FONTE
+  ----------------------------------------------------------- */
+  --font-size-xs:   0.625rem;   /* 10px */
+  --font-size-sm:   0.75rem;    /* 12px */
+  --font-size-body: 0.875rem;   /* 14px — base do corpo de texto */
+  --font-size-md:   1rem;       /* 16px */
+  --font-size-lg:   1.25rem;    /* 20px */
+  --font-size-xl:   1.5rem;     /* 24px */
+  --font-size-2xl:  1.875rem;   /* 30px */
+  --font-size-3xl:  2.25rem;    /* 36px */
+  --font-size-4xl:  2.875rem;   /* 46px */
+
+  /* -----------------------------------------------------------
+     PESOS
+  ----------------------------------------------------------- */
+  --font-weight-regular: 400;
+  --font-weight-bold:    600;
+
+  /* -----------------------------------------------------------
+     LINE-HEIGHTS — valores absolutos para ritmo vertical
+     consistente independente do font-size
+  ----------------------------------------------------------- */
+  --line-height-xs:  1rem;      /* 16px */
+  --line-height-sm:  1.25rem;   /* 20px */
+  --line-height-md:  1.5rem;    /* 24px */
+  --line-height-lg:  1.75rem;   /* 28px */
+  --line-height-xl:  2rem;      /* 32px */
+  --line-height-2xl: 2.5rem;    /* 40px */
+  --line-height-3xl: 2.875rem;  /* 46px */
+  --line-height-4xl: 3.5rem;    /* 56px */
+
+  /* -----------------------------------------------------------
+     LETTER-SPACING
+  ----------------------------------------------------------- */
+  --font-letter-spacing-none:    0px;
+  --font-letter-spacing-display: -0.6px;
+  --font-letter-spacing-signal:   0.5px;
+
+  /* -----------------------------------------------------------
+     ESPAÇAMENTO — escala base-8
+  ----------------------------------------------------------- */
+  --spacing-0:   0px;
+  --spacing-25:  2px;
+  --spacing-50:  4px;
+  --spacing-75:  6px;
+  --spacing-100: 8px;
+  --spacing-125: 10px;
+  --spacing-150: 12px;
+  --spacing-200: 16px;
+  --spacing-250: 20px;
+  --spacing-300: 24px;
+  --spacing-400: 32px;
+  --spacing-450: 36px;
+  --spacing-500: 40px;
+  --spacing-600: 48px;
+  --spacing-700: 56px;
+  --spacing-800: 64px;
+
+  --spacing-page-margin: 16px;
+  --spacing-page-gutter: 8px;
+
+  /* -----------------------------------------------------------
+     DIMENSÕES FIXAS
+  ----------------------------------------------------------- */
+  --dimension-tap-target-minimum: 48px;
+  --dimension-action-height-sm:   32px;
+  --dimension-action-height-md:   40px;
+  --dimension-action-height-lg:   48px;
+  --dimension-icon-xs:            12px;
+  --dimension-icon-sm:            16px;
+  --dimension-icon-md:            24px;
+  --dimension-icon-lg:            32px;
+  --dimension-icon-xl:            64px;
+
+  /* -----------------------------------------------------------
+     BORDER RADIUS
+  ----------------------------------------------------------- */
+  --radius-none: 0px;
+  --radius-sm:   4px;
+  --radius-md:   8px;
+  --radius-lg:   16px;
+  --radius-xl:   24px;
+  --radius-full: 9999px;
+
+  --radius-form-input: var(--radius-md);
+  --radius-card:       var(--radius-lg);
+  --radius-popover:    var(--radius-lg);
+
+  /* -----------------------------------------------------------
+     BORDER WIDTH
+  ----------------------------------------------------------- */
+  --border-width-thin:   0.5px;
+  --border-width-medium: 1px;
+  --border-width-thick:  2px;
+
+  /* -----------------------------------------------------------
+     SOMBRAS
+  ----------------------------------------------------------- */
+  --shadow-subtle: 0px 4px 12px 0px rgba(0, 0, 0, 0.07);
+  --shadow-strong: 0px 5px 17px 0px rgba(0, 0, 0, 0.2),
+                   0px 2px 7px 0px rgba(0, 0, 0, 0.15);
+
+  /* -----------------------------------------------------------
+     OPACIDADE — para state layers
+  ----------------------------------------------------------- */
+  --opacity-50:  0.04;
+  --opacity-100: 0.08;
+  --opacity-150: 0.12;
+  --opacity-200: 0.16;
+
+  /* -----------------------------------------------------------
+     MOTION — durações
+  ----------------------------------------------------------- */
+  --motion-duration-instant:  17ms;
+  --motion-duration-short-1:  50ms;
+  --motion-duration-short-2:  83ms;
+  --motion-duration-short-3:  167ms;
+  --motion-duration-medium-1: 250ms;
+  --motion-duration-medium-2: 333ms;
+  --motion-duration-medium-3: 500ms;
+  --motion-duration-long-1:   667ms;
+  --motion-duration-long-2:   833ms;
+  --motion-duration-long-3:   1000ms;
+
+  /* MOTION — easings */
+  --motion-easing-linear:      cubic-bezier(0, 0, 1, 1);
+  --motion-easing-standard:    cubic-bezier(0.3, 0, 0, 1);
+  --motion-easing-continuous:  cubic-bezier(0.3, 0, 0.7, 1);
+  --motion-easing-quick-enter: cubic-bezier(0, 0, 0, 1);
+  --motion-easing-quick-exit:  cubic-bezier(1, 0, 1, 1);
+  --motion-easing-soft-enter:  cubic-bezier(0, 0, 0.7, 1);
+  --motion-easing-soft-exit:   cubic-bezier(0.3, 0, 1, 1);
+  --motion-easing-bounce:      cubic-bezier(0.3, 0, 0, 1.25);
+
+  /* -----------------------------------------------------------
+     BREAKPOINTS
+  ----------------------------------------------------------- */
+  --breakpoint-sm: 512px;
+  --breakpoint-md: 600px;
+  --breakpoint-lg: 800px;
+  --breakpoint-xl: 1100px;
+
+  /* -----------------------------------------------------------
+     PALETA DE CORES — 8 stops por família
+  ----------------------------------------------------------- */
+
+  /* Neutral */
+  --color-neutral-100: #ffffff;
+  --color-neutral-200: #f7f7f7;
+  --color-neutral-300: #e5e5e5;
+  --color-neutral-400: #c7c7c7;
+  --color-neutral-500: #8f8f8f;
+  --color-neutral-600: #707070;
+  --color-neutral-700: #363636;
+  --color-neutral-800: #191919;
+
+  /* Coral — cor de marca */
+  --color-coral-100: #fff7f5;
+  --color-coral-200: #ffe1d7;
+  --color-coral-300: #ffa78a;
+  --color-coral-400: #ff6a38;
+  --color-coral-500: #f3511b;
+  --color-coral-600: #d03706;
+  --color-coral-700: #5e1d08;
+  --color-coral-800: #2f0e04;
+
+  /* Kiwi — success */
+  --color-kiwi-100: #f6fef6;
+  --color-kiwi-200: #e0fae0;
+  --color-kiwi-300: #a6f0a5;
+  --color-kiwi-400: #4ce160;
+  --color-kiwi-500: #3cc14e;
+  --color-kiwi-600: #288034;
+  --color-kiwi-700: #1b561a;
+  --color-kiwi-800: #0c310d;
+
+  /* Red — attention / error */
+  --color-red-100: #fff5f5;
+  --color-red-200: #ffdede;
+  --color-red-300: #ffa0a0;
+  --color-red-400: #ff5c5c;
+  --color-red-500: #f02d2d;
+  --color-red-600: #d50b0b;
+  --color-red-700: #570303;
+  --color-red-800: #2a0303;
+
+  /* Blue — informação, links */
+  --color-blue-100: #f5f9ff;
+  --color-blue-200: #d4e5fe;
+  --color-blue-300: #84b4fb;
+  --color-blue-400: #4d93fc;
+  --color-blue-500: #0968f6;
+  --color-blue-600: #0049b8;
+  --color-blue-650: #003aa5;
+  --color-blue-700: #002a69;
+  --color-blue-800: #19133a;
+
+  /* Yellow — warning */
+  --color-yellow-100: #fffcf5;
+  --color-yellow-200: #fff8d5;
+  --color-yellow-300: #ffe58a;
+  --color-yellow-400: #ffbd14;
+  --color-yellow-500: #eebb04;
+  --color-yellow-600: #855f00;
+  --color-yellow-700: #553b06;
+  --color-yellow-800: #312102;
+
+}
