@@ -1,5 +1,7 @@
 "use client";
 
+import { Check, Circle } from "@phosphor-icons/react";
+import { Icon } from "@/src/components/ui/Icon";
 import type { PasswordChecks } from "@/src/lib/validations";
 import styles from "./PasswordChecklist.module.css";
 
@@ -23,19 +25,7 @@ export function PasswordChecklist({ checks }: PasswordChecklistProps) {
             key={key}
             className={`${styles.checklist__item} ${met ? styles["checklist__item--met"] : ""}`}
           >
-            <svg className={styles.checklist__icon} viewBox="0 0 12 12" fill="none">
-              {met ? (
-                <path
-                  d="M2 6.5L4.5 9L10 3"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              ) : (
-                <circle cx="6" cy="6" r="2.5" stroke="currentColor" strokeWidth="1.5" />
-              )}
-            </svg>
+            <Icon icon={met ? Check : Circle} size="xs" weight={met ? "bold" : "regular"} />
             {label}
           </li>
         );
