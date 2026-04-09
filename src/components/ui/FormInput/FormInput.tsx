@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { Check, X, Eye, EyeSlash } from "@phosphor-icons/react";
+import { Icon } from "@/src/components/ui/Icon";
 import styles from "./FormInput.module.css";
 
 type FormInputProps = {
@@ -75,19 +77,19 @@ export function FormInput({
               onClick={() => setShowPassword((prev) => !prev)}
               aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
             >
-              {showPassword ? (
-                <EyeOffIcon />
-              ) : (
-                <EyeIcon />
-              )}
+              <Icon icon={showPassword ? EyeSlash : Eye} size="sm" />
             </button>
           )}
 
           {showStatus && (
             valid && !error ? (
-              <CheckIcon className={`${styles["form-input__icon"]} ${styles["form-input__icon--valid"]}`} />
+              <span className={styles["form-input__icon--valid"]}>
+                <Icon icon={Check} size="sm" />
+              </span>
             ) : error ? (
-              <XIcon className={`${styles["form-input__icon"]} ${styles["form-input__icon--error"]}`} />
+              <span className={styles["form-input__icon--error"]}>
+                <Icon icon={X} size="sm" />
+              </span>
             ) : null
           )}
         </span>
@@ -97,40 +99,5 @@ export function FormInput({
         <span className={styles["form-input__error"]}>{error}</span>
       )}
     </div>
-  );
-}
-
-function CheckIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M3 8.5L6.5 12L13 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-function XIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M4 4L12 12M12 4L4 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-function EyeIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M10 4C4.5 4 1.5 10 1.5 10C1.5 10 4.5 16 10 16C15.5 16 18.5 10 18.5 10C18.5 10 15.5 4 10 4Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
-      <circle cx="10" cy="10" r="3" stroke="currentColor" strokeWidth="1.5" />
-    </svg>
-  );
-}
-
-function EyeOffIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M3 3L17 17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-      <path d="M10 4C4.5 4 1.5 10 1.5 10C1.5 10 3.5 13.5 7 15" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
-      <path d="M10 16C15.5 16 18.5 10 18.5 10C18.5 10 16.5 6.5 13 5" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
-    </svg>
   );
 }

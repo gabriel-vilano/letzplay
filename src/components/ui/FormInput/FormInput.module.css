@@ -66,18 +66,14 @@
   gap: var(--spacing-50);
 }
 
-.form-input__icon {
-  width: var(--dimension-icon-sm);
-  height: var(--dimension-icon-sm);
-  flex-shrink: 0;
-}
-
 .form-input__icon--valid {
   color: var(--color-foreground-success);
+  display: inline-flex;
 }
 
 .form-input__icon--error {
   color: var(--color-foreground-attention);
+  display: inline-flex;
 }
 
 .form-input__toggle {
