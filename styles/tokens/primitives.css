@@ -1,9 +1,8 @@
 /* =============================================================
-   TOKENS PRIMITIVOS — LetzPlay Design System
+   TOKENS PRIMITIVOS
 
    Valores brutos. Sem semântica. Nunca use diretamente
    em componentes — use sempre os tokens semânticos.
-   Referência: eBay Evo Web (adaptado)
    ============================================================= */
 
 :root {
@@ -33,8 +32,7 @@
   --font-weight-bold:    600;
 
   /* -----------------------------------------------------------
-     LINE-HEIGHTS — valores absolutos para ritmo vertical
-     consistente independente do font-size
+     LINE-HEIGHTS
   ----------------------------------------------------------- */
   --line-height-xs:  1rem;      /* 16px */
   --line-height-sm:  1.25rem;   /* 20px */
@@ -53,7 +51,7 @@
   --font-letter-spacing-signal:   0.5px;
 
   /* -----------------------------------------------------------
-     ESPAÇAMENTO — escala base-8
+     ESPAÇAMENTO
   ----------------------------------------------------------- */
   --spacing-0:   0px;
   --spacing-25:  2px;
@@ -125,7 +123,7 @@
   --opacity-200: 0.16;
 
   /* -----------------------------------------------------------
-     MOTION — durações
+     MOTION
   ----------------------------------------------------------- */
   --motion-duration-instant:  17ms;
   --motion-duration-short-1:  50ms;
@@ -157,7 +155,7 @@
   --breakpoint-xl: 1100px;
 
   /* -----------------------------------------------------------
-     PALETA DE CORES — 8 stops por família
+     PALETA DE CORES
   ----------------------------------------------------------- */
 
   /* Neutral */

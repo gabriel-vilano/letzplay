@@ -24,7 +24,8 @@ O desenvolvedor é um designer (~4 anos em branding/marketing/gráfico, ~2 anos 
 
 - **Framework:** Next.js 16 (App Router)
 - **Linguagem:** TypeScript 5
-- **UI:** React 19 + Tailwind CSS v4
+- **UI:** React 19
+- **Estilização:** CSS customizado com CSS Modules (escopo de componente) + CSS Custom Properties (design tokens)
 - **Backend:** Supabase (Auth, PostgreSQL, Storage, Data API, RLS automático)
   - `@supabase/supabase-js` ^2.101.1
   - `@supabase/ssr` ^0.10.0
@@ -62,7 +63,10 @@ O desenvolvedor é um designer (~4 anos em branding/marketing/gráfico, ~2 anos 
 - Comentários: português quando necessário, preferir código autoexplicativo
 - Sempre functional components com hooks
 - Imports com alias `@/`
-- Sempre classes Tailwind, nunca CSS inline ou separado (exceto globais)
+- Estilização via CSS Modules: cada componente tem seu `ComponentName.module.css`
+- Nunca CSS inline (atributo `style=`), nunca CSS global para componentes
+- Design tokens definidos como CSS Custom Properties em `styles/tokens/`
+- Nomenclatura BEM dentro dos arquivos `.module.css`: `.card__header`, `.btn--primary`
 - Mobile-first, responsivo depois
 
 ## Supabase
