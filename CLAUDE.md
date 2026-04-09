@@ -2,6 +2,7 @@
 
 @ROADMAP.md
 @AGENTS.md
+@GIT_WORKFLOW.md
 
 ## Sobre o projeto
 
