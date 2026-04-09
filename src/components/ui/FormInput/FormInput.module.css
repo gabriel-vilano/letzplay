@@ -1,0 +1,105 @@
+.form-input {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-50);
+}
+
+.form-input__label {
+  font-size: var(--text-caption-bold-size);
+  font-weight: var(--text-caption-bold-weight);
+  line-height: var(--text-caption-bold-line-height);
+  color: var(--color-foreground-primary);
+}
+
+.form-input__wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.form-input__field {
+  width: 100%;
+  height: var(--dimension-action-height-lg);
+  padding: var(--spacing-150) var(--spacing-200);
+  padding-right: var(--spacing-500);
+  background-color: var(--color-background-primary);
+  border: var(--border-width-medium) solid var(--color-border-subtle);
+  border-radius: var(--radius-form-input);
+  font-size: var(--text-body-size);
+  font-weight: var(--text-body-weight);
+  line-height: var(--text-body-line-height);
+  color: var(--color-foreground-primary);
+  transition: border-color var(--motion-duration-short-3) var(--motion-easing-standard);
+}
+
+.form-input__field::placeholder {
+  color: var(--color-foreground-disabled);
+}
+
+.form-input__field:focus {
+  outline: none;
+  border-color: var(--color-border-accent);
+}
+
+.form-input__field--error {
+  border-color: var(--color-border-attention);
+}
+
+.form-input__field--error:focus {
+  border-color: var(--color-border-attention);
+}
+
+.form-input__field--valid {
+  border-color: var(--color-border-success);
+}
+
+.form-input__field--valid:focus {
+  border-color: var(--color-border-success);
+}
+
+/* Icones de status e toggle, posicionados dentro do wrapper */
+.form-input__trailing {
+  position: absolute;
+  right: var(--spacing-150);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-50);
+}
+
+.form-input__icon {
+  width: var(--dimension-icon-sm);
+  height: var(--dimension-icon-sm);
+  flex-shrink: 0;
+}
+
+.form-input__icon--valid {
+  color: var(--color-foreground-success);
+}
+
+.form-input__icon--error {
+  color: var(--color-foreground-attention);
+}
+
+.form-input__toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--dimension-icon-md);
+  height: var(--dimension-icon-md);
+  background: none;
+  border: none;
+  color: var(--color-foreground-secondary);
+  cursor: pointer;
+  padding: 0;
+}
+
+.form-input__toggle:hover {
+  color: var(--color-foreground-primary);
+}
+
+.form-input__error {
+  font-size: var(--text-caption-size);
+  font-weight: var(--text-caption-weight);
+  line-height: var(--text-caption-line-height);
+  color: var(--color-foreground-attention);
+}

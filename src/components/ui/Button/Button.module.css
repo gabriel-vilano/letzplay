@@ -1,0 +1,116 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-100);
+  min-height: var(--dimension-action-height-lg);
+  padding: var(--spacing-150) var(--spacing-300);
+  border: var(--border-width-medium) solid transparent;
+  border-radius: var(--radius-form-input);
+  font-size: var(--text-body-bold-size);
+  font-weight: var(--text-body-bold-weight);
+  line-height: var(--text-body-bold-line-height);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: background-color var(--motion-duration-short-3) var(--motion-easing-standard),
+              border-color var(--motion-duration-short-3) var(--motion-easing-standard);
+}
+
+.btn:focus-visible {
+  outline: var(--border-width-thick) solid var(--color-state-focus-ring);
+  outline-offset: 2px;
+}
+
+/* State layer via ::after */
+.btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: transparent;
+  transition: background-color var(--motion-duration-short-3) var(--motion-easing-standard);
+  pointer-events: none;
+}
+
+/* --- Primary --- */
+.btn--primary {
+  background-color: var(--color-background-accent);
+  color: var(--color-foreground-on-accent);
+}
+
+.btn--primary:hover::after {
+  background-color: var(--color-state-layer-hover-on-strong);
+}
+
+.btn--primary:active::after {
+  background-color: var(--color-state-layer-pressed-on-strong);
+}
+
+/* --- Secondary --- */
+.btn--secondary {
+  background-color: transparent;
+  color: var(--color-foreground-accent);
+  border-color: var(--color-border-accent);
+}
+
+.btn--secondary:hover::after {
+  background-color: var(--color-state-layer-hover);
+}
+
+.btn--secondary:active::after {
+  background-color: var(--color-state-layer-pressed);
+}
+
+/* --- Ghost --- */
+.btn--ghost {
+  background-color: transparent;
+  color: var(--color-foreground-accent);
+  border-color: transparent;
+}
+
+.btn--ghost:hover::after {
+  background-color: var(--color-state-layer-hover);
+}
+
+.btn--ghost:active::after {
+  background-color: var(--color-state-layer-pressed);
+}
+
+/* --- Full width --- */
+.btn--full-width {
+  width: 100%;
+}
+
+/* --- Disabled --- */
+.btn--disabled {
+  background-color: var(--color-background-disabled);
+  color: var(--color-foreground-on-disabled);
+  border-color: transparent;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* --- Loading --- */
+.btn--loading {
+  pointer-events: none;
+}
+
+.btn__content--hidden {
+  visibility: hidden;
+}
+
+.btn__spinner {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: var(--border-width-thick) solid currentColor;
+  border-top-color: transparent;
+  border-radius: var(--radius-full);
+  animation: spin var(--motion-duration-medium-3) var(--motion-easing-linear) infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

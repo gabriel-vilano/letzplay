@@ -1,0 +1,14 @@
+.auth-layout {
+  display: flex;
+  justify-content: center;
+  min-height: 100dvh;
+  background-color: var(--color-background-primary);
+}
+
+.auth-layout__container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 430px;
+  padding: var(--spacing-page-margin);
+}

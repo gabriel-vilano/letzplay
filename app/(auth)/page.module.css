@@ -1,0 +1,78 @@
+.welcome {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  gap: var(--spacing-400);
+  text-align: center;
+}
+
+.welcome__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-100);
+}
+
+.welcome__brand {
+  font-size: var(--text-display-2-size);
+  font-weight: var(--text-display-2-weight);
+  line-height: var(--text-display-2-line-height);
+  letter-spacing: var(--text-display-2-tracking);
+  color: var(--color-foreground-accent);
+}
+
+.welcome__tagline {
+  font-size: var(--text-body-lg-size);
+  font-weight: var(--text-body-lg-weight);
+  line-height: var(--text-body-lg-line-height);
+  color: var(--color-foreground-secondary);
+}
+
+.welcome__expired {
+  font-size: var(--text-caption-size);
+  font-weight: var(--text-caption-weight);
+  line-height: var(--text-caption-line-height);
+  color: var(--color-foreground-on-attention);
+  background-color: var(--color-background-attention-subtle);
+  padding: var(--spacing-150) var(--spacing-200);
+  border-radius: var(--radius-sm);
+  width: 100%;
+}
+
+.welcome__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-150);
+  width: 100%;
+}
+
+/* Links estilizados como botoes */
+.welcome__link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: var(--dimension-action-height-lg);
+  border-radius: var(--radius-form-input);
+  font-size: var(--text-body-bold-size);
+  font-weight: var(--text-body-bold-weight);
+  line-height: var(--text-body-bold-line-height);
+  transition: opacity var(--motion-duration-short-3) var(--motion-easing-standard);
+}
+
+.welcome__link:active {
+  opacity: 0.85;
+}
+
+.welcome__link--primary {
+  background-color: var(--color-background-accent);
+  color: var(--color-foreground-on-accent);
+}
+
+.welcome__link--secondary {
+  background-color: transparent;
+  color: var(--color-foreground-accent);
+  border: var(--border-width-medium) solid var(--color-border-accent);
+}

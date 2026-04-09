@@ -1,0 +1,32 @@
+.resend {
+  display: flex;
+  justify-content: center;
+}
+
+.resend__text {
+  font-size: var(--text-caption-size);
+  font-weight: var(--text-caption-weight);
+  line-height: var(--text-caption-line-height);
+  color: var(--color-foreground-disabled);
+}
+
+.resend__button {
+  font-size: var(--text-caption-size);
+  font-weight: var(--text-caption-bold-weight);
+  line-height: var(--text-caption-line-height);
+  color: var(--color-foreground-link);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.resend__button:hover {
+  text-decoration: underline;
+}
+
+.resend__button--disabled {
+  color: var(--color-foreground-disabled);
+  cursor: default;
+  pointer-events: none;
+}

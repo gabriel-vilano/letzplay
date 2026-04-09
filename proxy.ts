@@ -1,6 +1,9 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
+const PUBLIC_AUTH_ROUTES = ["/", "/login", "/signup"];
+const ALWAYS_PUBLIC_ROUTES = ["/signup/verify", "/signup/profile", "/recovery", "/recovery/verify", "/recovery/password"];
+
 export async function proxy(request: NextRequest) {
   let response = NextResponse.next({
     request: { headers: request.headers },
@@ -29,7 +32,24 @@ export async function proxy(request: NextRequest) {
     }
   );
 
-  await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const pathname = request.nextUrl.pathname;
+
+  if (user && PUBLIC_AUTH_ROUTES.includes(pathname)) {
+    return NextResponse.redirect(new URL("/feed", request.url));
+  }
+
+  if (!user && !PUBLIC_AUTH_ROUTES.includes(pathname) && !ALWAYS_PUBLIC_ROUTES.includes(pathname)) {
+    const hasSessionCookie = request.cookies.getAll().some((c) => c.name.startsWith("sb-"));
+    const redirectUrl = new URL("/", request.url);
+    if (hasSessionCookie) {
+      redirectUrl.searchParams.set("expired", "true");
+    }
+    return NextResponse.redirect(redirectUrl);
+  }
 
   return response;
 }
