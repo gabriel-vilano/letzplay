@@ -1,0 +1,6 @@
+.icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  pointer-events: none;
+  vertical-align: middle;
+}
