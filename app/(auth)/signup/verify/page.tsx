@@ -3,7 +3,9 @@
 import { Suspense, useActionState, useState, useEffect, useCallback } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
+import { CaretLeft } from "@phosphor-icons/react";
 import { verifyOtp, resendOtp } from "@/app/(auth)/actions";
+import { Icon } from "@/src/components/ui/Icon";
 import { OtpInput } from "@/src/components/auth/OtpInput";
 import { ResendTimer } from "@/src/components/auth/ResendTimer";
 import { Button } from "@/src/components/ui/Button";
@@ -63,15 +65,7 @@ function VerifyContent() {
   return (
     <main className={styles.verify}>
       <Link href="/signup" className={styles.verify__back}>
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <path
-            d="M10 3L5 8L10 13"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
+        <Icon icon={CaretLeft} size="sm" />
         Voltar
       </Link>
 

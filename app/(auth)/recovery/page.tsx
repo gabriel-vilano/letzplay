@@ -2,7 +2,9 @@
 
 import { useActionState, useState } from "react";
 import Link from "next/link";
+import { CaretLeft } from "@phosphor-icons/react";
 import { requestRecovery } from "@/app/(auth)/actions";
+import { Icon } from "@/src/components/ui/Icon";
 import { FormInput } from "@/src/components/ui/FormInput";
 import { Button } from "@/src/components/ui/Button";
 import { validateEmail } from "@/src/lib/validations";
@@ -17,9 +19,7 @@ export default function RecoveryPage() {
   return (
     <main className={styles.recovery}>
       <Link href="/login" className={styles.recovery__back}>
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <path d="M10 3L5 8L10 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
+        <Icon icon={CaretLeft} size="sm" />
         Voltar
       </Link>
 
