@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useRef } from "react";
+import { Camera } from "@phosphor-icons/react";
+import { Icon } from "@/src/components/ui/Icon";
 import { validateAvatar } from "@/src/lib/validations";
 import styles from "./AvatarUpload.module.css";
 
@@ -57,7 +59,9 @@ export function AvatarUpload({ onFileSelect }: AvatarUploadProps) {
             className={styles.avatar__preview}
           />
         ) : (
-          <CameraIcon />
+          <span className={styles.avatar__placeholder}>
+            <Icon icon={Camera} size="lg" />
+          </span>
         )}
         <input
           ref={inputRef}
@@ -77,27 +81,5 @@ export function AvatarUpload({ onFileSelect }: AvatarUploadProps) {
         </span>
       )}
     </div>
-  );
-}
-
-function CameraIcon() {
-  return (
-    <svg
-      width="32"
-      height="32"
-      viewBox="0 0 32 32"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className="avatar__placeholder"
-      style={{ color: "var(--color-foreground-disabled)" }}
-    >
-      <path
-        d="M12 8L10.5 11H6C5.45 11 5 11.45 5 12V24C5 24.55 5.45 25 6 25H26C26.55 25 27 24.55 27 24V12C27 11.45 26.55 11 26 11H21.5L20 8H12Z"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinejoin="round"
-      />
-      <circle cx="16" cy="17.5" r="4" stroke="currentColor" strokeWidth="1.5" />
-    </svg>
   );
 }
