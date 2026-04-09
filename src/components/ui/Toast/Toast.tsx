@@ -8,6 +8,8 @@ import {
   useRef,
   type ReactNode,
 } from "react";
+import { X } from "@phosphor-icons/react";
+import { Icon } from "@/src/components/ui/Icon";
 import styles from "./Toast.module.css";
 
 type ToastType = "error" | "success" | "info";
@@ -80,14 +82,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
                 onClick={() => dismissToast(toast.id)}
                 aria-label="Fechar"
               >
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                  <path
-                    d="M3 3L11 11M11 3L3 11"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                  />
-                </svg>
+                <Icon icon={X} size="xs" />
               </button>
             </div>
           ))}
