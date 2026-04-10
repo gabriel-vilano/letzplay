@@ -2,7 +2,15 @@
   display: flex;
   flex-direction: column;
   flex: 1;
-  padding-top: var(--spacing-600);
+}
+
+.signup__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-100);
+  text-align: center;
+  margin-bottom: var(--spacing-400);
 }
 
 .signup__title {
@@ -10,7 +18,13 @@
   font-weight: var(--text-display-3-weight);
   line-height: var(--text-display-3-line-height);
   color: var(--color-foreground-primary);
-  margin-bottom: var(--spacing-400);
+}
+
+.signup__subtitle {
+  font-size: var(--text-body-lg-size);
+  font-weight: var(--text-body-lg-weight);
+  line-height: var(--text-body-lg-line-height);
+  color: var(--color-foreground-secondary);
 }
 
 .signup__form {
@@ -19,37 +33,24 @@
   gap: var(--spacing-200);
 }
 
-.signup__error {
-  font-size: var(--text-caption-size);
-  font-weight: var(--text-caption-weight);
-  line-height: var(--text-caption-line-height);
-  color: var(--color-foreground-attention);
-  background-color: var(--color-background-attention-subtle);
-  padding: var(--spacing-150) var(--spacing-200);
-  border-radius: var(--radius-sm);
-}
-
-.signup__submit {
-  margin-top: var(--spacing-100);
-}
-
 .signup__footer {
-  display: flex;
-  justify-content: center;
-  margin-top: var(--spacing-300);
-}
-
-.signup__link {
   font-size: var(--text-body-size);
   font-weight: var(--text-body-weight);
   line-height: var(--text-body-line-height);
   color: var(--color-foreground-secondary);
+  text-align: center;
+  margin-top: var(--spacing-400);
 }
 
-.signup__link-accent {
-  color: var(--color-foreground-link);
+.signup__footer_link {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--dimension-tap-target-minimum);
+  padding: var(--spacing-150) 0;
+  color: var(--color-foreground-primary);
+  font-weight: var(--font-weight-bold);
 }
 
-.signup__link-accent:hover {
+.signup__footer_link:hover {
   text-decoration: underline;
 }
