@@ -1,13 +1,13 @@
 "use client";
 
 import { useActionState, useState } from "react";
-import Link from "next/link";
-import { CaretLeft } from "@phosphor-icons/react";
 import { requestRecovery } from "@/app/(auth)/actions";
-import { Icon } from "@/src/components/ui/Icon";
+import { AuthFormContainer } from "@/src/components/auth/AuthFormContainer";
+import { AuthFormHeader } from "@/src/components/auth/AuthFormHeader";
 import { FormInput } from "@/src/components/ui/FormInput";
 import { Button } from "@/src/components/ui/Button";
 import { Alert } from "@/src/components/ui/Alert";
+import { TextLink } from "@/src/components/ui/TextLink";
 import { validateEmail } from "@/src/lib/validations";
 import styles from "./page.module.css";
 
@@ -36,18 +36,11 @@ export default function RecoveryPage() {
   const showServerError = Boolean(state?.error);
 
   return (
-    <main className={styles.recovery}>
-      <Link href="/login" className={styles.recovery__back}>
-        <Icon icon={CaretLeft} size="sm" />
-        Voltar
-      </Link>
-
-      <div className={styles.recovery__header}>
-        <h1 className={styles.recovery__title}>Recuperar senha</h1>
-        <p className={styles.recovery__subtitle}>
-          Informe o email da sua conta
-        </p>
-      </div>
+    <AuthFormContainer>
+      <AuthFormHeader
+        title="Recuperar senha"
+        subtitle="Informe o email da sua conta"
+      />
 
       <form action={handleSubmit} className={styles.recovery__form}>
         <FormInput
@@ -78,10 +71,8 @@ export default function RecoveryPage() {
 
       <p className={styles.recovery__footer}>
         Lembrou sua senha?{" "}
-        <Link href="/login" className={styles.recovery__footer_link}>
-          Entrar
-        </Link>
+        <TextLink href="/login">Entrar</TextLink>
       </p>
-    </main>
+    </AuthFormContainer>
   );
 }

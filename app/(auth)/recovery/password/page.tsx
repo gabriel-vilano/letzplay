@@ -2,6 +2,8 @@
 
 import { useActionState, useState } from "react";
 import { updatePassword } from "@/app/(auth)/actions";
+import { AuthFormContainer } from "@/src/components/auth/AuthFormContainer";
+import { AuthFormHeader } from "@/src/components/auth/AuthFormHeader";
 import { FormInput } from "@/src/components/ui/FormInput";
 import { Button } from "@/src/components/ui/Button";
 import { Alert } from "@/src/components/ui/Alert";
@@ -50,11 +52,8 @@ export default function NewPasswordPage() {
   const showServerError = Boolean(state?.error);
 
   return (
-    <main className={styles.password}>
-      <div className={styles.password__header}>
-        <h1 className={styles.password__title}>Nova senha</h1>
-        <p className={styles.password__subtitle}>Defina sua nova senha</p>
-      </div>
+    <AuthFormContainer>
+      <AuthFormHeader title="Nova senha" subtitle="Defina sua nova senha" />
 
       <form action={handleSubmit} className={styles.password__form}>
         <FormInput
@@ -95,6 +94,6 @@ export default function NewPasswordPage() {
           Redefinir senha
         </Button>
       </form>
-    </main>
+    </AuthFormContainer>
   );
 }

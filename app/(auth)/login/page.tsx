@@ -2,11 +2,13 @@
 
 import { Suspense, useActionState, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import Link from "next/link";
 import { login } from "@/app/(auth)/actions";
+import { AuthFormContainer } from "@/src/components/auth/AuthFormContainer";
+import { AuthFormHeader } from "@/src/components/auth/AuthFormHeader";
 import { FormInput } from "@/src/components/ui/FormInput";
 import { Button } from "@/src/components/ui/Button";
 import { Alert } from "@/src/components/ui/Alert";
+import { TextLink } from "@/src/components/ui/TextLink";
 import { validateEmail } from "@/src/lib/validations";
 import styles from "./page.module.css";
 
@@ -63,13 +65,11 @@ function LoginContent() {
   const showServerError = Boolean(state?.error);
 
   return (
-    <main className={styles.login}>
-      <div className={styles.login__header}>
-        <h1 className={styles.login__title}>Bem-vindo de volta</h1>
-        <p className={styles.login__subtitle}>
-          Entre com seu email e senha
-        </p>
-      </div>
+    <AuthFormContainer>
+      <AuthFormHeader
+        title="Bem-vindo de volta"
+        subtitle="Entre com seu email e senha"
+      />
 
       <form action={handleSubmit} className={styles.login__form}>
         <FormInput
@@ -88,9 +88,7 @@ function LoginContent() {
         <FormInput
           label="Senha"
           labelTrailing={
-            <Link href="/recovery" className={styles.login__forgot}>
-              Esqueceu sua senha?
-            </Link>
+            <TextLink href="/recovery">Esqueceu sua senha?</TextLink>
           }
           name="password"
           type="password"
@@ -125,10 +123,8 @@ function LoginContent() {
 
       <p className={styles.login__footer}>
         Ainda nao tem conta?{" "}
-        <Link href="/signup" className={styles.login__footer_link}>
-          Criar conta
-        </Link>
+        <TextLink href="/signup">Criar conta</TextLink>
       </p>
-    </main>
+    </AuthFormContainer>
   );
 }

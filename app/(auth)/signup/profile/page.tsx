@@ -4,10 +4,13 @@ import { useActionState, useState, useEffect, useRef, useCallback } from "react"
 import { useRouter } from "next/navigation";
 import { createProfile, checkUsername } from "@/app/(auth)/actions";
 import { createClient } from "@/src/lib/supabase/client";
+import { AuthFormContainer } from "@/src/components/auth/AuthFormContainer";
+import { AuthFormHeader } from "@/src/components/auth/AuthFormHeader";
 import { AvatarUpload } from "@/src/components/auth/AvatarUpload";
 import { FormInput } from "@/src/components/ui/FormInput";
 import { Button } from "@/src/components/ui/Button";
 import { Alert } from "@/src/components/ui/Alert";
+import { TextLink } from "@/src/components/ui/TextLink";
 import { slugifyName, validateUsername } from "@/src/lib/validations";
 import styles from "./page.module.css";
 
@@ -131,13 +134,11 @@ export default function ProfilePage() {
   const showServerError = Boolean(state?.error);
 
   return (
-    <main className={styles.profile}>
-      <div className={styles.profile__header}>
-        <h1 className={styles.profile__title}>Seu perfil</h1>
-        <p className={styles.profile__subtitle}>
-          Adicione uma foto e um username para ser reconhecido por outros jogadores
-        </p>
-      </div>
+    <AuthFormContainer>
+      <AuthFormHeader
+        title="Seu perfil"
+        subtitle="Adicione uma foto e um nome de usuário para ser reconhecido por outros jogadores"
+      />
 
       <form action={handleSubmit} className={styles.profile__form}>
         <AvatarUpload onFileSelect={setAvatarFile} />
@@ -163,7 +164,7 @@ export default function ProfilePage() {
           )}
           {usernameStatus === "available" && (
             <p className={`${styles["profile__username-status"]} ${styles["profile__username-status--available"]}`}>
-              Username disponivel
+              Usuário disponivel
             </p>
           )}
         </div>
@@ -181,13 +182,9 @@ export default function ProfilePage() {
         </Button>
       </form>
 
-      <button
-        type="button"
-        className={styles["profile__skip-link"]}
-        onClick={handleSkip}
-      >
-        Pular por enquanto
-      </button>
-    </main>
+      <div className={styles.profile__skip}>
+        <TextLink onClick={handleSkip}>Pular por enquanto</TextLink>
+      </div>
+    </AuthFormContainer>
   );
 }

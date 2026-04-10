@@ -1,15 +1,15 @@
 "use client";
 
-import { Suspense, useActionState, useState, useEffect, useCallback } from "react";
+import { Suspense, useActionState, useState, useEffect, useRef, useCallback } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import Link from "next/link";
-import { CaretLeft } from "@phosphor-icons/react";
 import { verifyRecoveryOtp, resendRecoveryOtp } from "@/app/(auth)/actions";
-import { Icon } from "@/src/components/ui/Icon";
+import { AuthFormContainer } from "@/src/components/auth/AuthFormContainer";
+import { AuthFormHeader } from "@/src/components/auth/AuthFormHeader";
 import { OtpInput } from "@/src/components/auth/OtpInput";
 import { ResendTimer } from "@/src/components/auth/ResendTimer";
 import { Button } from "@/src/components/ui/Button";
 import { Alert } from "@/src/components/ui/Alert";
+import { TextLink } from "@/src/components/ui/TextLink";
 import { useToast } from "@/src/components/ui/Toast";
 import { OTP_LENGTH } from "@/src/lib/validations";
 import styles from "./page.module.css";
@@ -44,6 +44,15 @@ function RecoveryVerifyContent() {
     }
   }, [state?.error]);
 
+  // TEMPORARIO — forca o Toast de reenvio persistente para estilizacao.
+  // Remover este useEffect (e o ref) apos validar a UI.
+  const devToastShownRef = useRef(false);
+  useEffect(() => {
+    if (devToastShownRef.current) return;
+    devToastShownRef.current = true;
+    showToast("Codigo reenviado com sucesso", "success", { persistent: true });
+  }, [showToast]);
+
   const handleResend = useCallback(async () => {
     setResendLoading(true);
     try {
@@ -68,19 +77,17 @@ function RecoveryVerifyContent() {
   const showFieldError = Boolean(state?.fieldErrors?.otp);
 
   return (
-    <main className={styles.verify}>
-      <Link href="/recovery" className={styles.verify__back}>
-        <Icon icon={CaretLeft} size="sm" />
-        Voltar
-      </Link>
-
-      <div className={styles.verify__header}>
-        <h1 className={styles.verify__title}>Verifique seu email</h1>
-        <p className={styles.verify__subtitle}>
-          Enviamos um codigo de {OTP_LENGTH} digitos para{" "}
-          <span className={styles.verify__email}>{email}</span>
-        </p>
-      </div>
+    <AuthFormContainer>
+      <AuthFormHeader
+        title="Verifique seu email"
+        subtitle={
+          <>
+            Enviamos um codigo de {OTP_LENGTH} digitos para{" "}
+            <span className={styles.verify__email}>{email}</span>.{" "}
+            <TextLink href="/recovery">Alterar</TextLink>
+          </>
+        }
+      />
 
       <form action={formAction} className={styles.verify__form}>
         <input type="hidden" name="email" value={email} />
@@ -113,6 +120,6 @@ function RecoveryVerifyContent() {
       <p className={styles.verify__hint}>
         Nao recebeu? Verifique sua pasta de spam.
       </p>
-    </main>
+    </AuthFormContainer>
   );
 }

@@ -1,12 +1,14 @@
 "use client";
 
 import { useActionState, useState } from "react";
-import Link from "next/link";
 import { signup } from "@/app/(auth)/actions";
+import { AuthFormContainer } from "@/src/components/auth/AuthFormContainer";
+import { AuthFormHeader } from "@/src/components/auth/AuthFormHeader";
 import { FormInput } from "@/src/components/ui/FormInput";
 import { Button } from "@/src/components/ui/Button";
 import { Alert } from "@/src/components/ui/Alert";
-import { validateName, validateEmail } from "@/src/lib/validations";
+import { TextLink } from "@/src/components/ui/TextLink";
+import { validateName, validateEmail, NAME_MAX_LENGTH } from "@/src/lib/validations";
 import { useFormPersist } from "@/src/hooks/useFormPersist";
 import styles from "./page.module.css";
 
@@ -29,11 +31,13 @@ export default function SignupPage() {
     { name: setName, email: setEmail }
   );
 
-  const nameError = !name
-    ? "Nome e obrigatorio"
-    : !validateName(name).valid
-      ? "Nome deve ter pelo menos 2 caracteres"
-      : null;
+  const nameError = (() => {
+    if (!name) return "Nome e obrigatorio";
+    if (name.trim().length < 2) return "Nome deve ter pelo menos 2 caracteres";
+    if (name.trim().length > NAME_MAX_LENGTH)
+      return `Nome deve ter no maximo ${NAME_MAX_LENGTH} caracteres`;
+    return null;
+  })();
 
   const emailError = !email
     ? "Email e obrigatorio"
@@ -69,13 +73,11 @@ export default function SignupPage() {
   const showServerError = Boolean(state?.error);
 
   return (
-    <main className={styles.signup}>
-      <div className={styles.signup__header}>
-        <h1 className={styles.signup__title}>Criar conta</h1>
-        <p className={styles.signup__subtitle}>
-          Preencha seus dados para comecar
-        </p>
-      </div>
+    <AuthFormContainer>
+      <AuthFormHeader
+        title="Criar conta"
+        subtitle="Preencha seus dados para comecar"
+      />
 
       <form action={handleSubmit} className={styles.signup__form}>
         <FormInput
@@ -86,8 +88,9 @@ export default function SignupPage() {
           onChange={(e) => setName(e.target.value)}
           onBlur={() => setTouched((prev) => ({ ...prev, name: true }))}
           error={showNameError ?? undefined}
-          placeholder="Seu nome completo"
+          placeholder="Seu nome e sobrenome"
           autoComplete="name"
+          maxLength={NAME_MAX_LENGTH}
         />
 
         <FormInput
@@ -130,10 +133,8 @@ export default function SignupPage() {
 
       <p className={styles.signup__footer}>
         Ja tem uma conta?{" "}
-        <Link href="/login" className={styles.signup__footer_link}>
-          Entrar
-        </Link>
+        <TextLink href="/login">Entrar</TextLink>
       </p>
-    </main>
+    </AuthFormContainer>
   );
 }
