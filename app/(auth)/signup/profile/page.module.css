@@ -111,6 +111,10 @@
 }
 
 .profile__skip-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--dimension-tap-target-minimum);
+  padding: var(--spacing-150) var(--spacing-200);
   font-size: var(--text-body-size);
   font-weight: var(--text-body-weight);
   line-height: var(--text-body-line-height);
@@ -118,7 +122,6 @@
   background: none;
   border: none;
   cursor: pointer;
-  padding: 0;
 }
 
 .profile__skip-link:hover {
