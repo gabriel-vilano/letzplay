@@ -10,6 +10,7 @@ import { OtpInput } from "@/src/components/auth/OtpInput";
 import { ResendTimer } from "@/src/components/auth/ResendTimer";
 import { Button } from "@/src/components/ui/Button";
 import { useToast } from "@/src/components/ui/Toast";
+import { OTP_LENGTH } from "@/src/lib/validations";
 import styles from "./page.module.css";
 
 export default function VerifyPage() {
@@ -71,7 +72,7 @@ function VerifyContent() {
 
       <h1 className={styles.verify__title}>Verificar email</h1>
       <p className={styles.verify__subtitle}>
-        Enviamos um codigo de 6 digitos para{" "}
+        Enviamos um codigo de {OTP_LENGTH} digitos para{" "}
         <span className={styles.verify__email}>{email}</span>
       </p>
 
@@ -94,7 +95,7 @@ function VerifyContent() {
           type="submit"
           fullWidth
           loading={isPending}
-          disabled={otp.length !== 6}
+          disabled={otp.length !== OTP_LENGTH}
         >
           Verificar
         </Button>

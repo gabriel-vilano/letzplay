@@ -77,20 +77,20 @@ describe("validatePassword", () => {
 });
 
 describe("validateOtp", () => {
-  it("rejeita codigo com menos de 6 digitos", () => {
-    expect(validateOtp("12345").valid).toBe(false);
-  });
-
-  it("rejeita codigo com letras", () => {
-    expect(validateOtp("12345a").valid).toBe(false);
-  });
-
-  it("rejeita codigo com mais de 6 digitos", () => {
+  it("rejeita codigo com menos de 8 digitos", () => {
     expect(validateOtp("1234567").valid).toBe(false);
   });
 
-  it("aceita codigo de 6 digitos", () => {
-    expect(validateOtp("123456").valid).toBe(true);
+  it("rejeita codigo com letras", () => {
+    expect(validateOtp("1234567a").valid).toBe(false);
+  });
+
+  it("rejeita codigo com mais de 8 digitos", () => {
+    expect(validateOtp("123456789").valid).toBe(false);
+  });
+
+  it("aceita codigo de 8 digitos", () => {
+    expect(validateOtp("12345678").valid).toBe(true);
   });
 });
 

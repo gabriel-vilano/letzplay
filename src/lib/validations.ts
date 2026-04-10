@@ -1,5 +1,7 @@
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const OTP_REGEX = /^\d{6}$/;
+
+export const OTP_LENGTH = 8;
+const OTP_REGEX = new RegExp(`^\\d{${OTP_LENGTH}}$`);
 
 export function validateName(name: string) {
   const trimmed = name.trim();
@@ -41,7 +43,7 @@ export function validatePassword(password: string): {
 
 export function validateOtp(code: string) {
   if (!OTP_REGEX.test(code)) {
-    return { valid: false, error: "Codigo precisa ter 6 digitos" };
+    return { valid: false, error: `Codigo precisa ter ${OTP_LENGTH} digitos` };
   }
   return { valid: true };
 }

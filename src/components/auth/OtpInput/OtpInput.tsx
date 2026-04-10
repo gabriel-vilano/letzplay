@@ -1,16 +1,24 @@
 "use client";
 
 import { useRef, useEffect } from "react";
+import { OTP_LENGTH } from "@/src/lib/validations";
 import styles from "./OtpInput.module.css";
 
 type OtpInputProps = {
   value: string;
   onChange: (value: string) => void;
+  length?: number;
   error?: string;
   disabled?: boolean;
 };
 
-export function OtpInput({ value, onChange, error, disabled }: OtpInputProps) {
+export function OtpInput({
+  value,
+  onChange,
+  length = OTP_LENGTH,
+  error,
+  disabled,
+}: OtpInputProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -18,16 +26,15 @@ export function OtpInput({ value, onChange, error, disabled }: OtpInputProps) {
   }, []);
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const filtered = e.target.value.replace(/\D/g, "").slice(0, 6);
+    const filtered = e.target.value.replace(/\D/g, "").slice(0, length);
     onChange(filtered);
   }
 
-  const fieldClasses = [
-    styles.otp__field,
-    error && styles["otp__field--error"],
-  ]
+  const fieldClasses = [styles.otp__field, error && styles["otp__field--error"]]
     .filter(Boolean)
     .join(" ");
+
+  const placeholder = "0".repeat(length);
 
   return (
     <div className={styles.otp}>
@@ -36,12 +43,12 @@ export function OtpInput({ value, onChange, error, disabled }: OtpInputProps) {
         type="text"
         inputMode="numeric"
         autoComplete="one-time-code"
-        maxLength={6}
+        maxLength={length}
         pattern="[0-9]*"
         value={value}
         onChange={handleChange}
         disabled={disabled}
-        placeholder="000000"
+        placeholder={placeholder}
         className={fieldClasses}
       />
       {error && <span className={styles.otp__error}>{error}</span>}
