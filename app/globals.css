@@ -14,11 +14,12 @@
 ----------------------------------------------------------- */
 html {
   font-family: var(--font-sans);
-  font-size: var(--font-size-body);
+  font-size: 100%;
   color: var(--color-foreground-primary);
   background-color: var(--color-background-primary);
 }
 
 body {
+  font-size: var(--font-size-body);
   line-height: var(--line-height-sm);
 }
