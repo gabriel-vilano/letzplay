@@ -4,6 +4,13 @@
   gap: var(--spacing-50);
 }
 
+.form-input__label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--spacing-150);
+}
+
 .form-input__label {
   font-size: var(--text-caption-bold-size);
   font-weight: var(--text-caption-bold-weight);

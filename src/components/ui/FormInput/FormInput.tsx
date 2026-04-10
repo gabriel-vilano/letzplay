@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { Check, X, Eye, EyeSlash } from "@phosphor-icons/react";
 import { Icon } from "@/src/components/ui/Icon";
 import styles from "./FormInput.module.css";
 
 type FormInputProps = {
   label: string;
+  labelTrailing?: ReactNode;
   name: string;
   type?: "text" | "email" | "password";
   value: string;
@@ -22,6 +23,7 @@ type FormInputProps = {
 
 export function FormInput({
   label,
+  labelTrailing,
   name,
   type = "text",
   value,
@@ -50,9 +52,12 @@ export function FormInput({
 
   return (
     <div className={styles["form-input"]}>
-      <label className={styles["form-input__label"]} htmlFor={name}>
-        {label}
-      </label>
+      <div className={styles["form-input__label-row"]}>
+        <label className={styles["form-input__label"]} htmlFor={name}>
+          {label}
+        </label>
+        {labelTrailing}
+      </div>
 
       <div className={styles["form-input__wrapper"]}>
         <input
