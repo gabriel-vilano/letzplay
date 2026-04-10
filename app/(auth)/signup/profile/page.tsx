@@ -7,6 +7,7 @@ import { createClient } from "@/src/lib/supabase/client";
 import { AvatarUpload } from "@/src/components/auth/AvatarUpload";
 import { FormInput } from "@/src/components/ui/FormInput";
 import { Button } from "@/src/components/ui/Button";
+import { Alert } from "@/src/components/ui/Alert";
 import { slugifyName, validateUsername } from "@/src/lib/validations";
 import styles from "./page.module.css";
 
@@ -101,7 +102,18 @@ export default function ProfilePage() {
     }, 500);
   }
 
+  function handleSubmit(formData: FormData) {
+    if (isPending) return;
+    if (usernameStatus === "checking") return;
+    if (usernameStatus === "taken" || usernameStatus === "invalid") return;
+    if (avatarFile) {
+      formData.set("avatar", avatarFile);
+    }
+    formAction(formData);
+  }
+
   function handleSkip() {
+    if (isPending) return;
     const formData = new FormData();
     formData.set("username", "");
     formAction(formData);
@@ -116,33 +128,18 @@ export default function ProfilePage() {
     );
   }
 
-  const canSubmit =
-    !isPending &&
-    usernameStatus !== "checking" &&
-    usernameStatus !== "taken" &&
-    usernameStatus !== "invalid";
+  const showServerError = Boolean(state?.error);
 
   return (
     <main className={styles.profile}>
-      <h1 className={styles.profile__title}>Seu perfil</h1>
-      <p className={styles.profile__subtitle}>
-        Adicione uma foto e um username para ser reconhecido por outros jogadores.
-        Voce pode pular e fazer isso depois.
-      </p>
+      <div className={styles.profile__header}>
+        <h1 className={styles.profile__title}>Seu perfil</h1>
+        <p className={styles.profile__subtitle}>
+          Adicione uma foto e um username para ser reconhecido por outros jogadores
+        </p>
+      </div>
 
-      {state?.error && (
-        <p className={styles.profile__error}>{state.error}</p>
-      )}
-
-      <form
-        action={(formData) => {
-          if (avatarFile) {
-            formData.set("avatar", avatarFile);
-          }
-          formAction(formData);
-        }}
-        className={styles.profile__form}
-      >
+      <form action={handleSubmit} className={styles.profile__form}>
         <AvatarUpload onFileSelect={setAvatarFile} />
 
         <div>
@@ -169,35 +166,28 @@ export default function ProfilePage() {
               Username disponivel
             </p>
           )}
-          {usernameStatus === "taken" && (
-            <p className={`${styles["profile__username-status"]} ${styles["profile__username-status--taken"]}`}>
-              Username ja esta em uso
-            </p>
-          )}
         </div>
 
-        <div className={styles.profile__submit}>
-          <Button
-            type="submit"
-            fullWidth
-            loading={isPending}
-            disabled={!canSubmit}
-          >
-            Concluir
-          </Button>
-        </div>
+        {showServerError && (
+          <Alert
+            status="attention"
+            title={state!.error!}
+            description="Tente novamente em alguns instantes."
+          />
+        )}
+
+        <Button type="submit" fullWidth loading={isPending}>
+          Concluir
+        </Button>
       </form>
 
-      <div className={styles.profile__skip}>
-        <button
-          type="button"
-          className={styles["profile__skip-link"]}
-          onClick={handleSkip}
-          disabled={isPending}
-        >
-          Pular por enquanto
-        </button>
-      </div>
+      <button
+        type="button"
+        className={styles["profile__skip-link"]}
+        onClick={handleSkip}
+      >
+        Pular por enquanto
+      </button>
     </main>
   );
 }

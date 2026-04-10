@@ -2,7 +2,6 @@
   display: flex;
   flex-direction: column;
   flex: 1;
-  padding-top: var(--spacing-600);
 }
 
 .profile__loading {
@@ -30,37 +29,33 @@
   }
 }
 
+.profile__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-100);
+  text-align: center;
+  margin-bottom: var(--spacing-400);
+}
+
 .profile__title {
   font-size: var(--text-display-3-size);
   font-weight: var(--text-display-3-weight);
   line-height: var(--text-display-3-line-height);
   color: var(--color-foreground-primary);
-  margin-bottom: var(--spacing-100);
 }
 
 .profile__subtitle {
-  font-size: var(--text-body-size);
-  font-weight: var(--text-body-weight);
-  line-height: var(--text-body-line-height);
+  font-size: var(--text-body-lg-size);
+  font-weight: var(--text-body-lg-weight);
+  line-height: var(--text-body-lg-line-height);
   color: var(--color-foreground-secondary);
-  margin-bottom: var(--spacing-400);
 }
 
 .profile__form {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-300);
-}
-
-.profile__error {
-  font-size: var(--text-caption-size);
-  font-weight: var(--text-caption-weight);
-  line-height: var(--text-caption-line-height);
-  color: var(--color-foreground-attention);
-  background-color: var(--color-background-attention-subtle);
-  padding: var(--spacing-150) var(--spacing-200);
-  border-radius: var(--radius-sm);
-  text-align: center;
 }
 
 .profile__username-status {
@@ -70,6 +65,7 @@
   font-size: var(--text-caption-size);
   font-weight: var(--text-caption-weight);
   line-height: var(--text-caption-line-height);
+  margin-top: var(--spacing-50);
 }
 
 .profile__username-status--checking {
@@ -78,10 +74,6 @@
 
 .profile__username-status--available {
   color: var(--color-foreground-success);
-}
-
-.profile__username-status--taken {
-  color: var(--color-foreground-attention);
 }
 
 .profile__spinner {
@@ -94,27 +86,14 @@
   animation: spin var(--motion-duration-medium-3) var(--motion-easing-linear) infinite;
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.profile__submit {
-  margin-top: var(--spacing-100);
-}
-
-.profile__skip {
-  display: flex;
-  justify-content: center;
-  margin-top: var(--spacing-200);
-}
-
 .profile__skip-link {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  align-self: center;
   min-height: var(--dimension-tap-target-minimum);
   padding: var(--spacing-150) var(--spacing-200);
+  margin-top: var(--spacing-200);
   font-size: var(--text-body-size);
   font-weight: var(--text-body-weight);
   line-height: var(--text-body-line-height);
