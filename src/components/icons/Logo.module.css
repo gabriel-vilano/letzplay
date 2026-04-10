@@ -1,0 +1,7 @@
+.logo {
+  font-size: var(--text-display-3-size);
+  font-weight: var(--text-display-3-weight);
+  line-height: var(--text-display-3-line-height);
+  letter-spacing: var(--text-display-3-tracking);
+  color: var(--color-foreground-accent);
+}
