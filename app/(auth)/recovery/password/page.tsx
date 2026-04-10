@@ -4,8 +4,7 @@ import { useActionState, useState } from "react";
 import { updatePassword } from "@/app/(auth)/actions";
 import { FormInput } from "@/src/components/ui/FormInput";
 import { Button } from "@/src/components/ui/Button";
-import { PasswordChecklist } from "@/src/components/auth/PasswordChecklist";
-import { validatePassword } from "@/src/lib/validations";
+import { Alert } from "@/src/components/ui/Alert";
 import styles from "./page.module.css";
 
 export default function NewPasswordPage() {
@@ -13,42 +12,62 @@ export default function NewPasswordPage() {
 
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [touched, setTouched] = useState({
+    password: false,
+    confirmPassword: false,
+  });
+  const [submitAttempted, setSubmitAttempted] = useState(false);
 
-  const passwordValidation = validatePassword(password);
-  const passwordsMatch = password.length > 0 && password === confirmPassword;
-  const confirmError =
-    confirmPassword.length > 0 && !passwordsMatch
+  const passwordError = (() => {
+    if (!password) return "Senha e obrigatoria";
+    if (password.length < 8) return "Senha deve ter pelo menos 8 caracteres";
+    if (!/[a-zA-Z]/.test(password))
+      return "Senha deve conter pelo menos uma letra";
+    if (!/[0-9]/.test(password))
+      return "Senha deve conter pelo menos um numero";
+    return null;
+  })();
+
+  const confirmError = !confirmPassword
+    ? "Confirmacao e obrigatoria"
+    : confirmPassword !== password
       ? "As senhas nao coincidem"
-      : undefined;
+      : null;
 
-  const isFormValid = passwordValidation.valid && passwordsMatch;
+  const hasErrors = Boolean(passwordError || confirmError);
+
+  const showPasswordError =
+    touched.password || submitAttempted ? passwordError : null;
+  const showConfirmError =
+    touched.confirmPassword || submitAttempted ? confirmError : null;
+
+  function handleSubmit(formData: FormData) {
+    setSubmitAttempted(true);
+    if (hasErrors) return;
+    formAction(formData);
+  }
+
+  const showServerError = Boolean(state?.error);
 
   return (
     <main className={styles.password}>
-      <h1 className={styles.password__title}>Nova senha</h1>
-      <p className={styles.password__subtitle}>
-        Crie uma nova senha para sua conta.
-      </p>
+      <div className={styles.password__header}>
+        <h1 className={styles.password__title}>Nova senha</h1>
+        <p className={styles.password__subtitle}>Defina sua nova senha</p>
+      </div>
 
-      <form action={formAction} className={styles.password__form}>
-        {state?.error && (
-          <p className={styles.password__error}>{state.error}</p>
-        )}
-
+      <form action={handleSubmit} className={styles.password__form}>
         <FormInput
           label="Nova senha"
           name="password"
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          error={state?.fieldErrors?.password}
+          onBlur={() => setTouched((prev) => ({ ...prev, password: true }))}
+          error={showPasswordError ?? undefined}
           placeholder="Crie uma nova senha"
           autoComplete="new-password"
         />
-
-        {password.length > 0 && (
-          <PasswordChecklist checks={passwordValidation.checks} />
-        )}
 
         <FormInput
           label="Confirmar senha"
@@ -56,22 +75,25 @@ export default function NewPasswordPage() {
           type="password"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
-          error={confirmError}
-          valid={passwordsMatch}
+          onBlur={() =>
+            setTouched((prev) => ({ ...prev, confirmPassword: true }))
+          }
+          error={showConfirmError ?? undefined}
           placeholder="Repita a nova senha"
           autoComplete="new-password"
         />
 
-        <div className={styles.password__submit}>
-          <Button
-            type="submit"
-            fullWidth
-            loading={isPending}
-            disabled={!isFormValid}
-          >
-            Redefinir senha
-          </Button>
-        </div>
+        {showServerError && (
+          <Alert
+            status="attention"
+            title={state!.error!}
+            description="Tente novamente em alguns instantes."
+          />
+        )}
+
+        <Button type="submit" fullWidth loading={isPending}>
+          Redefinir senha
+        </Button>
       </form>
     </main>
   );
