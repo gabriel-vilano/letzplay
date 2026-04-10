@@ -1,0 +1,31 @@
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--dimension-tap-target-minimum);
+  padding: var(--spacing-150) 0;
+  background: none;
+  border: none;
+  color: var(--color-foreground-primary);
+  font-family: inherit;
+  font-size: var(--text-label-lg-size);
+  line-height: var(--text-label-lg-line-height);
+  letter-spacing: var(--text-label-lg-tracking);
+  font-weight: var(--font-weight-bold);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.text-link:hover {
+  text-decoration: underline;
+}
+
+.text-link:focus-visible {
+  outline: var(--border-width-thick) solid var(--color-state-focus-ring);
+  outline-offset: var(--spacing-25);
+  border-radius: var(--radius-sm);
+}
+
+.text-link:focus:not(:focus-visible) {
+  outline: none;
+}
