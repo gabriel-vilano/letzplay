@@ -56,7 +56,7 @@
   font-size: var(--text-caption-size);
   font-weight: var(--text-caption-weight);
   line-height: var(--text-caption-line-height);
-  color: var(--color-foreground-on-attention);
+  color: var(--color-foreground-attention);
   background-color: var(--color-background-attention-subtle);
   padding: var(--spacing-150) var(--spacing-200);
   border-radius: var(--radius-sm);

@@ -7,7 +7,7 @@
   font-size: var(--text-caption-size);
   font-weight: var(--text-caption-weight);
   line-height: var(--text-caption-line-height);
-  color: var(--color-foreground-disabled);
+  color: var(--color-foreground-secondary);
 }
 
 .resend__button {
