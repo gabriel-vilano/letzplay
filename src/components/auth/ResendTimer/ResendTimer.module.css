@@ -11,6 +11,10 @@
 }
 
 .resend__button {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--dimension-tap-target-minimum);
+  padding: var(--spacing-150) var(--spacing-200);
   font-size: var(--text-caption-size);
   font-weight: var(--text-caption-bold-weight);
   line-height: var(--text-caption-line-height);
@@ -18,7 +22,6 @@
   background: none;
   border: none;
   cursor: pointer;
-  padding: 0;
 }
 
 .resend__button:hover {

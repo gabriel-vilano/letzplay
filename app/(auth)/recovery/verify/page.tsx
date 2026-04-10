@@ -9,6 +9,7 @@ import { Icon } from "@/src/components/ui/Icon";
 import { OtpInput } from "@/src/components/auth/OtpInput";
 import { ResendTimer } from "@/src/components/auth/ResendTimer";
 import { Button } from "@/src/components/ui/Button";
+import { Alert } from "@/src/components/ui/Alert";
 import { useToast } from "@/src/components/ui/Toast";
 import { OTP_LENGTH } from "@/src/lib/validations";
 import styles from "./page.module.css";
@@ -63,6 +64,9 @@ function RecoveryVerifyContent() {
 
   if (!email) return null;
 
+  const showServerError = Boolean(state?.error);
+  const showFieldError = Boolean(state?.fieldErrors?.otp);
+
   return (
     <main className={styles.verify}>
       <Link href="/recovery" className={styles.verify__back}>
@@ -70,15 +74,13 @@ function RecoveryVerifyContent() {
         Voltar
       </Link>
 
-      <h1 className={styles.verify__title}>Verificar codigo</h1>
-      <p className={styles.verify__subtitle}>
-        Enviamos um codigo de {OTP_LENGTH} digitos para{" "}
-        <span className={styles.verify__email}>{email}</span>
-      </p>
-
-      {state?.error && (
-        <p className={styles.verify__error}>{state.error}</p>
-      )}
+      <div className={styles.verify__header}>
+        <h1 className={styles.verify__title}>Verifique seu email</h1>
+        <p className={styles.verify__subtitle}>
+          Enviamos um codigo de {OTP_LENGTH} digitos para{" "}
+          <span className={styles.verify__email}>{email}</span>
+        </p>
+      </div>
 
       <form action={formAction} className={styles.verify__form}>
         <input type="hidden" name="email" value={email} />
@@ -87,21 +89,26 @@ function RecoveryVerifyContent() {
         <OtpInput
           value={otp}
           onChange={setOtp}
-          error={state?.fieldErrors?.otp}
+          error={showFieldError ? state!.fieldErrors!.otp : undefined}
           disabled={isPending}
         />
 
-        <Button
-          type="submit"
-          fullWidth
-          loading={isPending}
-          disabled={otp.length !== OTP_LENGTH}
-        >
+        {showServerError && (
+          <Alert
+            status="attention"
+            title={state!.error!}
+            description="Verifique o codigo recebido no email."
+          />
+        )}
+
+        <Button type="submit" fullWidth loading={isPending}>
           Verificar
         </Button>
       </form>
 
-      <ResendTimer onResend={handleResend} loading={resendLoading} />
+      <div className={styles.verify__resend}>
+        <ResendTimer onResend={handleResend} loading={resendLoading} />
+      </div>
 
       <p className={styles.verify__hint}>
         Nao recebeu? Verifique sua pasta de spam.

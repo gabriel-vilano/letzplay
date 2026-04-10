@@ -2,22 +2,33 @@
   display: flex;
   flex-direction: column;
   flex: 1;
-  padding-top: var(--spacing-600);
 }
 
 .verify__back {
   display: inline-flex;
   align-items: center;
   gap: var(--spacing-50);
+  min-height: var(--dimension-tap-target-minimum);
+  padding: var(--spacing-150) 0;
   font-size: var(--text-body-size);
   font-weight: var(--text-body-weight);
   line-height: var(--text-body-line-height);
   color: var(--color-foreground-secondary);
-  margin-bottom: var(--spacing-300);
+  align-self: flex-start;
+  margin-bottom: var(--spacing-200);
 }
 
 .verify__back:hover {
   color: var(--color-foreground-primary);
+}
+
+.verify__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-100);
+  text-align: center;
+  margin-bottom: var(--spacing-400);
 }
 
 .verify__title {
@@ -25,19 +36,17 @@
   font-weight: var(--text-display-3-weight);
   line-height: var(--text-display-3-line-height);
   color: var(--color-foreground-primary);
-  margin-bottom: var(--spacing-100);
 }
 
 .verify__subtitle {
-  font-size: var(--text-body-size);
-  font-weight: var(--text-body-weight);
-  line-height: var(--text-body-line-height);
+  font-size: var(--text-body-lg-size);
+  font-weight: var(--text-body-lg-weight);
+  line-height: var(--text-body-lg-line-height);
   color: var(--color-foreground-secondary);
-  margin-bottom: var(--spacing-400);
 }
 
 .verify__email {
-  font-weight: var(--text-body-bold-weight);
+  font-weight: var(--font-weight-bold);
   color: var(--color-foreground-primary);
 }
 
@@ -47,15 +56,10 @@
   gap: var(--spacing-300);
 }
 
-.verify__error {
-  font-size: var(--text-caption-size);
-  font-weight: var(--text-caption-weight);
-  line-height: var(--text-caption-line-height);
-  color: var(--color-foreground-attention);
-  background-color: var(--color-background-attention-subtle);
-  padding: var(--spacing-150) var(--spacing-200);
-  border-radius: var(--radius-sm);
-  text-align: center;
+.verify__resend {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--spacing-400);
 }
 
 .verify__hint {
@@ -64,5 +68,5 @@
   line-height: var(--text-caption-line-height);
   color: var(--color-foreground-secondary);
   text-align: center;
-  margin-top: var(--spacing-200);
+  margin-top: var(--spacing-150);
 }
