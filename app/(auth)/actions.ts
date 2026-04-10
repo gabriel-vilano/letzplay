@@ -54,7 +54,7 @@ export async function signup(
   }
 
   const supabase = await createClient();
-  const { error } = await supabase.auth.signUp({
+  const { error: signUpError } = await supabase.auth.signUp({
     email,
     password,
     options: {
@@ -62,13 +62,26 @@ export async function signup(
     },
   });
 
-  if (error) {
-    if (error.message.toLowerCase().includes("already registered")) {
-      return {
-        error: "Este email ja esta cadastrado. Tente fazer login.",
-      };
+  if (signUpError) {
+    const message = signUpError.message.toLowerCase();
+    const alreadyExists =
+      message.includes("already registered") ||
+      message.includes("user already");
+
+    if (alreadyExists) {
+      // Email ja cadastrado: disparamos um OTP fresco via signInWithOtp
+      // para que o jogador (que provavelmente voltou do /signup/verify e
+      // reenviou o form) continue o fluxo sem perceber diferenca.
+      const { error: otpError } = await supabase.auth.signInWithOtp({
+        email,
+        options: { shouldCreateUser: false },
+      });
+      if (otpError) {
+        return { error: "Erro ao enviar codigo. Tente novamente." };
+      }
+    } else {
+      return { error: "Erro ao criar conta. Tente novamente." };
     }
-    return { error: "Erro ao criar conta. Tente novamente." };
   }
 
   redirect(`/signup/verify?email=${encodeURIComponent(email)}`);
