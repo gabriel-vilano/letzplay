@@ -177,7 +177,33 @@ Quando propor uma solução, apresentar a versão mínima viável primeiro. Só 
 
 Problemas encontrados e suas soluções. Atualizar sempre que resolver algo não-óbvio.
 
-_(seção será preenchida conforme o projeto avança)_
+### iOS Chrome/Safari: React não hidrata em `next dev` (Turbopack)
+
+**Sintoma:** Em `npm run dev` acessado do iOS (Chrome/Safari), handlers React não disparam. `onChange` dos inputs não atualiza state (nada de validação inline, nada de `PasswordChecklist`), `onClick` dos botões nativos (`<button>`) não faz nada. `<a>` via `next/link` funciona porque é navegação do browser. Desktop dev funciona normal.
+
+**Causa:** Bug de hidratação do React 19 + Turbopack em dev, específico do WebKit do iOS. Upstream.
+
+**Workaround:** Testar qualquer fluxo sensível a interação no iOS via prod build:
+
+```bash
+npm run build && npm start
+```
+
+Daí acessar `http://<IP-do-dev>:3000` do celular. Em prod tudo funciona.
+
+**Quando aparecer novamente:** Antes de acreditar que um botão/handler novo está quebrado no iOS, rodar o build prod. Se funcionar lá, é o mesmo hurdle.
+
+### iOS: auto-zoom ao focar inputs
+
+**Sintoma:** iOS Safari/Chrome zoomava ao focar qualquer input porque o `font-size` efetivo era 14px (< 16px).
+
+**Solução:** `export const viewport` em `app/layout.tsx` com `maximumScale: 1, userScalable: false`. iOS 10+ ignora `user-scalable: no` para gestos manuais de pinch, então zoom manual continua funcionando — só o auto-zoom no foco é bloqueado.
+
+### iOS: "sticky hover" em botões com `:hover`
+
+**Sintoma:** Primeiro tap em um elemento com regra `:hover` não dispara `click` no iOS — aplica o estado hover e espera o segundo tap.
+
+**Solução:** Envolver todas as regras `:hover` em `@media (hover: hover)` para que só apliquem em dispositivos com cursor real. Padrão seguido em todos os `.module.css` do DS.
 
 ## Regras gerais
 
