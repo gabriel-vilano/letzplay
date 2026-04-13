@@ -1,3 +1,4 @@
+import Image from "next/image";
 import styles from "./Logo.module.css";
 
 type LogoProps = {
@@ -8,8 +9,13 @@ export function Logo({ className }: LogoProps) {
   const classNames = [styles.logo, className].filter(Boolean).join(" ");
 
   return (
-    <span className={classNames} aria-label="LetzPlay">
-      LetzPlay
-    </span>
+    <Image
+      src="/brand/letzplay.png"
+      alt="LetzPlay"
+      width={208}
+      height={56}
+      priority
+      className={classNames}
+    />
   );
 }
