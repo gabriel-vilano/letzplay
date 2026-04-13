@@ -209,6 +209,12 @@ export async function resendRecoveryOtp(
   return { success: true };
 }
 
+export async function cancelRecovery() {
+  const supabase = await createClient();
+  await supabase.auth.signOut();
+  redirect("/entrar");
+}
+
 export async function updatePassword(
   _prevState: AuthActionState,
   formData: FormData

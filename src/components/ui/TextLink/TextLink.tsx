@@ -15,7 +15,7 @@ type TextLinkAsLinkProps = TextLinkBaseProps & {
 
 type TextLinkAsButtonProps = TextLinkBaseProps & {
   href?: never;
-  onClick: () => void;
+  onClick?: () => void;
   type?: "button" | "submit";
 } & Omit<ComponentProps<"button">, "onClick" | "children" | "className" | "type">;
 

@@ -1,13 +1,14 @@
 "use client";
 
 import { useActionState, useState } from "react";
-import { updatePassword } from "@/app/(auth)/actions";
+import { cancelRecovery, updatePassword } from "@/app/(auth)/actions";
 import { AuthFormContainer } from "@/src/components/auth/AuthFormContainer";
 import { AuthFormHeader } from "@/src/components/auth/AuthFormHeader";
 import { PasswordChecklist } from "@/src/components/auth/PasswordChecklist";
 import { FormInput } from "@/src/components/ui/FormInput";
 import { Button } from "@/src/components/ui/Button";
 import { Alert } from "@/src/components/ui/Alert";
+import { TextLink } from "@/src/components/ui/TextLink";
 import { validatePassword, type PasswordChecks } from "@/src/lib/validations";
 import styles from "./page.module.css";
 
@@ -99,7 +100,12 @@ export default function NewPasswordPage() {
           Redefinir senha
         </Button>
       </form>
-      
+
+      <form action={cancelRecovery} className={styles.password__cancel}>
+        <TextLink type="submit" block>
+          Cancelar
+        </TextLink>
+      </form>
     </AuthFormContainer>
   );
 }
