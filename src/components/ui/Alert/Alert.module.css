@@ -5,19 +5,18 @@
   padding: var(--spacing-200);
   background-color: var(--color-background-elevated);
   border-radius: var(--radius-md);
-  border-left: 3px solid transparent;
 }
 
 .alert--attention {
-  border-left-color: var(--color-border-attention);
+  background-color: var(--color-background-attention-subtle);
 }
 
 .alert--success {
-  border-left-color: var(--color-border-success);
+  background-color: var(--color-background-success-subtle);
 }
 
 .alert--information {
-  border-left-color: var(--color-border-subtle);
+  background-color: var(--color-background-info-subtle);
 }
 
 .alert__icon {
@@ -46,9 +45,10 @@
 }
 
 .alert__title {
-  font-size: var(--text-caption-bold-size);
-  font-weight: var(--text-caption-bold-weight);
-  line-height: var(--text-caption-bold-line-height);
+  font-size: var(--text-label-md-size);
+  line-height: var(--text-label-md-line-height);
+  letter-spacing: var(--text-label-md-tracking);
+  font-weight: var(--font-weight-bold);
 }
 
 .alert--attention .alert__title {
@@ -64,8 +64,9 @@
 }
 
 .alert__description {
-  font-size: var(--text-caption-size);
-  font-weight: var(--text-caption-weight);
-  line-height: var(--text-caption-line-height);
-  color: var(--color-foreground-secondary);
+  font-size: var(--text-label-md-size);
+  line-height: var(--text-label-md-line-height);
+  letter-spacing: var(--text-label-md-tracking);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-foreground-primary);
 }
