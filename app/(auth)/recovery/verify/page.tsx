@@ -1,6 +1,12 @@
 "use client";
 
-import { Suspense, useActionState, useState, useEffect, useRef, useCallback } from "react";
+import {
+  Suspense,
+  useActionState,
+  useState,
+  useEffect,
+  useCallback,
+} from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { verifyRecoveryOtp, resendRecoveryOtp } from "@/app/(auth)/actions";
 import { AuthFormContainer } from "@/src/components/auth/AuthFormContainer";
@@ -34,7 +40,10 @@ function RecoveryVerifyContent() {
     }
   }, [email, router]);
 
-  const [state, formAction, isPending] = useActionState(verifyRecoveryOtp, null);
+  const [state, formAction, isPending] = useActionState(
+    verifyRecoveryOtp,
+    null,
+  );
   const [resendLoading, setResendLoading] = useState(false);
   const [otp, setOtp] = useState("");
 
@@ -44,15 +53,6 @@ function RecoveryVerifyContent() {
     }
   }, [state?.error]);
 
-  // TEMPORARIO — forca o Toast de reenvio persistente para estilizacao.
-  // Remover este useEffect (e o ref) apos validar a UI.
-  const devToastShownRef = useRef(false);
-  useEffect(() => {
-    if (devToastShownRef.current) return;
-    devToastShownRef.current = true;
-    showToast("Codigo reenviado com sucesso", "success", { persistent: true });
-  }, [showToast]);
-
   const handleResend = useCallback(async () => {
     setResendLoading(true);
     try {
@@ -60,12 +60,12 @@ function RecoveryVerifyContent() {
       formData.set("email", email);
       const result = await resendRecoveryOtp(null, formData);
       if (result?.success) {
-        showToast("Codigo reenviado com sucesso", "success");
+        showToast("Código reenviado com sucesso", "success");
       } else if (result?.error) {
         showToast(result.error, "error");
       }
     } catch {
-      showToast("Erro de conexao. Verifique sua internet.", "error");
+      showToast("Erro de conexão. Verifique sua internet.", "error");
     } finally {
       setResendLoading(false);
     }
@@ -79,12 +79,13 @@ function RecoveryVerifyContent() {
   return (
     <AuthFormContainer>
       <AuthFormHeader
-        title="Verifique seu email"
+        title="Verifique seu e-mail"
+        subtitleClassName={styles.verify__subtitle}
         subtitle={
           <>
-            Enviamos um codigo de {OTP_LENGTH} digitos para{" "}
-            <span className={styles.verify__email}>{email}</span>.{" "}
-            <TextLink href="/recovery">Alterar</TextLink>
+            <span>Enviamos um código de {OTP_LENGTH} dígitos para</span>
+            <span className={styles.verify__email}>{email}</span>
+            <TextLink href="/recovery">Enviar código para outro e-mail</TextLink>
           </>
         }
       />
@@ -104,7 +105,7 @@ function RecoveryVerifyContent() {
           <Alert
             status="attention"
             title={state!.error!}
-            description="Verifique o codigo recebido no email."
+            description="Verifique o código recebido no e-mail."
           />
         )}
 
@@ -118,7 +119,7 @@ function RecoveryVerifyContent() {
       </div>
 
       <p className={styles.verify__hint}>
-        Nao recebeu? Verifique sua pasta de spam.
+        Não recebeu? Verifique sua pasta de spam.
       </p>
     </AuthFormContainer>
   );
