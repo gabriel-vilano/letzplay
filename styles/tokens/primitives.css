@@ -6,7 +6,6 @@
    ============================================================= */
 
 :root {
-
   /* -----------------------------------------------------------
      FAMÍLIA TIPOGRÁFICA
   ----------------------------------------------------------- */
@@ -15,48 +14,52 @@
   /* -----------------------------------------------------------
      TAMANHOS DE FONTE
   ----------------------------------------------------------- */
-  --font-size-xs:   0.625rem;   /* 10px */
-  --font-size-sm:   0.75rem;    /* 12px */
-  --font-size-body: 0.875rem;   /* 14px — base do corpo de texto */
-  --font-size-md:   1rem;       /* 16px */
-  --font-size-lg:   1.25rem;    /* 20px */
-  --font-size-xl:   1.5rem;     /* 24px */
-  --font-size-2xl:  1.875rem;   /* 30px */
-  --font-size-3xl:  2.25rem;    /* 36px */
-  --font-size-4xl:  2.875rem;   /* 46px */
+  --font-size-062: 0.625rem; /* 10px */
+  --font-size-075: 0.75rem; /* 12px */
+  --font-size-087: 0.875rem; /* 14px */
+  --font-size-100: 1rem; /* 16px */
+  --font-size-125: 1.25rem; /* 20px */
+  --font-size-150: 1.5rem; /* 24px */
+  --font-size-175: 1.75rem; /* 28px */
+  --font-size-200: 2rem; /* 32px */
+  --font-size-250: 2.5rem; /* 40px */
+  --font-size-300: 3rem; /* 48px */
+  --font-size-350: 3.5rem; /* 56px */
 
   /* -----------------------------------------------------------
      PESOS
   ----------------------------------------------------------- */
   --font-weight-regular: 400;
-  --font-weight-bold:    600;
+  --font-weight-bold: 700;
 
   /* -----------------------------------------------------------
      LINE-HEIGHTS
   ----------------------------------------------------------- */
-  --line-height-xs:  1rem;      /* 16px */
-  --line-height-sm:  1.25rem;   /* 20px */
-  --line-height-md:  1.5rem;    /* 24px */
-  --line-height-lg:  1.75rem;   /* 28px */
-  --line-height-xl:  2rem;      /* 32px */
-  --line-height-2xl: 2.5rem;    /* 40px */
-  --line-height-3xl: 2.875rem;  /* 46px */
-  --line-height-4xl: 3.5rem;    /* 56px */
+  --line-height-100: 1rem; /* 16px */
+  --line-height-125: 1.25rem; /* 20px */
+  --line-height-150: 1.5rem; /* 24px */
+  --line-height-175: 1.75rem; /* 28px */
+  --line-height-200: 2rem; /* 32px */
+  --line-height-225: 2.25rem; /* 36px */
+  --line-height-250: 2.5rem; /* 40px */
+  --line-height-300: 3rem; /* 48px */
+  --line-height-350: 3.5rem; /* 56px */
+  --line-height-400: 4rem; /* 64px */
 
   /* -----------------------------------------------------------
      LETTER-SPACING
   ----------------------------------------------------------- */
-  --font-letter-spacing-none:    0px;
+  --font-letter-spacing-none: 0px;
   --font-letter-spacing-display: -0.6px;
-  --font-letter-spacing-signal:   0.5px;
+  --font-letter-spacing-signal: 0.5px;
 
   /* -----------------------------------------------------------
      ESPAÇAMENTO
   ----------------------------------------------------------- */
-  --spacing-0:   0px;
-  --spacing-25:  2px;
-  --spacing-50:  4px;
-  --spacing-75:  6px;
+  --spacing-0: 0px;
+  --spacing-25: 2px;
+  --spacing-50: 4px;
+  --spacing-75: 6px;
   --spacing-100: 8px;
   --spacing-125: 10px;
   --spacing-150: 12px;
@@ -77,47 +80,47 @@
      DIMENSÕES FIXAS
   ----------------------------------------------------------- */
   --dimension-tap-target-minimum: 48px;
-  --dimension-action-height-sm:   32px;
-  --dimension-action-height-md:   40px;
-  --dimension-action-height-lg:   48px;
-  --dimension-icon-xs:            12px;
-  --dimension-icon-sm:            16px;
-  --dimension-icon-md:            24px;
-  --dimension-icon-lg:            32px;
-  --dimension-icon-xl:            64px;
+  --dimension-action-height-sm: 32px;
+  --dimension-action-height-md: 40px;
+  --dimension-action-height-lg: 48px;
+  --dimension-icon-xs: 12px;
+  --dimension-icon-sm: 16px;
+  --dimension-icon-md: 24px;
+  --dimension-icon-lg: 32px;
+  --dimension-icon-xl: 64px;
 
   /* -----------------------------------------------------------
      BORDER RADIUS
   ----------------------------------------------------------- */
   --radius-none: 0px;
-  --radius-sm:   4px;
-  --radius-md:   8px;
-  --radius-lg:   16px;
-  --radius-xl:   24px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
   --radius-full: 9999px;
 
   --radius-form-input: var(--radius-md);
-  --radius-card:       var(--radius-lg);
-  --radius-popover:    var(--radius-lg);
+  --radius-card: var(--radius-lg);
+  --radius-popover: var(--radius-lg);
 
   /* -----------------------------------------------------------
      BORDER WIDTH
   ----------------------------------------------------------- */
-  --border-width-thin:   0.5px;
+  --border-width-thin: 0.5px;
   --border-width-medium: 1px;
-  --border-width-thick:  2px;
+  --border-width-thick: 2px;
 
   /* -----------------------------------------------------------
      SOMBRAS
   ----------------------------------------------------------- */
   --shadow-subtle: 0px 4px 12px 0px rgba(0, 0, 0, 0.07);
-  --shadow-strong: 0px 5px 17px 0px rgba(0, 0, 0, 0.2),
-                   0px 2px 7px 0px rgba(0, 0, 0, 0.15);
+  --shadow-strong:
+    0px 5px 17px 0px rgba(0, 0, 0, 0.2), 0px 2px 7px 0px rgba(0, 0, 0, 0.15);
 
   /* -----------------------------------------------------------
      OPACIDADE — para state layers
   ----------------------------------------------------------- */
-  --opacity-50:  0.04;
+  --opacity-50: 0.04;
   --opacity-100: 0.08;
   --opacity-150: 0.12;
   --opacity-200: 0.16;
@@ -125,26 +128,26 @@
   /* -----------------------------------------------------------
      MOTION
   ----------------------------------------------------------- */
-  --motion-duration-instant:  17ms;
-  --motion-duration-short-1:  50ms;
-  --motion-duration-short-2:  83ms;
-  --motion-duration-short-3:  167ms;
+  --motion-duration-instant: 17ms;
+  --motion-duration-short-1: 50ms;
+  --motion-duration-short-2: 83ms;
+  --motion-duration-short-3: 167ms;
   --motion-duration-medium-1: 250ms;
   --motion-duration-medium-2: 333ms;
   --motion-duration-medium-3: 500ms;
-  --motion-duration-long-1:   667ms;
-  --motion-duration-long-2:   833ms;
-  --motion-duration-long-3:   1000ms;
+  --motion-duration-long-1: 667ms;
+  --motion-duration-long-2: 833ms;
+  --motion-duration-long-3: 1000ms;
 
   /* MOTION — easings */
-  --motion-easing-linear:      cubic-bezier(0, 0, 1, 1);
-  --motion-easing-standard:    cubic-bezier(0.3, 0, 0, 1);
-  --motion-easing-continuous:  cubic-bezier(0.3, 0, 0.7, 1);
+  --motion-easing-linear: cubic-bezier(0, 0, 1, 1);
+  --motion-easing-standard: cubic-bezier(0.3, 0, 0, 1);
+  --motion-easing-continuous: cubic-bezier(0.3, 0, 0.7, 1);
   --motion-easing-quick-enter: cubic-bezier(0, 0, 0, 1);
-  --motion-easing-quick-exit:  cubic-bezier(1, 0, 1, 1);
-  --motion-easing-soft-enter:  cubic-bezier(0, 0, 0.7, 1);
-  --motion-easing-soft-exit:   cubic-bezier(0.3, 0, 1, 1);
-  --motion-easing-bounce:      cubic-bezier(0.3, 0, 0, 1.25);
+  --motion-easing-quick-exit: cubic-bezier(1, 0, 1, 1);
+  --motion-easing-soft-enter: cubic-bezier(0, 0, 0.7, 1);
+  --motion-easing-soft-exit: cubic-bezier(0.3, 0, 1, 1);
+  --motion-easing-bounce: cubic-bezier(0.3, 0, 0, 1.25);
 
   /* -----------------------------------------------------------
      BREAKPOINTS
@@ -218,5 +221,4 @@
   --color-yellow-600: #855f00;
   --color-yellow-700: #553b06;
   --color-yellow-800: #312102;
-
 }

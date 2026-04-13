@@ -5,7 +5,7 @@ import "./globals.css";
 const arimo = Arimo({
   subsets: ["latin"],
   variable: "--font-arimo",
-  weight: ["400", "500", "600", "700"],
+  weight: "variable",
 });
 
 export const metadata: Metadata = {

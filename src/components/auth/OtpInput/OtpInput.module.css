@@ -11,24 +11,25 @@
   background-color: var(--color-background-primary);
   border: var(--border-width-medium) solid var(--color-border-subtle);
   border-radius: var(--radius-form-input);
-  font-size: var(--text-title-1-size);
-  font-weight: var(--text-title-1-weight);
-  line-height: var(--text-title-1-line-height);
+  font-size: var(--text-title-md-size);
+  line-height: var(--text-title-md-line-height);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.5em;
   color: var(--color-foreground-primary);
   text-align: center;
-  letter-spacing: 0.5em;
-  transition: border-color var(--motion-duration-short-3) var(--motion-easing-standard);
+  transition: border-color var(--motion-duration-short-3)
+    var(--motion-easing-standard);
 }
 
 .otp__field::placeholder {
   color: var(--color-foreground-disabled);
   letter-spacing: 0.3em;
-  font-size: var(--text-body-size);
+  font-size: var(--text-body-lg-size);
 }
 
 .otp__field:focus {
   outline: none;
-  border-color: var(--color-border-accent);
+  border-color: var(--color-border-strong);
 }
 
 .otp__field--error {
@@ -40,9 +41,10 @@
 }
 
 .otp__error {
-  font-size: var(--text-caption-size);
-  font-weight: var(--text-caption-weight);
-  line-height: var(--text-caption-line-height);
+  font-size: var(--text-label-md-size);
+  line-height: var(--text-label-md-line-height);
+  letter-spacing: var(--text-label-md-tracking);
+  font-weight: var(--font-weight-regular);
   color: var(--color-foreground-attention);
   text-align: center;
 }

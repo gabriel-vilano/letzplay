@@ -18,16 +18,19 @@
   gap: var(--spacing-150);
   padding: var(--spacing-150) var(--spacing-200);
   border-radius: var(--radius-md);
-  font-size: var(--text-caption-size);
-  font-weight: var(--text-caption-bold-weight);
-  line-height: var(--text-caption-line-height);
+  font-size: var(--text-label-lg-size);
+  line-height: var(--text-label-lg-line-height);
+  letter-spacing: var(--text-label-lg-tracking);
+  font-weight: var(--font-weight-bold);
   box-shadow: var(--shadow-strong);
   pointer-events: auto;
-  animation: toast-in var(--motion-duration-medium-1) var(--motion-easing-standard);
+  animation: toast-in var(--motion-duration-medium-1)
+    var(--motion-easing-standard);
 }
 
 .toast--exiting {
-  animation: toast-out var(--motion-duration-short-3) var(--motion-easing-quick-exit) forwards;
+  animation: toast-out var(--motion-duration-short-3)
+    var(--motion-easing-quick-exit) forwards;
 }
 
 .toast--error {

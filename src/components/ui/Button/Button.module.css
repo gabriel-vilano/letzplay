@@ -7,9 +7,10 @@
   padding: var(--spacing-150) var(--spacing-300);
   border: var(--border-width-medium) solid transparent;
   border-radius: var(--radius-form-input);
-  font-size: var(--text-body-bold-size);
-  font-weight: var(--text-body-bold-weight);
-  line-height: var(--text-body-bold-line-height);
+  font-size: var(--text-label-lg-size);
+  line-height: var(--text-label-lg-line-height);
+  letter-spacing: var(--text-label-lg-tracking);
+  font-weight: var(--font-weight-bold);
   cursor: pointer;
   position: relative;
   overflow: hidden;

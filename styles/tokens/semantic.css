@@ -10,67 +10,69 @@
   /* -----------------------------------------------------------
      ESCALA TIPOGRÁFICA SEMÂNTICA
 
-     Tokens definidos por propriedade individual.
-     Nos componentes, usar font-size, font-weight e line-height
-     separadamente — nunca o shorthand font:.
+     Sistema de 4 roles com naming t-shirt (sm/md/lg), consistente
+     com --spacing-*, --radius-* e --dimension-*.
+
+     Roles:
+       display — números grandes, scores, logo (tracking negativo)
+       title   — headings de página e seção
+       body    — prose, descrições, input text
+       label   — form labels, helper, metadata, botões, badges
+
+     Peso é desacoplado da escala. No componente, aplicar
+     size + line-height + tracking da escala e font-weight
+     separadamente via --font-weight-regular/--font-weight-bold.
+     Nunca usar o shorthand font:.
+
+     YAGNI: só existem as variantes com consumidor real hoje.
+     Variantes adicionais (display-lg, title-sm, body-sm,
+     label-sm, label-lg-caps) serão criadas quando surgir
+     caso de uso concreto.
   ----------------------------------------------------------- */
 
-  /* Display */
-  --text-display-1-size:        var(--font-size-4xl);
-  --text-display-1-weight:      var(--font-weight-bold);
-  --text-display-1-line-height: var(--line-height-4xl);
-  --text-display-1-tracking:    var(--font-letter-spacing-display);
+  /* Display — números, scores, logo (tracking negativo) */
+  --text-display-lg-size:        var(--font-size-350);
+  --text-display-lg-line-height: var(--line-height-400);
+  --text-display-lg-tracking:    var(--font-letter-spacing-display);
 
-  --text-display-2-size:        var(--font-size-3xl);
-  --text-display-2-weight:      var(--font-weight-bold);
-  --text-display-2-line-height: var(--line-height-3xl);
-  --text-display-2-tracking:    var(--font-letter-spacing-display);
+  --text-display-md-size:        var(--font-size-300);
+  --text-display-md-line-height: var(--line-height-350);
+  --text-display-md-tracking:    var(--font-letter-spacing-display);
 
-  --text-display-3-size:        var(--font-size-2xl);
-  --text-display-3-weight:      var(--font-weight-bold);
-  --text-display-3-line-height: var(--line-height-2xl);
-  --text-display-3-tracking:    var(--font-letter-spacing-display);
+  --text-display-sm-size:        var(--font-size-250);
+  --text-display-sm-line-height: var(--line-height-300);
+  --text-display-sm-tracking:    var(--font-letter-spacing-display);
 
-  /* Title */
-  --text-title-1-size:        var(--font-size-xl);
-  --text-title-1-weight:      var(--font-weight-bold);
-  --text-title-1-line-height: var(--line-height-xl);
+  /* Title — headings de página e seção */
+  --text-title-lg-size:        var(--font-size-175);
+  --text-title-lg-line-height: var(--line-height-225);
+  --text-title-lg-tracking:    var(--font-letter-spacing-none);
 
-  --text-title-2-size:        var(--font-size-lg);
-  --text-title-2-weight:      var(--font-weight-bold);
-  --text-title-2-line-height: var(--line-height-lg);
+  --text-title-md-size:        var(--font-size-150);
+  --text-title-md-line-height: var(--line-height-200);
+  --text-title-md-tracking:    var(--font-letter-spacing-none);
 
-  --text-title-3-size:        var(--font-size-md);
-  --text-title-3-weight:      var(--font-weight-bold);
-  --text-title-3-line-height: var(--line-height-md);
+  --text-title-sm-size:        var(--font-size-125);
+  --text-title-sm-line-height: var(--line-height-175);
+  --text-title-sm-tracking:    var(--font-letter-spacing-none);
 
-  /* Body */
-  --text-body-lg-size:          var(--font-size-md);
-  --text-body-lg-weight:        var(--font-weight-regular);
-  --text-body-lg-line-height:   var(--line-height-md);
+  /* Body — prose, descrições, input text */
+  --text-body-lg-size:        var(--font-size-100);
+  --text-body-lg-line-height: var(--line-height-150);
+  --text-body-lg-tracking:    var(--font-letter-spacing-none);
 
-  --text-body-size:             var(--font-size-body);
-  --text-body-weight:           var(--font-weight-regular);
-  --text-body-line-height:      var(--line-height-sm);
+  --text-body-md-size:        var(--font-size-087);
+  --text-body-md-line-height: var(--line-height-125);
+  --text-body-md-tracking:    var(--font-letter-spacing-none);
 
-  --text-body-bold-size:        var(--font-size-body);
-  --text-body-bold-weight:      var(--font-weight-bold);
-  --text-body-bold-line-height: var(--line-height-sm);
+  /* Label — form labels, helper, metadata, botões */
+  --text-label-lg-size:        var(--font-size-087);
+  --text-label-lg-line-height: var(--line-height-125);
+  --text-label-lg-tracking:    var(--font-letter-spacing-none);
 
-  /* Caption */
-  --text-caption-size:             var(--font-size-sm);
-  --text-caption-weight:           var(--font-weight-regular);
-  --text-caption-line-height:      var(--line-height-xs);
-
-  --text-caption-bold-size:        var(--font-size-sm);
-  --text-caption-bold-weight:      var(--font-weight-bold);
-  --text-caption-bold-line-height: var(--line-height-xs);
-
-  /* Signal */
-  --text-signal-size:        var(--font-size-xs);
-  --text-signal-weight:      var(--font-weight-bold);
-  --text-signal-line-height: var(--line-height-xs);
-  --text-signal-tracking:    var(--font-letter-spacing-signal);
+  --text-label-md-size:        var(--font-size-075);
+  --text-label-md-line-height: var(--line-height-100);
+  --text-label-md-tracking:    var(--font-letter-spacing-none);
 
   /* -----------------------------------------------------------
      COR — BACKGROUND
