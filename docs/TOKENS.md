@@ -393,6 +393,7 @@ Adicionar uma variante é trivial: estender a tabela em `semantic.css` e documen
 | `--color-background-accent-subtle` | `--color-coral-100` | coral claro — highlight sutil |
 | `--color-background-attention-subtle` | `--color-red-100` | erro sutil |
 | `--color-background-success-subtle` | `--color-kiwi-100` | sucesso sutil |
+| `--color-background-info-subtle` | `--color-blue-100` | information sutil — usado pelo Alert quiet |
 
 ### Cores — foreground
 

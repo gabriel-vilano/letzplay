@@ -90,6 +90,7 @@
   --color-background-accent-subtle:    var(--color-coral-100);
   --color-background-attention-subtle: var(--color-red-100);
   --color-background-success-subtle:   var(--color-kiwi-100);
+  --color-background-info-subtle:      var(--color-blue-100);
 
   /* -----------------------------------------------------------
      COR — FOREGROUND
