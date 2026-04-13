@@ -17,14 +17,14 @@ export async function login(
     return { fieldErrors: { email: emailResult.error } };
   }
   if (!password) {
-    return { fieldErrors: { password: "Senha e obrigatoria" } };
+    return { fieldErrors: { password: "Senha é obrigatória" } };
   }
 
   const supabase = await createClient();
   const { error } = await supabase.auth.signInWithPassword({ email, password });
 
   if (error) {
-    return { error: "Email ou senha incorretos" };
+    return { error: "E-mail ou senha incorretos" };
   }
 
   redirect("/feed");
@@ -50,7 +50,7 @@ export async function signup(
 
   const passwordResult = validatePassword(password);
   if (!passwordResult.valid) {
-    return { fieldErrors: { password: "Senha nao atende os requisitos" } };
+    return { fieldErrors: { password: "Senha não atende os requisitos" } };
   }
 
   const supabase = await createClient();
@@ -69,15 +69,15 @@ export async function signup(
       message.includes("user already");
 
     if (alreadyExists) {
-      // Email ja cadastrado: disparamos um OTP fresco via signInWithOtp
+      // E-mail já cadastrado: disparamos um OTP fresco via signInWithOtp
       // para que o jogador (que provavelmente voltou do /signup/verify e
-      // reenviou o form) continue o fluxo sem perceber diferenca.
+      // reenviou o form) continue o fluxo sem perceber diferença.
       const { error: otpError } = await supabase.auth.signInWithOtp({
         email,
         options: { shouldCreateUser: false },
       });
       if (otpError) {
-        return { error: "Erro ao enviar codigo. Tente novamente." };
+        return { error: "Erro ao enviar código. Tente novamente." };
       }
     } else {
       return { error: "Erro ao criar conta. Tente novamente." };
@@ -108,9 +108,9 @@ export async function verifyOtp(
 
   if (error) {
     if (error.message.toLowerCase().includes("expired")) {
-      return { error: "Codigo expirado. Solicite um novo codigo." };
+      return { error: "Código expirado. Solicite um novo código." };
     }
-    return { error: "Codigo invalido. Tente novamente." };
+    return { error: "Código inválido. Tente novamente." };
   }
 
   redirect("/signup/profile");
@@ -123,7 +123,7 @@ export async function resendOtp(
   const email = (formData.get("email") as string)?.trim() ?? "";
 
   if (!email) {
-    return { error: "Email nao informado." };
+    return { error: "E-mail não informado." };
   }
 
   const supabase = await createClient();
@@ -133,7 +133,7 @@ export async function resendOtp(
   });
 
   if (error) {
-    return { error: "Erro ao reenviar codigo. Tente novamente." };
+    return { error: "Erro ao reenviar código. Tente novamente." };
   }
 
   return { success: true };
@@ -154,7 +154,7 @@ export async function requestRecovery(
   const { error } = await supabase.auth.resetPasswordForEmail(email);
 
   if (error) {
-    return { error: "Email nao encontrado." };
+    return { error: "E-mail não encontrado." };
   }
 
   redirect(`/recovery/verify?email=${encodeURIComponent(email)}`);
@@ -181,9 +181,9 @@ export async function verifyRecoveryOtp(
 
   if (error) {
     if (error.message.toLowerCase().includes("expired")) {
-      return { error: "Codigo expirado. Solicite um novo codigo." };
+      return { error: "Código expirado. Solicite um novo código." };
     }
-    return { error: "Codigo invalido. Tente novamente." };
+    return { error: "Código inválido. Tente novamente." };
   }
 
   redirect("/recovery/password");
@@ -196,14 +196,14 @@ export async function resendRecoveryOtp(
   const email = (formData.get("email") as string)?.trim() ?? "";
 
   if (!email) {
-    return { error: "Email nao informado." };
+    return { error: "E-mail não informado." };
   }
 
   const supabase = await createClient();
   const { error } = await supabase.auth.resetPasswordForEmail(email);
 
   if (error) {
-    return { error: "Erro ao reenviar codigo. Tente novamente." };
+    return { error: "Erro ao reenviar código. Tente novamente." };
   }
 
   return { success: true };
@@ -218,11 +218,11 @@ export async function updatePassword(
 
   const passwordResult = validatePassword(password);
   if (!passwordResult.valid) {
-    return { fieldErrors: { password: "Senha nao atende os requisitos" } };
+    return { fieldErrors: { password: "Senha não atende os requisitos" } };
   }
 
   if (password !== confirmPassword) {
-    return { error: "As senhas nao coincidem." };
+    return { error: "As senhas não coincidem." };
   }
 
   const supabase = await createClient();
@@ -230,7 +230,7 @@ export async function updatePassword(
 
   if (error) {
     if (error.message.toLowerCase().includes("session")) {
-      return { error: "Sessao expirada. Reinicie o processo de recuperacao." };
+      return { error: "Sessão expirada. Reinicie o processo de recuperação." };
     }
     return { error: "Erro ao atualizar senha. Tente novamente." };
   }
@@ -272,7 +272,7 @@ export async function createProfile(
   } = await supabase.auth.getUser();
 
   if (!user) {
-    return { error: "Sessao expirada. Faca login novamente." };
+    return { error: "Sessão expirada. Faça login novamente." };
   }
 
   const fullName =
@@ -286,7 +286,7 @@ export async function createProfile(
 
     const { available } = await checkUsername(username);
     if (!available) {
-      return { error: "Username ja esta em uso." };
+      return { error: "Username já está em uso." };
     }
   }
 
@@ -323,7 +323,7 @@ export async function createProfile(
 
   if (insertError) {
     if (insertError.message.includes("unique")) {
-      return { error: "Username ja esta em uso." };
+      return { error: "Username já está em uso." };
     }
     return { error: "Erro ao salvar perfil. Tente novamente." };
   }

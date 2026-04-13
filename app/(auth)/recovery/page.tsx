@@ -19,9 +19,9 @@ export default function RecoveryPage() {
   const [submitAttempted, setSubmitAttempted] = useState(false);
 
   const emailError = !email
-    ? "Email e obrigatorio"
+    ? "E-mail é obrigatório"
     : !validateEmail(email).valid
-      ? "Insira um email valido"
+      ? "Insira um e-mail válido"
       : null;
 
   const hasErrors = Boolean(emailError);
@@ -39,12 +39,12 @@ export default function RecoveryPage() {
     <AuthFormContainer>
       <AuthFormHeader
         title="Recuperar senha"
-        subtitle="Informe o email da sua conta"
+        subtitle="Informe o e-mail da sua conta"
       />
 
       <form action={handleSubmit} className={styles.recovery__form}>
         <FormInput
-          label="Email"
+          label="E-mail"
           name="email"
           type="email"
           value={email}
@@ -60,12 +60,12 @@ export default function RecoveryPage() {
           <Alert
             status="attention"
             title={state!.error!}
-            description="Verifique o email informado e tente novamente."
+            description="Verifique o e-mail informado e tente novamente."
           />
         )}
 
         <Button type="submit" fullWidth loading={isPending}>
-          Enviar codigo
+          Enviar código
         </Button>
       </form>
 

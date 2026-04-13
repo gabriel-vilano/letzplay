@@ -33,11 +33,11 @@ function LoginContent() {
   const [submitAttempted, setSubmitAttempted] = useState(false);
 
   const emailError = !email
-    ? "Email e obrigatorio"
+    ? "E-mail é obrigatório"
     : !validateEmail(email).valid
-      ? "Insira um email valido"
+      ? "Insira um e-mail válido"
       : null;
-  const passwordError = !password ? "Senha e obrigatoria" : null;
+  const passwordError = !password ? "Senha é obrigatória" : null;
   const hasErrors = Boolean(emailError || passwordError);
 
   const showEmailError =
@@ -68,12 +68,12 @@ function LoginContent() {
     <AuthFormContainer>
       <AuthFormHeader
         title="Bem-vindo de volta"
-        subtitle="Entre com seu email e senha"
+        subtitle="Entre com seu e-mail e senha"
       />
 
       <form action={handleSubmit} className={styles.login__form}>
         <FormInput
-          label="Email"
+          label="E-mail"
           name="email"
           type="email"
           value={email}
@@ -104,14 +104,14 @@ function LoginContent() {
           <Alert
             status="success"
             title="Senha redefinida com sucesso"
-            description="Faca login com sua nova senha."
+            description="Faça login com sua nova senha."
           />
         )}
 
         {showServerError && (
           <Alert
             status="attention"
-            title="Email ou senha incorretos"
+            title="E-mail ou senha incorretos"
             description="Verifique suas credenciais e tente novamente."
           />
         )}
@@ -122,7 +122,7 @@ function LoginContent() {
       </form>
 
       <p className={styles.login__footer}>
-        Ainda nao tem conta?{" "}
+        Ainda não tem conta?{" "}
         <TextLink href="/signup">Criar conta</TextLink>
       </p>
     </AuthFormContainer>
