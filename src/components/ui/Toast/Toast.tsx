@@ -8,7 +8,7 @@ import {
   useRef,
   type ReactNode,
 } from "react";
-import { X } from "@phosphor-icons/react";
+import { XIcon } from "@phosphor-icons/react";
 import { Icon } from "@/src/components/ui/Icon";
 import styles from "./Toast.module.css";
 
@@ -21,8 +21,16 @@ type Toast = {
   exiting: boolean;
 };
 
+type ToastOptions = {
+  persistent?: boolean;
+};
+
 type ToastContextValue = {
-  showToast: (message: string, type?: ToastType) => void;
+  showToast: (
+    message: string,
+    type?: ToastType,
+    options?: ToastOptions
+  ) => void;
 };
 
 const ToastContext = createContext<ToastContextValue | null>(null);
@@ -52,13 +60,15 @@ export function ToastProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const showToast = useCallback(
-    (message: string, type: ToastType = "info") => {
+    (message: string, type: ToastType = "info", options?: ToastOptions) => {
       const id = ++idRef.current;
       setToasts((prev) => [...prev, { id, message, type, exiting: false }]);
 
-      setTimeout(() => {
-        dismissToast(id);
-      }, TOAST_DURATION);
+      if (!options?.persistent) {
+        setTimeout(() => {
+          dismissToast(id);
+        }, TOAST_DURATION);
+      }
     },
     [dismissToast]
   );
@@ -82,7 +92,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
                 onClick={() => dismissToast(toast.id)}
                 aria-label="Fechar"
               >
-                <Icon icon={X} size="xs" />
+                <Icon icon={XIcon} size="sm" />
               </button>
             </div>
           ))}
