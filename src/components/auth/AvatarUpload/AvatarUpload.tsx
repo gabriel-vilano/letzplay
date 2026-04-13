@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { Camera } from "@phosphor-icons/react";
+import Image from "next/image";
+import { Camera, Plus } from "@phosphor-icons/react";
 import { Icon } from "@/src/components/ui/Icon";
 import { validateAvatar } from "@/src/lib/validations";
 import styles from "./AvatarUpload.module.css";
@@ -31,37 +32,45 @@ export function AvatarUpload({ onFileSelect }: AvatarUploadProps) {
     onFileSelect(file);
   }
 
-  const areaClasses = [
-    styles.avatar__area,
-    preview && styles["avatar__area--has-image"],
-  ]
-    .filter(Boolean)
-    .join(" ");
+  function openPicker() {
+    inputRef.current?.click();
+  }
 
   return (
-    <div className={styles.avatar}>
-      <div
-        className={areaClasses}
-        onClick={() => inputRef.current?.click()}
-        role="button"
-        tabIndex={0}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            inputRef.current?.click();
-          }
-        }}
-      >
+    <div
+      className={styles.avatar}
+      onClick={openPicker}
+      role="button"
+      tabIndex={0}
+      aria-label={preview ? "Trocar foto de perfil" : "Adicionar foto de perfil"}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          openPicker();
+        }
+      }}
+    >
+      <div className={styles.avatar__area}>
         {preview ? (
-          <img
-            src={preview}
-            alt="Preview da foto de perfil"
-            className={styles.avatar__preview}
-          />
+          <>
+            <Image
+              src={preview}
+              alt="Preview da foto de perfil"
+              width={96}
+              height={96}
+              unoptimized
+              className={styles.avatar__preview}
+            />
+            <span className={styles.avatar__badge} aria-hidden="true">
+              <Icon icon={Camera} size="sm" />
+            </span>
+          </>
         ) : (
-          <span className={styles.avatar__placeholder}>
-            <Icon icon={Camera} size="lg" />
-          </span>
+          <>
+            <span className={styles.avatar__placeholder} aria-hidden="true">
+              <Icon icon={Plus} size="lg" />
+            </span>
+          </>
         )}
         <input
           ref={inputRef}
