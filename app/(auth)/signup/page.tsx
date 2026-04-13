@@ -8,7 +8,13 @@ import { FormInput } from "@/src/components/ui/FormInput";
 import { Button } from "@/src/components/ui/Button";
 import { Alert } from "@/src/components/ui/Alert";
 import { TextLink } from "@/src/components/ui/TextLink";
-import { validateName, validateEmail, NAME_MAX_LENGTH } from "@/src/lib/validations";
+import {
+  validateEmail,
+  validatePassword,
+  NAME_MAX_LENGTH,
+  type PasswordChecks,
+} from "@/src/lib/validations";
+import { PasswordChecklist } from "@/src/components/auth/PasswordChecklist";
 import { useFormPersist } from "@/src/hooks/useFormPersist";
 import styles from "./page.module.css";
 
@@ -18,12 +24,22 @@ export default function SignupPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordChecks, setPasswordChecks] = useState<PasswordChecks>({
+    minLength: false,
+    hasLetter: false,
+    hasNumber: false,
+  });
   const [touched, setTouched] = useState({
     name: false,
     email: false,
-    password: false,
   });
   const [submitAttempted, setSubmitAttempted] = useState(false);
+
+  function handlePasswordChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const value = e.target.value;
+    setPassword(value);
+    setPasswordChecks(validatePassword(value).checks);
+  }
 
   useFormPersist(
     "signup-form",
@@ -32,37 +48,28 @@ export default function SignupPage() {
   );
 
   const nameError = (() => {
-    if (!name) return "Nome e obrigatorio";
+    if (!name) return "Nome é obrigatório";
     if (name.trim().length < 2) return "Nome deve ter pelo menos 2 caracteres";
     if (name.trim().length > NAME_MAX_LENGTH)
-      return `Nome deve ter no maximo ${NAME_MAX_LENGTH} caracteres`;
+      return `Nome deve ter no máximo ${NAME_MAX_LENGTH} caracteres`;
     return null;
   })();
 
   const emailError = !email
-    ? "Email e obrigatorio"
+    ? "E-mail é obrigatório"
     : !validateEmail(email).valid
-      ? "Insira um email valido"
+      ? "Insira um e-mail válido"
       : null;
 
-  const passwordError = (() => {
-    if (!password) return "Senha e obrigatoria";
-    if (password.length < 8) return "Senha deve ter pelo menos 8 caracteres";
-    if (!/[a-zA-Z]/.test(password))
-      return "Senha deve conter pelo menos uma letra";
-    if (!/[0-9]/.test(password))
-      return "Senha deve conter pelo menos um numero";
-    return null;
-  })();
+  const passwordValid =
+    passwordChecks.minLength && passwordChecks.hasLetter && passwordChecks.hasNumber;
 
-  const hasErrors = Boolean(nameError || emailError || passwordError);
+  const hasErrors = Boolean(nameError || emailError) || !passwordValid;
 
   const showNameError =
     touched.name || submitAttempted ? nameError : null;
   const showEmailError =
     touched.email || submitAttempted ? emailError : null;
-  const showPasswordError =
-    touched.password || submitAttempted ? passwordError : null;
 
   function handleSubmit(formData: FormData) {
     setSubmitAttempted(true);
@@ -76,7 +83,7 @@ export default function SignupPage() {
     <AuthFormContainer>
       <AuthFormHeader
         title="Criar conta"
-        subtitle="Preencha seus dados para comecar"
+        subtitle="Preencha seus dados para começar"
       />
 
       <form action={handleSubmit} className={styles.signup__form}>
@@ -94,7 +101,7 @@ export default function SignupPage() {
         />
 
         <FormInput
-          label="Email"
+          label="E-mail"
           name="email"
           type="email"
           value={email}
@@ -106,17 +113,23 @@ export default function SignupPage() {
           inputMode="email"
         />
 
-        <FormInput
-          label="Senha"
-          name="password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          onBlur={() => setTouched((prev) => ({ ...prev, password: true }))}
-          error={showPasswordError ?? undefined}
-          placeholder="Crie uma senha"
-          autoComplete="new-password"
-        />
+        <div className={styles.signup__password}>
+          <FormInput
+            label="Senha"
+            name="password"
+            type="password"
+            value={password}
+            onChange={handlePasswordChange}
+            placeholder="Crie uma senha"
+            autoComplete="new-password"
+          />
+          {password.length > 0 && (
+            <PasswordChecklist
+              checks={passwordChecks}
+              submitted={submitAttempted}
+            />
+          )}
+        </div>
 
         {showServerError && (
           <Alert
@@ -132,7 +145,7 @@ export default function SignupPage() {
       </form>
 
       <p className={styles.signup__footer}>
-        Ja tem uma conta?{" "}
+        Já tem uma conta?{" "}
         <TextLink href="/login">Entrar</TextLink>
       </p>
     </AuthFormContainer>

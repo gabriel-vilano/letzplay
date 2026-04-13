@@ -4,9 +4,11 @@ import { useActionState, useState } from "react";
 import { updatePassword } from "@/app/(auth)/actions";
 import { AuthFormContainer } from "@/src/components/auth/AuthFormContainer";
 import { AuthFormHeader } from "@/src/components/auth/AuthFormHeader";
+import { PasswordChecklist } from "@/src/components/auth/PasswordChecklist";
 import { FormInput } from "@/src/components/ui/FormInput";
 import { Button } from "@/src/components/ui/Button";
 import { Alert } from "@/src/components/ui/Alert";
+import { validatePassword, type PasswordChecks } from "@/src/lib/validations";
 import styles from "./page.module.css";
 
 export default function NewPasswordPage() {
@@ -14,34 +16,33 @@ export default function NewPasswordPage() {
 
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [touched, setTouched] = useState({
-    password: false,
-    confirmPassword: false,
+  const [passwordChecks, setPasswordChecks] = useState<PasswordChecks>({
+    minLength: false,
+    hasLetter: false,
+    hasNumber: false,
   });
+  const [confirmTouched, setConfirmTouched] = useState(false);
   const [submitAttempted, setSubmitAttempted] = useState(false);
 
-  const passwordError = (() => {
-    if (!password) return "Senha e obrigatoria";
-    if (password.length < 8) return "Senha deve ter pelo menos 8 caracteres";
-    if (!/[a-zA-Z]/.test(password))
-      return "Senha deve conter pelo menos uma letra";
-    if (!/[0-9]/.test(password))
-      return "Senha deve conter pelo menos um numero";
-    return null;
-  })();
+  function handlePasswordChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const value = e.target.value;
+    setPassword(value);
+    setPasswordChecks(validatePassword(value).checks);
+  }
+
+  const passwordValid =
+    passwordChecks.minLength && passwordChecks.hasLetter && passwordChecks.hasNumber;
 
   const confirmError = !confirmPassword
-    ? "Confirmacao e obrigatoria"
+    ? "Confirmação é obrigatória"
     : confirmPassword !== password
-      ? "As senhas nao coincidem"
+      ? "As senhas não coincidem"
       : null;
 
-  const hasErrors = Boolean(passwordError || confirmError);
+  const hasErrors = !passwordValid || Boolean(confirmError);
 
-  const showPasswordError =
-    touched.password || submitAttempted ? passwordError : null;
   const showConfirmError =
-    touched.confirmPassword || submitAttempted ? confirmError : null;
+    confirmTouched || submitAttempted ? confirmError : null;
 
   function handleSubmit(formData: FormData) {
     setSubmitAttempted(true);
@@ -56,17 +57,23 @@ export default function NewPasswordPage() {
       <AuthFormHeader title="Nova senha" subtitle="Defina sua nova senha" />
 
       <form action={handleSubmit} className={styles.password__form}>
-        <FormInput
-          label="Nova senha"
-          name="password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          onBlur={() => setTouched((prev) => ({ ...prev, password: true }))}
-          error={showPasswordError ?? undefined}
-          placeholder="Crie uma nova senha"
-          autoComplete="new-password"
-        />
+        <div className={styles.password__field}>
+          <FormInput
+            label="Nova senha"
+            name="password"
+            type="password"
+            value={password}
+            onChange={handlePasswordChange}
+            placeholder="Crie uma nova senha"
+            autoComplete="new-password"
+          />
+          {password.length > 0 && (
+            <PasswordChecklist
+              checks={passwordChecks}
+              submitted={submitAttempted}
+            />
+          )}
+        </div>
 
         <FormInput
           label="Confirmar senha"
@@ -74,9 +81,7 @@ export default function NewPasswordPage() {
           type="password"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
-          onBlur={() =>
-            setTouched((prev) => ({ ...prev, confirmPassword: true }))
-          }
+          onBlur={() => setConfirmTouched(true)}
           error={showConfirmError ?? undefined}
           placeholder="Repita a nova senha"
           autoComplete="new-password"

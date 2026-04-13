@@ -3,10 +3,18 @@ const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export const OTP_LENGTH = 8;
 const OTP_REGEX = new RegExp(`^\\d{${OTP_LENGTH}}$`);
 
+export const NAME_MAX_LENGTH = 30;
+
 export function validateName(name: string) {
   const trimmed = name.trim();
   if (trimmed.length < 2) {
     return { valid: false, error: "Nome precisa ter pelo menos 2 caracteres" };
+  }
+  if (trimmed.length > NAME_MAX_LENGTH) {
+    return {
+      valid: false,
+      error: `Nome deve ter no máximo ${NAME_MAX_LENGTH} caracteres`,
+    };
   }
   return { valid: true };
 }
@@ -14,10 +22,10 @@ export function validateName(name: string) {
 export function validateEmail(email: string) {
   const trimmed = email.trim();
   if (!trimmed) {
-    return { valid: false, error: "Email e obrigatorio" };
+    return { valid: false, error: "E-mail é obrigatório" };
   }
   if (!EMAIL_REGEX.test(trimmed)) {
-    return { valid: false, error: "Formato de email invalido" };
+    return { valid: false, error: "Formato de e-mail inválido" };
   }
   return { valid: true };
 }
@@ -43,7 +51,7 @@ export function validatePassword(password: string): {
 
 export function validateOtp(code: string) {
   if (!OTP_REGEX.test(code)) {
-    return { valid: false, error: `Codigo precisa ter ${OTP_LENGTH} digitos` };
+    return { valid: false, error: `Código precisa ter ${OTP_LENGTH} dígitos` };
   }
   return { valid: true };
 }
@@ -58,10 +66,10 @@ export function validateUsername(username: string) {
     return { valid: false, error: "Username precisa ter pelo menos 3 caracteres" };
   }
   if (username.length > 20) {
-    return { valid: false, error: "Username pode ter no maximo 20 caracteres" };
+    return { valid: false, error: "Username pode ter no máximo 20 caracteres" };
   }
   if (!USERNAME_REGEX.test(username)) {
-    return { valid: false, error: "Apenas letras minusculas, numeros, pontos e underlines" };
+    return { valid: false, error: "Apenas letras minúsculas, números, pontos e underscores" };
   }
   return { valid: true };
 }
@@ -86,7 +94,7 @@ export function validateAvatar(file: File) {
     return { valid: false, error: "Formato aceito: JPG, PNG ou WebP" };
   }
   if (file.size > MAX_AVATAR_SIZE) {
-    return { valid: false, error: "Foto deve ter no maximo 5MB" };
+    return { valid: false, error: "Foto deve ter no máximo 5MB" };
   }
   return { valid: true };
 }
