@@ -88,7 +88,7 @@ function LoginContent() {
         <FormInput
           label="Senha"
           labelTrailing={
-            <TextLink href="/recovery">Esqueceu sua senha?</TextLink>
+            <TextLink href="/recuperar-senha">Esqueceu sua senha?</TextLink>
           }
           name="password"
           type="password"
@@ -123,7 +123,7 @@ function LoginContent() {
 
       <p className={styles.login__footer}>
         Ainda não tem conta?{" "}
-        <TextLink href="/signup">Criar conta</TextLink>
+        <TextLink href="/cadastro">Criar conta</TextLink>
       </p>
     </AuthFormContainer>
   );

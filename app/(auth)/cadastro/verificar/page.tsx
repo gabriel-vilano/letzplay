@@ -30,7 +30,7 @@ function VerifyContent() {
 
   useEffect(() => {
     if (!email) {
-      router.replace("/signup");
+      router.replace("/cadastro");
     }
   }, [email, router]);
 
@@ -76,7 +76,7 @@ function VerifyContent() {
           <>
             <span>Enviamos um código de {OTP_LENGTH} dígitos para</span>
             <span className={styles.verify__email}>{email}</span>
-            <TextLink href="/signup">Enviar código para outro e-mail</TextLink>
+            <TextLink href="/cadastro">Enviar código para outro e-mail</TextLink>
           </>
         }
       />

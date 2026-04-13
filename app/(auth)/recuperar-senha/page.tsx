@@ -71,7 +71,7 @@ export default function RecoveryPage() {
 
       <p className={styles.recovery__footer}>
         Lembrou sua senha?{" "}
-        <TextLink href="/login">Entrar</TextLink>
+        <TextLink href="/entrar">Entrar</TextLink>
       </p>
     </AuthFormContainer>
   );

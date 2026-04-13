@@ -36,7 +36,7 @@ function RecoveryVerifyContent() {
 
   useEffect(() => {
     if (!email) {
-      router.replace("/recovery");
+      router.replace("/recuperar-senha");
     }
   }, [email, router]);
 
@@ -85,7 +85,7 @@ function RecoveryVerifyContent() {
           <>
             <span>Enviamos um código de {OTP_LENGTH} dígitos para</span>
             <span className={styles.verify__email}>{email}</span>
-            <TextLink href="/recovery">Enviar código para outro e-mail</TextLink>
+            <TextLink href="/recuperar-senha">Enviar código para outro e-mail</TextLink>
           </>
         }
       />

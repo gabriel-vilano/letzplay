@@ -146,7 +146,7 @@ export default function SignupPage() {
 
       <p className={styles.signup__footer}>
         Já tem uma conta?{" "}
-        <TextLink href="/login">Entrar</TextLink>
+        <TextLink href="/entrar">Entrar</TextLink>
       </p>
     </AuthFormContainer>
   );

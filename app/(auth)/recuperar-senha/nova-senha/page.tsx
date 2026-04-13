@@ -99,6 +99,7 @@ export default function NewPasswordPage() {
           Redefinir senha
         </Button>
       </form>
+      
     </AuthFormContainer>
   );
 }

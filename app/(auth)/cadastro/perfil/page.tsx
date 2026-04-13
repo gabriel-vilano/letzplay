@@ -34,7 +34,7 @@ export default function ProfilePage() {
       const { data: { user } } = await supabase.auth.getUser();
 
       if (!user) {
-        router.replace("/login");
+        router.replace("/entrar");
         return;
       }
 

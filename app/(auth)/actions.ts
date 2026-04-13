@@ -70,7 +70,7 @@ export async function signup(
 
     if (alreadyExists) {
       // E-mail já cadastrado: disparamos um OTP fresco via signInWithOtp
-      // para que o jogador (que provavelmente voltou do /signup/verify e
+      // para que o jogador (que provavelmente voltou do /cadastro/verificar e
       // reenviou o form) continue o fluxo sem perceber diferença.
       const { error: otpError } = await supabase.auth.signInWithOtp({
         email,
@@ -84,7 +84,7 @@ export async function signup(
     }
   }
 
-  redirect(`/signup/verify?email=${encodeURIComponent(email)}`);
+  redirect(`/cadastro/verificar?email=${encodeURIComponent(email)}`);
 }
 
 export async function verifyOtp(
@@ -113,7 +113,7 @@ export async function verifyOtp(
     return { error: "Código inválido. Tente novamente." };
   }
 
-  redirect("/signup/profile");
+  redirect("/cadastro/perfil");
 }
 
 export async function resendOtp(
@@ -157,7 +157,7 @@ export async function requestRecovery(
     return { error: "E-mail não encontrado." };
   }
 
-  redirect(`/recovery/verify?email=${encodeURIComponent(email)}`);
+  redirect(`/recuperar-senha/verificar?email=${encodeURIComponent(email)}`);
 }
 
 export async function verifyRecoveryOtp(
@@ -186,7 +186,7 @@ export async function verifyRecoveryOtp(
     return { error: "Código inválido. Tente novamente." };
   }
 
-  redirect("/recovery/password");
+  redirect("/recuperar-senha/nova-senha");
 }
 
 export async function resendRecoveryOtp(
@@ -236,7 +236,7 @@ export async function updatePassword(
   }
 
   await supabase.auth.signOut();
-  redirect("/login?recovered=true");
+  redirect("/entrar?recovered=true");
 }
 
 export async function checkUsername(username: string): Promise<{

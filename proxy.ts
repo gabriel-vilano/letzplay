@@ -1,8 +1,14 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
-const PUBLIC_AUTH_ROUTES = ["/", "/login", "/signup"];
-const ALWAYS_PUBLIC_ROUTES = ["/signup/verify", "/signup/profile", "/recovery", "/recovery/verify", "/recovery/password"];
+const PUBLIC_AUTH_ROUTES = ["/", "/entrar", "/cadastro"];
+const ALWAYS_PUBLIC_ROUTES = [
+  "/cadastro/verificar",
+  "/cadastro/perfil",
+  "/recuperar-senha",
+  "/recuperar-senha/verificar",
+  "/recuperar-senha/nova-senha",
+];
 
 export async function proxy(request: NextRequest) {
   let response = NextResponse.next({
