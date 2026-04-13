@@ -59,8 +59,10 @@
   flex-shrink: 0;
 }
 
-.toast__dismiss:hover {
-  opacity: 1;
+@media (hover: hover) {
+  .toast__dismiss:hover {
+    opacity: 1;
+  }
 }
 
 @keyframes toast-in {

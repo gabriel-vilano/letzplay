@@ -22,8 +22,10 @@
   inset: -16px -8px;
 }
 
-.text-link:hover {
-  text-decoration: underline;
+@media (hover: hover) {
+  .text-link:hover {
+    text-decoration: underline;
+  }
 }
 
 .text-link:focus-visible {

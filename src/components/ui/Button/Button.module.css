@@ -39,8 +39,10 @@
   color: var(--color-foreground-on-accent);
 }
 
-.btn--primary:hover::after {
-  background-color: var(--color-state-layer-hover-on-strong);
+@media (hover: hover) {
+  .btn--primary:hover::after {
+    background-color: var(--color-state-layer-hover-on-strong);
+  }
 }
 
 .btn--primary:active::after {
@@ -54,8 +56,10 @@
   border-color: var(--color-border-accent);
 }
 
-.btn--secondary:hover::after {
-  background-color: var(--color-state-layer-hover);
+@media (hover: hover) {
+  .btn--secondary:hover::after {
+    background-color: var(--color-state-layer-hover);
+  }
 }
 
 .btn--secondary:active::after {
@@ -69,8 +73,10 @@
   border-color: transparent;
 }
 
-.btn--ghost:hover::after {
-  background-color: var(--color-state-layer-hover);
+@media (hover: hover) {
+  .btn--ghost:hover::after {
+    background-color: var(--color-state-layer-hover);
+  }
 }
 
 .btn--ghost:active::after {

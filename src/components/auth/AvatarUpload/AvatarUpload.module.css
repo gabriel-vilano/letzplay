@@ -32,8 +32,10 @@
     var(--motion-easing-standard);
 }
 
-.avatar:hover .avatar__area {
-  background-color: var(--color-background-tertiary);
+@media (hover: hover) {
+  .avatar:hover .avatar__area {
+    background-color: var(--color-background-tertiary);
+  }
 }
 
 .avatar__preview {

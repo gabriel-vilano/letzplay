@@ -26,8 +26,10 @@
   cursor: pointer;
 }
 
-.resend__button:hover {
-  text-decoration: underline;
+@media (hover: hover) {
+  .resend__button:hover {
+    text-decoration: underline;
+  }
 }
 
 .resend__button--disabled {
