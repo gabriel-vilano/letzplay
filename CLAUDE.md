@@ -1,8 +1,8 @@
 # CLAUDE.md — LetzPlay
 
-@ROADMAP.md
 @AGENTS.md
-@GIT_WORKFLOW.md
+@docs/ROADMAP.md
+@docs/GIT_WORKFLOW.md
 @docs/TOKENS.md
 
 ## Sobre o projeto
