@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
-import { Check, X, Eye, EyeSlash } from "@phosphor-icons/react";
+import { CheckIcon, XIcon, EyeIcon, EyeSlashIcon } from "@phosphor-icons/react";
 import { Icon } from "@/src/components/ui/Icon";
 import styles from "./FormInput.module.css";
 
@@ -19,6 +19,7 @@ type FormInputProps = {
   autoComplete?: string;
   inputMode?: "text" | "email" | "numeric";
   disabled?: boolean;
+  maxLength?: number;
 };
 
 export function FormInput({
@@ -35,6 +36,7 @@ export function FormInput({
   autoComplete,
   inputMode,
   disabled,
+  maxLength,
 }: FormInputProps) {
   const [showPassword, setShowPassword] = useState(false);
   const isPassword = type === "password";
@@ -49,6 +51,7 @@ export function FormInput({
     .join(" ");
 
   const showStatus = value.length > 0 && (valid || error);
+  const errorId = `${name}-error`;
 
   return (
     <div className={styles["form-input"]}>
@@ -71,7 +74,10 @@ export function FormInput({
           autoComplete={autoComplete}
           inputMode={inputMode}
           disabled={disabled}
+          maxLength={maxLength}
           className={fieldClasses}
+          aria-invalid={error ? true : undefined}
+          aria-describedby={error ? errorId : undefined}
         />
 
         <span className={styles["form-input__trailing"]}>
@@ -82,18 +88,18 @@ export function FormInput({
               onClick={() => setShowPassword((prev) => !prev)}
               aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
             >
-              <Icon icon={showPassword ? EyeSlash : Eye} size="sm" />
+              <Icon icon={showPassword ? EyeSlashIcon : EyeIcon} size="sm" />
             </button>
           )}
 
-          {showStatus && (
+          {!isPassword && showStatus && (
             valid && !error ? (
               <span className={styles["form-input__icon--valid"]}>
-                <Icon icon={Check} size="sm" />
+                <Icon icon={CheckIcon} size="sm" />
               </span>
             ) : error ? (
               <span className={styles["form-input__icon--error"]}>
-                <Icon icon={X} size="sm" />
+                <Icon icon={XIcon} size="sm" />
               </span>
             ) : null
           )}
@@ -101,7 +107,13 @@ export function FormInput({
       </div>
 
       {error && (
-        <span className={styles["form-input__error"]}>{error}</span>
+        <span
+          id={errorId}
+          role="alert"
+          className={styles["form-input__error"]}
+        >
+          {error}
+        </span>
       )}
     </div>
   );

@@ -1,7 +1,7 @@
 .form-input {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-50);
+  gap: var(--spacing-100);
 }
 
 .form-input__label-row {
@@ -9,12 +9,16 @@
   justify-content: space-between;
   align-items: baseline;
   gap: var(--spacing-150);
+  font-size: var(--text-label-md-size);
+  line-height: var(--text-label-md-line-height);
+  letter-spacing: var(--text-label-md-tracking);
 }
 
 .form-input__label {
-  font-size: var(--text-caption-bold-size);
-  font-weight: var(--text-caption-bold-weight);
-  line-height: var(--text-caption-bold-line-height);
+  font-size: var(--text-label-md-size);
+  line-height: var(--text-label-md-line-height);
+  letter-spacing: var(--text-label-md-tracking);
+  font-weight: var(--font-weight-bold);
   color: var(--color-foreground-primary);
 }
 
@@ -32,20 +36,22 @@
   background-color: var(--color-background-primary);
   border: var(--border-width-medium) solid var(--color-border-subtle);
   border-radius: var(--radius-form-input);
-  font-size: var(--text-body-size);
-  font-weight: var(--text-body-weight);
-  line-height: var(--text-body-line-height);
+  font-size: var(--text-body-md-size);
+  line-height: var(--text-body-md-line-height);
+  letter-spacing: var(--text-body-md-tracking);
+  font-weight: var(--font-weight-regular);
   color: var(--color-foreground-primary);
-  transition: border-color var(--motion-duration-short-3) var(--motion-easing-standard);
+  transition: border-color var(--motion-duration-short-3)
+    var(--motion-easing-standard);
 }
 
 .form-input__field::placeholder {
-  color: var(--color-foreground-disabled);
+  color: var(--color-foreground-secondary);
 }
 
 .form-input__field:focus {
   outline: none;
-  border-color: var(--color-border-accent);
+  border-color: var(--color-border-strong);
 }
 
 .form-input__field--error {
@@ -101,8 +107,9 @@
 }
 
 .form-input__error {
-  font-size: var(--text-caption-size);
-  font-weight: var(--text-caption-weight);
-  line-height: var(--text-caption-line-height);
+  font-size: var(--text-label-md-size);
+  line-height: var(--text-label-md-line-height);
+  letter-spacing: var(--text-label-md-tracking);
+  font-weight: var(--font-weight-regular);
   color: var(--color-foreground-attention);
 }

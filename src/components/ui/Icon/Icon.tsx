@@ -15,15 +15,16 @@ export function Icon({
   weight = 'regular',
   className,
   'aria-label': ariaLabel,
-  'aria-hidden': ariaHidden = true,
+  'aria-hidden': ariaHidden,
 }: IconProps) {
+  const hidden = ariaHidden ?? !ariaLabel
   return (
     <PhosphorIcon
       size={sizeMap[size]}
       weight={weight}
       className={`${styles.icon}${className ? ` ${className}` : ''}`}
       aria-label={ariaLabel}
-      aria-hidden={ariaHidden || undefined}
+      aria-hidden={hidden || undefined}
     />
   )
 }
