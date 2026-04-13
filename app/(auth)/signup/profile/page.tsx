@@ -72,7 +72,7 @@ export default function ProfilePage() {
       setUsernameError(undefined);
     } else {
       setUsernameStatus("taken");
-      setUsernameError(result.error ?? "Username ja esta em uso");
+      setUsernameError(result.error ?? "Username já está em uso");
     }
   }, []);
 
@@ -164,7 +164,7 @@ export default function ProfilePage() {
           )}
           {usernameStatus === "available" && (
             <p className={`${styles["profile__username-status"]} ${styles["profile__username-status--available"]}`}>
-              Usuário disponivel
+              Usuário disponível
             </p>
           )}
         </div>
@@ -183,7 +183,7 @@ export default function ProfilePage() {
       </form>
 
       <div className={styles.profile__skip}>
-        <TextLink onClick={handleSkip}>Pular por enquanto</TextLink>
+        <TextLink onClick={handleSkip} block>Pular por enquanto</TextLink>
       </div>
     </AuthFormContainer>
   );

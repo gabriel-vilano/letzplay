@@ -5,6 +5,7 @@ import styles from "./TextLink.module.css";
 type TextLinkBaseProps = {
   children: ReactNode;
   className?: string;
+  block?: boolean;
 };
 
 type TextLinkAsLinkProps = TextLinkBaseProps & {
@@ -21,13 +22,20 @@ type TextLinkAsButtonProps = TextLinkBaseProps & {
 type TextLinkProps = TextLinkAsLinkProps | TextLinkAsButtonProps;
 
 export function TextLink(props: TextLinkProps) {
-  const { children, className } = props;
+  const { children, className, block } = props;
 
-  const classNames = [styles["text-link"], className].filter(Boolean).join(" ");
+  const classNames = [
+    styles["text-link"],
+    block && styles["text-link--block"],
+    className,
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   if ("href" in props && props.href !== undefined) {
-    const { href, onClick: _onClick, ...rest } = props;
+    const { href, onClick: _onClick, block: _block, ...rest } = props;
     void _onClick;
+    void _block;
     return (
       <Link href={href} className={classNames} {...rest}>
         {children}
@@ -35,8 +43,9 @@ export function TextLink(props: TextLinkProps) {
     );
   }
 
-  const { onClick, type = "button", href: _href, ...rest } = props;
+  const { onClick, type = "button", href: _href, block: _block, ...rest } = props;
   void _href;
+  void _block;
   return (
     <button type={type} onClick={onClick} className={classNames} {...rest}>
       {children}
