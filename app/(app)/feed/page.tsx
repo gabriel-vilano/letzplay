@@ -5,7 +5,7 @@ export default function FeedPage() {
     <main>
       <ClearSignupPersistence />
       <h1>Feed</h1>
-      <p>Placeholder — feed sera implementado na Fase 4.</p>
+      <p>Placeholder — feed será implementado na Fase 4.</p>
     </main>
   );
 }

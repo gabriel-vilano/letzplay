@@ -22,11 +22,11 @@ describe("validateName", () => {
     expect(validateName("Jo").valid).toBe(true);
   });
 
-  it("ignora espacos ao redor", () => {
+  it("ignora espaços ao redor", () => {
     expect(validateName("  Jo  ").valid).toBe(true);
   });
 
-  it("rejeita nome com apenas espacos", () => {
+  it("rejeita nome com apenas espaços", () => {
     expect(validateName("   ").valid).toBe(false);
   });
 });
@@ -36,13 +36,13 @@ describe("validateEmail", () => {
     expect(validateEmail("").valid).toBe(false);
   });
 
-  it("rejeita formato invalido", () => {
+  it("rejeita formato inválido", () => {
     expect(validateEmail("abc").valid).toBe(false);
     expect(validateEmail("abc@").valid).toBe(false);
     expect(validateEmail("@gmail.com").valid).toBe(false);
   });
 
-  it("aceita formato valido", () => {
+  it("aceita formato válido", () => {
     expect(validateEmail("user@email.com").valid).toBe(true);
     expect(validateEmail("test.user@domain.co").valid).toBe(true);
   });
@@ -61,13 +61,13 @@ describe("validatePassword", () => {
     expect(result.checks.hasLetter).toBe(false);
   });
 
-  it("rejeita senha sem numero", () => {
+  it("rejeita senha sem número", () => {
     const result = validatePassword("abcdefgh");
     expect(result.valid).toBe(false);
     expect(result.checks.hasNumber).toBe(false);
   });
 
-  it("aceita senha valida", () => {
+  it("aceita senha válida", () => {
     const result = validatePassword("Senha123");
     expect(result.valid).toBe(true);
     expect(result.checks.minLength).toBe(true);
@@ -77,19 +77,19 @@ describe("validatePassword", () => {
 });
 
 describe("validateOtp", () => {
-  it("rejeita codigo com menos de 8 digitos", () => {
+  it("rejeita código com menos de 8 dígitos", () => {
     expect(validateOtp("1234567").valid).toBe(false);
   });
 
-  it("rejeita codigo com letras", () => {
+  it("rejeita código com letras", () => {
     expect(validateOtp("1234567a").valid).toBe(false);
   });
 
-  it("rejeita codigo com mais de 8 digitos", () => {
+  it("rejeita código com mais de 8 dígitos", () => {
     expect(validateOtp("123456789").valid).toBe(false);
   });
 
-  it("aceita codigo de 8 digitos", () => {
+  it("aceita código de 8 dígitos", () => {
     expect(validateOtp("12345678").valid).toBe(true);
   });
 });
@@ -113,7 +113,7 @@ describe("validateUsername", () => {
     expect(validateUsername("User").valid).toBe(false);
   });
 
-  it("aceita lowercase, numeros, pontos e underlines", () => {
+  it("aceita lowercase, números, pontos e underscores", () => {
     expect(validateUsername("gabriel.vilano").valid).toBe(true);
     expect(validateUsername("player_123").valid).toBe(true);
     expect(validateUsername("bt.pro").valid).toBe(true);

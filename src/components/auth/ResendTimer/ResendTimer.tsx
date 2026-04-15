@@ -38,11 +38,11 @@ export function ResendTimer({ onResend, loading }: ResendTimerProps) {
           className={styles.resend__button}
           onClick={handleResend}
         >
-          Reenviar codigo
+          Reenviar código
         </button>
       ) : (
         <span className={styles.resend__text}>
-          Reenviar codigo em {countdown}s
+          Reenviar código em {countdown}s
         </span>
       )}
     </div>

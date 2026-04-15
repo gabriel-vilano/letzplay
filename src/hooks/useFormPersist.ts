@@ -8,7 +8,7 @@ type Setters = Record<string, (value: string) => void>;
 /**
  * Persiste valores de form no sessionStorage.
  * Hidrata ao montar, salva em cada mudança.
- * Nao persistir campos sensiveis (ex: senha) — basta omitir das chaves.
+ * Não persistir campos sensíveis (ex: senha) — basta omitir das chaves.
  */
 export function useFormPersist(
   key: string,
@@ -37,13 +37,13 @@ export function useFormPersist(
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key]);
 
-  // Salvar em cada mudanca
+  // Salvar em cada mudança
   useEffect(() => {
     if (!hydrated.current) return;
     try {
       sessionStorage.setItem(key, JSON.stringify(values));
     } catch {
-      // Ignora (ex: storage cheio ou indisponivel)
+      // Ignora (ex: storage cheio ou indisponível)
     }
   }, [key, values]);
 }
