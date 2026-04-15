@@ -1,0 +1,24 @@
+.auth-form-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-100);
+  text-align: center;
+  margin-bottom: var(--spacing-400);
+}
+
+.auth-form-header__title {
+  font-size: var(--text-title-lg-size);
+  line-height: var(--text-title-lg-line-height);
+  letter-spacing: var(--text-title-lg-tracking);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-foreground-primary);
+}
+
+.auth-form-header__subtitle {
+  font-size: var(--text-body-lg-size);
+  line-height: var(--text-body-lg-line-height);
+  letter-spacing: var(--text-body-lg-tracking);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-foreground-secondary);
+}

@@ -1,0 +1,98 @@
+.avatar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-100);
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.avatar:focus-visible {
+  outline: var(--border-width-thick) solid var(--color-state-focus-ring);
+  outline-offset: var(--spacing-50);
+  border-radius: var(--radius-md);
+}
+
+.avatar:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.avatar__area {
+  position: relative;
+  width: 96px;
+  height: 96px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-background-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color var(--motion-duration-short-3)
+    var(--motion-easing-standard);
+}
+
+@media (hover: hover) {
+  .avatar:hover .avatar__area {
+    background-color: var(--color-background-tertiary);
+  }
+}
+
+.avatar__preview {
+  width: 96px;
+  height: 96px;
+  object-fit: cover;
+  border-radius: var(--radius-full);
+}
+
+.avatar__placeholder {
+  color: var(--color-foreground-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar__badge {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-background-elevated);
+  color: var(--color-foreground-secondary);
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-subtle);
+}
+
+.avatar__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.avatar__label {
+  font-size: var(--text-label-md-size);
+  line-height: var(--text-label-md-line-height);
+  letter-spacing: var(--text-label-md-tracking);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-foreground-secondary);
+  min-height: var(--dimension-tap-target-minimum);
+  display: flex;
+  align-items: center;
+}
+
+.avatar__error {
+  font-size: var(--text-label-md-size);
+  line-height: var(--text-label-md-line-height);
+  letter-spacing: var(--text-label-md-tracking);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-foreground-attention);
+  min-height: var(--dimension-tap-target-minimum);
+  display: flex;
+  align-items: center;
+}

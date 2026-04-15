@@ -9,72 +9,57 @@
 
   /* -----------------------------------------------------------
      ESCALA TIPOGRÁFICA SEMÂNTICA
-
-     Tokens definidos por propriedade individual.
-     Nos componentes, usar font-size, font-weight e line-height
-     separadamente — nunca o shorthand font:.
   ----------------------------------------------------------- */
 
   /* Display */
-  --text-display-1-size:        var(--font-size-4xl);
-  --text-display-1-weight:      var(--font-weight-bold);
-  --text-display-1-line-height: var(--line-height-4xl);
-  --text-display-1-tracking:    var(--font-letter-spacing-display);
+  --text-display-lg-size:        var(--font-size-350);
+  --text-display-lg-line-height: var(--line-height-400);
+  --text-display-lg-tracking:    var(--font-letter-spacing-display);
 
-  --text-display-2-size:        var(--font-size-3xl);
-  --text-display-2-weight:      var(--font-weight-bold);
-  --text-display-2-line-height: var(--line-height-3xl);
-  --text-display-2-tracking:    var(--font-letter-spacing-display);
+  --text-display-md-size:        var(--font-size-300);
+  --text-display-md-line-height: var(--line-height-350);
+  --text-display-md-tracking:    var(--font-letter-spacing-display);
 
-  --text-display-3-size:        var(--font-size-2xl);
-  --text-display-3-weight:      var(--font-weight-bold);
-  --text-display-3-line-height: var(--line-height-2xl);
-  --text-display-3-tracking:    var(--font-letter-spacing-display);
+  --text-display-sm-size:        var(--font-size-250);
+  --text-display-sm-line-height: var(--line-height-300);
+  --text-display-sm-tracking:    var(--font-letter-spacing-display);
 
   /* Title */
-  --text-title-1-size:        var(--font-size-xl);
-  --text-title-1-weight:      var(--font-weight-bold);
-  --text-title-1-line-height: var(--line-height-xl);
+  --text-title-lg-size:        var(--font-size-175);
+  --text-title-lg-line-height: var(--line-height-225);
+  --text-title-lg-tracking:    var(--font-letter-spacing-none);
 
-  --text-title-2-size:        var(--font-size-lg);
-  --text-title-2-weight:      var(--font-weight-bold);
-  --text-title-2-line-height: var(--line-height-lg);
+  --text-title-md-size:        var(--font-size-150);
+  --text-title-md-line-height: var(--line-height-200);
+  --text-title-md-tracking:    var(--font-letter-spacing-none);
 
-  --text-title-3-size:        var(--font-size-md);
-  --text-title-3-weight:      var(--font-weight-bold);
-  --text-title-3-line-height: var(--line-height-md);
+  --text-title-sm-size:        var(--font-size-125);
+  --text-title-sm-line-height: var(--line-height-175);
+  --text-title-sm-tracking:    var(--font-letter-spacing-none);
 
   /* Body */
-  --text-body-lg-size:          var(--font-size-md);
-  --text-body-lg-weight:        var(--font-weight-regular);
-  --text-body-lg-line-height:   var(--line-height-md);
+  --text-body-lg-size:        var(--font-size-100);
+  --text-body-lg-line-height: var(--line-height-150);
+  --text-body-lg-tracking:    var(--font-letter-spacing-none);
 
-  --text-body-size:             var(--font-size-body);
-  --text-body-weight:           var(--font-weight-regular);
-  --text-body-line-height:      var(--line-height-sm);
+  --text-body-md-size:        var(--font-size-087);
+  --text-body-md-line-height: var(--line-height-125);
+  --text-body-md-tracking:    var(--font-letter-spacing-none);
 
-  --text-body-bold-size:        var(--font-size-body);
-  --text-body-bold-weight:      var(--font-weight-bold);
-  --text-body-bold-line-height: var(--line-height-sm);
+  /* Label */
+  --text-label-lg-size:        var(--font-size-087);
+  --text-label-lg-line-height: var(--line-height-125);
+  --text-label-lg-tracking:    var(--font-letter-spacing-none);
 
-  /* Caption */
-  --text-caption-size:             var(--font-size-sm);
-  --text-caption-weight:           var(--font-weight-regular);
-  --text-caption-line-height:      var(--line-height-xs);
-
-  --text-caption-bold-size:        var(--font-size-sm);
-  --text-caption-bold-weight:      var(--font-weight-bold);
-  --text-caption-bold-line-height: var(--line-height-xs);
-
-  /* Signal */
-  --text-signal-size:        var(--font-size-xs);
-  --text-signal-weight:      var(--font-weight-bold);
-  --text-signal-line-height: var(--line-height-xs);
-  --text-signal-tracking:    var(--font-letter-spacing-signal);
+  --text-label-md-size:        var(--font-size-075);
+  --text-label-md-line-height: var(--line-height-100);
+  --text-label-md-tracking:    var(--font-letter-spacing-none);
 
   /* -----------------------------------------------------------
-     COR — BACKGROUND
+     CORES
   ----------------------------------------------------------- */
+
+  /* Background */
   --color-background-primary:          var(--color-neutral-100);
   --color-background-secondary:        var(--color-neutral-200);
   --color-background-tertiary:         var(--color-neutral-300);
@@ -88,10 +73,9 @@
   --color-background-accent-subtle:    var(--color-coral-100);
   --color-background-attention-subtle: var(--color-red-100);
   --color-background-success-subtle:   var(--color-kiwi-100);
+  --color-background-info-subtle:      var(--color-blue-100);
 
-  /* -----------------------------------------------------------
-     COR — FOREGROUND
-  ----------------------------------------------------------- */
+  /* Foreground */
   --color-foreground-primary:      var(--color-neutral-800);
   --color-foreground-secondary:    var(--color-neutral-600);
   --color-foreground-disabled:     var(--color-neutral-400);
@@ -106,9 +90,7 @@
   --color-foreground-on-disabled:  var(--color-neutral-100);
   --color-foreground-link:         var(--color-blue-500);
 
-  /* -----------------------------------------------------------
-     COR — BORDER
-  ----------------------------------------------------------- */
+  /* Border */
   --color-border-subtle:      var(--color-neutral-300);
   --color-border-medium:      var(--color-neutral-500);
   --color-border-strong:      var(--color-neutral-700);
@@ -123,9 +105,7 @@
   --color-border-on-disabled: var(--color-neutral-100);
   --color-border-on-inverse:  var(--color-neutral-100);
 
-  /* -----------------------------------------------------------
-     STATE LAYERS
-  ----------------------------------------------------------- */
+  /* State Layer */
   --color-state-layer-neutral:          rgba(0, 0, 0, 0);
   --color-state-layer-hover:            rgba(0, 0, 0, 0.04);
   --color-state-layer-focus:            rgba(0, 0, 0, 0.04);
@@ -137,21 +117,15 @@
   --color-state-layer-selected-on-strong: rgba(255, 255, 255, 0.20);
   --color-state-focus-ring: #005fcc;
 
-  /* -----------------------------------------------------------
-     MARCA
-  ----------------------------------------------------------- */
+  /* Brand */
   --color-brand: var(--color-coral-500);
 
-  /* -----------------------------------------------------------
-     LOADING / SKELETON
-  ----------------------------------------------------------- */
+  /* Skeleton */
   --color-loading-fill:   #ededed;
   --color-loading-first:  var(--color-neutral-200);
   --color-loading-second: var(--color-neutral-300);
 
-  /* -----------------------------------------------------------
-     SCRIM
-  ----------------------------------------------------------- */
+  /* Scrim */
   --color-scrim: rgba(0, 0, 0, 0.3);
 
 }

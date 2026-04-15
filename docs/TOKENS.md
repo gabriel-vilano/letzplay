@@ -55,17 +55,20 @@ Variável CSS injetada pelo Next.js: `--font-arimo`.
 
 ### Tamanhos de fonte
 
+Naming: o sufixo numérico representa o valor em centésimos de rem (ex: `150` = `1.5rem` = 24px). Torna o valor explícito no nome, sem precisar consultar tabela.
+
 | Token | rem | px |
 |---|---|---|
-| `--font-size-xs` | 0.625rem | 10px |
-| `--font-size-sm` | 0.75rem | 12px |
-| `--font-size-body` | 0.875rem | 14px — base do corpo |
-| `--font-size-md` | 1rem | 16px |
-| `--font-size-lg` | 1.25rem | 20px |
-| `--font-size-xl` | 1.5rem | 24px |
-| `--font-size-2xl` | 1.875rem | 30px |
-| `--font-size-3xl` | 2.25rem | 36px |
-| `--font-size-4xl` | 2.875rem | 46px |
+| `--font-size-062` | 0.625rem | 10px |
+| `--font-size-075` | 0.75rem | 12px |
+| `--font-size-087` | 0.875rem | 14px — base do corpo |
+| `--font-size-100` | 1rem | 16px |
+| `--font-size-125` | 1.25rem | 20px |
+| `--font-size-150` | 1.5rem | 24px |
+| `--font-size-200` | 2rem | 32px |
+| `--font-size-250` | 2.5rem | 40px |
+| `--font-size-300` | 3rem | 48px |
+| `--font-size-350` | 3.5rem | 56px |
 
 ### Pesos
 
@@ -80,14 +83,15 @@ Valores absolutos (não relativos) para ritmo vertical consistente independente 
 
 | Token | rem | px |
 |---|---|---|
-| `--line-height-xs` | 1rem | 16px |
-| `--line-height-sm` | 1.25rem | 20px |
-| `--line-height-md` | 1.5rem | 24px |
-| `--line-height-lg` | 1.75rem | 28px |
-| `--line-height-xl` | 2rem | 32px |
-| `--line-height-2xl` | 2.5rem | 40px |
-| `--line-height-3xl` | 2.875rem | 46px |
-| `--line-height-4xl` | 3.5rem | 56px |
+| `--line-height-100` | 1rem | 16px |
+| `--line-height-125` | 1.25rem | 20px |
+| `--line-height-150` | 1.5rem | 24px |
+| `--line-height-175` | 1.75rem | 28px |
+| `--line-height-200` | 2rem | 32px |
+| `--line-height-250` | 2.5rem | 40px |
+| `--line-height-300` | 3rem | 48px |
+| `--line-height-350` | 3.5rem | 56px |
+| `--line-height-400` | 4rem | 64px |
 
 ### Letter-spacing
 
@@ -302,45 +306,75 @@ Intenções de design. Sempre apontam para primitivos. Usados diretamente nos co
 
 ### Escala tipográfica semântica
 
-Os tokens de tipografia são definidos por propriedade individual (size, weight, line-height).
-Nos componentes, usar as propriedades separadas — nunca o shorthand `font:`.
+Sistema de **4 roles** (`display`, `title`, `body`, `label`), com variantes por tamanho no padrão t-shirt (`sm` / `md` / `lg`). O naming é consistente com `--spacing-*`, `--radius-*` e `--dimension-*`.
 
-**Por que não usar o shorthand `font:` nos componentes:**
-O shorthand redefine todas as sub-propriedades da fonte (incluindo `font-variant`, `font-stretch`),
-dificultando sobrescritas pontuais. Os tokens individuais mantêm a composabilidade.
+Cada escala define apenas **size + line-height + tracking**. **O peso é desacoplado** — o componente escolhe `font-weight` independentemente via `--font-weight-regular` ou `--font-weight-bold`. Isso permite qualquer combinação (ex: title regular, body bold) sem precisar inventar escala nova.
 
-| Escala | Size | Weight | Line-height | Tracking | Uso no produto |
-|---|---|---|---|---|---|
-| `display-1` | `--font-size-4xl` | bold | `--line-height-4xl` | display | números de ranking, scores |
-| `display-2` | `--font-size-3xl` | bold | `--line-height-3xl` | display | |
-| `display-3` | `--font-size-2xl` | bold | `--line-height-2xl` | display | |
-| `title-1` | `--font-size-xl` | bold | `--line-height-xl` | — | nome do jogador no perfil |
-| `title-2` | `--font-size-lg` | bold | `--line-height-lg` | — | cabeçalho de seção |
-| `title-3` | `--font-size-md` | bold | `--line-height-md` | — | subtítulo |
-| `body-lg` | `--font-size-md` | regular | `--line-height-md` | — | corpo grande |
-| `body` | `--font-size-body` | regular | `--line-height-sm` | — | conteúdo, feed |
-| `body-bold` | `--font-size-body` | bold | `--line-height-sm` | — | nome do torneio |
-| `caption` | `--font-size-sm` | regular | `--line-height-xs` | — | datas, metadata |
-| `caption-bold` | `--font-size-sm` | bold | `--line-height-xs` | — | labels secundários |
-| `signal` | `--font-size-xs` | bold | `--line-height-xs` | signal | badges, status, pills |
+**Por que não usar o shorthand `font:`:** ele redefine sub-propriedades (`font-variant`, `font-stretch`), não cobre `letter-spacing`, e acopla família à escala. As propriedades individuais mantêm a composabilidade.
 
-Exemplo de uso num componente:
+#### Roles
+
+| Role | Propósito | Característica |
+|---|---|---|
+| `display` | Números grandes, scores, ranking, logo | Tracking negativo (`-0.6px`) |
+| `title` | Headings de página e seção | Sem tracking |
+| `body` | Prose, descrições, input text | Sem tracking, voltada pra leitura |
+| `label` | Form labels, helper, metadata, botões, (futuro) badges/pills/status | Sem tracking por padrão |
+
+#### Escalas disponíveis
+
+| Escala | Size | Line-height | Tracking | Uso típico |
+|---|---|---|---|---|
+| `display-lg` | `--font-size-350` (56px) | `--line-height-400` (64px) | display (`-0.6px`) | Números hero (ranking, score) |
+| `display-md` | `--font-size-300` (48px) | `--line-height-350` (56px) | display (`-0.6px`) | Números grandes |
+| `display-sm` | `--font-size-250` (40px) | `--line-height-300` (48px) | display (`-0.6px`) | Números médios |
+| `title-lg` | `--font-size-200` (32px) | `--line-height-250` (40px) | — | Headers de páginas de auth |
+| `title-md` | `--font-size-150` (24px) | `--line-height-200` (32px) | — | Títulos de seção, OTP input |
+| `title-sm` | `--font-size-125` (20px) | `--line-height-175` (28px) | — | Subtítulos, headings terciários |
+| `body-lg` | `--font-size-100` (16px) | `--line-height-150` (24px) | — | Descrições de página, corpo grande |
+| `body-md` | `--font-size-087` (14px) | `--line-height-125` (20px) | — | Prose, input text, texto secundário |
+| `label-lg` | `--font-size-087` (14px) | `--line-height-125` (20px) | — | Texto de botão, rótulos de ação |
+| `label-md` | `--font-size-075` (12px) | `--line-height-100` (16px) | — | Form labels, helper, metadata, alerts, toasts |
+
+**Observação sobre `body-md` vs `label-lg`:** têm valores idênticos (14px/20lh) mas nomes diferentes. O nome comunica **papel**, não tamanho — `.button { font-size: var(--text-label-lg-size) }` deixa claro que é rótulo de ação, enquanto `.description { font-size: var(--text-body-md-size) }` indica prose. Podem evoluir separadamente.
+
+#### Padrão de uso no componente
 
 ```css
-/* RankingCard.module.css */
-.position {
-  font-size: var(--text-display-1-size);
-  font-weight: var(--text-display-1-weight);
-  line-height: var(--text-display-1-line-height);
-  letter-spacing: var(--text-display-1-tracking);
+/* Button.module.css — peso bold aplicado explicitamente */
+.btn {
+  font-size: var(--text-label-lg-size);
+  line-height: var(--text-label-lg-line-height);
+  letter-spacing: var(--text-label-lg-tracking);
+  font-weight: var(--font-weight-bold);
 }
 
-.playerName {
-  font-size: var(--text-title-1-size);
-  font-weight: var(--text-title-1-weight);
-  line-height: var(--text-title-1-line-height);
+/* HeroNumber.module.css — display tracking negativo */
+.number {
+  font-size: var(--text-display-md-size);
+  line-height: var(--text-display-md-line-height);
+  letter-spacing: var(--text-display-md-tracking);
+  font-weight: var(--font-weight-bold);
+}
+
+/* Description.module.css — body regular */
+.text {
+  font-size: var(--text-body-lg-size);
+  line-height: var(--text-body-lg-line-height);
+  letter-spacing: var(--text-body-lg-tracking);
+  font-weight: var(--font-weight-regular);
 }
 ```
+
+#### YAGNI — adicionar variantes conforme precisar
+
+Só existem hoje as variantes com consumidor real ou mapeadas para telas próximas do roadmap. Quando surgir caso de uso para:
+
+- **`body-sm`**: texto muito pequeno de prose (raro, talvez desnecessário).
+- **`label-sm`** (10px, possivelmente com tracking positivo): quando o primeiro badge/pill/status for construído. Neste ponto decidir se volta a chamar `signal`, se fica `label-sm`, ou se vira um role `overline`.
+- **`label-lg-caps`** (com tracking positivo para maiúsculas): eyebrows, category labels.
+
+Adicionar uma variante é trivial: estender a tabela em `semantic.css` e documentar aqui.
 
 ### Cores — background
 
@@ -359,6 +393,7 @@ Exemplo de uso num componente:
 | `--color-background-accent-subtle` | `--color-coral-100` | coral claro — highlight sutil |
 | `--color-background-attention-subtle` | `--color-red-100` | erro sutil |
 | `--color-background-success-subtle` | `--color-kiwi-100` | sucesso sutil |
+| `--color-background-info-subtle` | `--color-blue-100` | information sutil — usado pelo Alert quiet |
 
 ### Cores — foreground
 
