@@ -8,6 +8,7 @@ const ALWAYS_PUBLIC_ROUTES = [
   "/recuperar-senha",
   "/recuperar-senha/verificar",
   "/recuperar-senha/nova-senha",
+  "/dev/cards",
 ];
 
 export async function proxy(request: NextRequest) {
