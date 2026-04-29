@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Heart, ChatCircle, ShareNetwork } from "@phosphor-icons/react";
+import { HeartIcon, ChatCircleIcon, ShareNetworkIcon } from "@phosphor-icons/react";
 import { Icon } from "@/src/components/ui/Icon";
 import styles from "./CardFooter.module.css";
 
@@ -27,7 +27,7 @@ export function CardFooter({
         aria-label={liked ? "Descurtir" : "Curtir"}
       >
         <Icon
-          icon={Heart}
+          icon={HeartIcon}
           size="md"
           weight={liked ? "fill" : "regular"}
           aria-hidden={true}
@@ -36,12 +36,12 @@ export function CardFooter({
       </button>
 
       <button className={styles.action} onClick={onComment} aria-label="Comentar">
-        <Icon icon={ChatCircle} size="md" weight="regular" aria-hidden={true} />
+        <Icon icon={ChatCircleIcon} size="md" weight="regular" aria-hidden={true} />
         <span className={styles.action__label}>Comentar</span>
       </button>
 
       <button className={styles.action} onClick={onShare} aria-label="Compartilhar">
-        <Icon icon={ShareNetwork} size="md" weight="regular" aria-hidden={true} />
+        <Icon icon={ShareNetworkIcon} size="md" weight="regular" aria-hidden={true} />
         <span className={styles.action__label}>Compartilhar</span>
       </button>
     </footer>

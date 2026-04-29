@@ -1,8 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { Handshake } from "@phosphor-icons/react";
+import { HandshakeIcon } from "@phosphor-icons/react";
 import { Icon } from "@/src/components/ui/Icon";
+import { formatCategoryLabel } from "@/src/lib/formatters";
 import type { CardHeader as CardHeaderData } from "@/src/types/feed";
 import styles from "./CardHeader.module.css";
 
@@ -40,21 +41,14 @@ export function CardHeader({
         <div className={styles.header__info}>
           <p className={styles.header__line1}>
             <span className={styles.header__phase}>{data.phase}</span>
-            <span className={styles.header__dot}>·</span>
             <span className={styles.header__competition}>
-              {data.competition_name} — {data.category}
+              {data.competition_name} — {formatCategoryLabel(data.category)}
             </span>
           </p>
           <p className={styles.header__line2}>
             <span>@{data.org.username}</span>
             <span className={styles.header__dot}>·</span>
             <span>{timestamp}</span>
-            {!data.is_following && (
-              <>
-                <span className={styles.header__dot}>·</span>
-                <button className={styles.header__follow}>Seguir</button>
-              </>
-            )}
           </p>
         </div>
       </div>
@@ -67,7 +61,7 @@ export function CardHeader({
       <div className={styles.header__avatar}>
         {showHandshake ? (
           <div className={styles.header__handshake} aria-hidden>
-            <Icon icon={Handshake} size="md" weight="regular" />
+            <Icon icon={HandshakeIcon} size="md" weight="regular" />
           </div>
         ) : data.player.avatar_url ? (
           <Image

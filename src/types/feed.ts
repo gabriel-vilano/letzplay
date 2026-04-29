@@ -5,6 +5,7 @@ export interface PlayerInfo {
   name: string;
   username: string;
   avatar_url: string | null;
+  total_matches: number;
 }
 
 export interface OrgInfo {
@@ -14,6 +15,14 @@ export interface OrgInfo {
   avatar_url: string | null;
 }
 
+export interface Category {
+  gender: 'M' | 'F' | 'mixed';
+  modality: 'singles' | 'doubles';
+  level_min: string | null;
+  level_max: string | null;
+  age_group: string | null;
+}
+
 // --- Card headers ---
 
 export interface OrgCardHeader {
@@ -21,8 +30,7 @@ export interface OrgCardHeader {
   org: OrgInfo;
   phase: string;
   competition_name: string;
-  category: string;
-  is_following: boolean;
+  category: Category;
 }
 
 export interface PlayerCardHeader {
@@ -47,17 +55,14 @@ export interface DoublesSide {
 
 export type Side = SinglesSide | DoublesSide;
 
-// Match sides include game count stats per player
 export interface SinglesMatchSide {
   format: 'singles';
   player: PlayerInfo;
-  games: number;
 }
 
 export interface DoublesMatchSide {
   format: 'doubles';
   players: [PlayerInfo, PlayerInfo];
-  games: [number, number]; // [player1_games, player2_games]
 }
 
 export type MatchSide = SinglesMatchSide | DoublesMatchSide;
@@ -119,7 +124,7 @@ export interface MatchCard {
 export interface CompetitionInfo {
   id: string;
   name: string;
-  category: string;
+  category: Category;
   date_display: string;     // pre-formatted, e.g. "20 e 21 de maio de 2026"
   location: string;
   enrollment_count: number;
