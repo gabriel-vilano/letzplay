@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# LetzPlay
 
-## Getting Started
+Redesign focado em Beach Tennis do app LetzPlay — plataforma de gestão de rankings, torneios e comunidade de esportes de raquete.
 
-First, run the development server:
+> Side project com três objetivos simultâneos: portfolio de Design Engineer, produto real para lançamento, aprendizado técnico prático.
+
+## Stack
+
+Next.js 16 (App Router) · TypeScript 5 · React 19 · CSS Modules + Custom Properties · Supabase (Auth, PostgreSQL, Storage, RLS) · Vercel (deploy automático) · Vitest.
+
+## Setup
 
 ```bash
+git clone <repo-url>
+cd letzplay
+npm install
+cp .env.example .env.local
+# preencher .env.local com as credenciais do Supabase
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+App disponível em [http://localhost:3000](http://localhost:3000). O `dev` roda com host `0.0.0.0` para permitir testes em mobile via IP local da rede.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Comandos
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Comando         | O que faz                            |
+| --------------- | ------------------------------------ |
+| `npm run dev`   | Dev server (host `0.0.0.0`)          |
+| `npm run build` | Build de produção                    |
+| `npm start`     | Roda o build localmente              |
+| `npm run lint`  | ESLint                               |
+| `npm test`      | Testes (Vitest)                      |
 
-## Learn More
+## Variáveis de ambiente
 
-To learn more about Next.js, take a look at the following resources:
+Copiar `.env.example` para `.env.local` e preencher:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| Variável                          | Descrição                                       |
+| --------------------------------- | ----------------------------------------------- |
+| `NEXT_PUBLIC_SUPABASE_URL`        | URL do projeto Supabase                         |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY`   | Anon key do Supabase (RLS protege os dados)     |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Onde olhar para entender o projeto
 
-## Deploy on Vercel
+| Documento              | Conteúdo                                                                                |
+| ---------------------- | --------------------------------------------------------------------------------------- |
+| `CLAUDE.md`            | Convenções, padrões de código, hurdles, filosofia de documentação. Onboarding completo |
+| `docs/PRODUCT.md`      | Visão do produto, escopo do MVP, princípios de design, métricas de sucesso              |
+| `docs/TOKENS.md`       | Design system: tokens primitivos, semânticos, padrões de implementação                  |
+| `docs/GIT_WORKFLOW.md` | Estrutura de branches, fluxo de PR, versionamento                                       |
+| `docs/components/`     | Documentação de componentes individuais                                                 |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Planejamento
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Tracking de execução em **GitHub Issues**. Decisões duráveis ficam em markdown no repo (`CLAUDE.md`, `docs/`).
+
+## Hurdles conhecidos
+
+Problemas resolvidos e seus workarounds estão no `CLAUDE.md`, seção "Common hurdles". Atualizar sempre que resolver algo não-óbvio.

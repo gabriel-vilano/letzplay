@@ -23,15 +23,16 @@ Não utilizamos branches de ambiente (develop, staging, etc). O projeto segue um
 <tipo>/<descrição-curta>
 ```
 
-| Tipo | Quando usar | Exemplo |
-|------|-------------|---------|
-| `feature/` | Nova funcionalidade | `feature/auth` |
-| `fix/` | Correção de bug | `fix/login-validation` |
-| `chore/` | Config, dependências, CI | `chore/setup-github-actions` |
+| Tipo        | Quando usar                            | Exemplo                             |
+| ----------- | -------------------------------------- | ----------------------------------- |
+| `feature/`  | Nova funcionalidade                    | `feature/auth`                      |
+| `fix/`      | Correção de bug                        | `fix/login-validation`              |
+| `chore/`    | Config, dependências, CI               | `chore/setup-github-actions`        |
 | `refactor/` | Reestruturação sem mudar comportamento | `refactor/extract-button-component` |
-| `docs/` | Documentação significativa | `docs/api-reference` |
+| `docs/`     | Documentação significativa             | `docs/api-reference`                |
 
 Regras:
+
 - Sempre kebab-case
 - Curto e descritivo (2-4 palavras)
 - Sem prefixo de ticket (não temos issue tracker formal)
@@ -69,20 +70,20 @@ git branch -d feature/auth
 ```bash
 git checkout master
 git add <arquivos>
-git commit -m "docs: atualizar roadmap com status da fase 3"
+git commit -m "docs: atualizar README com instruções de setup"
 git push
 ```
 
 ### Regra de decisão
 
-| Situação | Destino |
-|----------|---------|
-| Muda comportamento do app | Branch → PR |
-| Adiciona funcionalidade | Branch → PR |
-| Refactor significativo | Branch → PR |
-| Edição em CLAUDE.md, ROADMAP.md, docs | Direto em master |
-| Config (.gitignore, .env.example) | Direto em master |
-| Fix de typo ou ajuste trivial | Direto em master |
+| Situação                              | Destino          |
+| ------------------------------------- | ---------------- |
+| Muda comportamento do app             | Branch → PR      |
+| Adiciona funcionalidade               | Branch → PR      |
+| Refactor significativo                | Branch → PR      |
+| Edição em CLAUDE.md, docs/\*          | Direto em master |
+| Config (.gitignore, .env.example)     | Direto em master |
+| Fix de typo ou ajuste trivial         | Direto em master |
 
 ---
 
@@ -114,20 +115,6 @@ v0.MINOR.PATCH
 MINOR → nova feature ou marco do roadmap
 PATCH → fix ou ajuste dentro de uma feature
 ```
-
-### Marcos planejados
-
-| Tag | Marco | Fase |
-|-----|-------|------|
-| `v0.1.0` | Fundação (setup + design system) | 3 |
-| `v0.2.0` | Auth funcional | 3/4 |
-| `v0.3.0` | Perfil do jogador | 4 |
-| `v0.4.0` | Ranking com filtros | 4 |
-| `v0.5.0` | Registro de partidas | 4 |
-| `v0.6.0` | Head-to-head | 4 |
-| `v0.7.0` | Feed de atividade | 4 |
-| `v0.8.0` | Busca e notificações | 4 |
-| `v1.0.0` | MVP completo | 5 |
 
 ### Como criar uma tag
 

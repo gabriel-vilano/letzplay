@@ -1,13 +1,13 @@
 # CLAUDE.md — LetzPlay
 
 @AGENTS.md
-@docs/ROADMAP.md
+@docs/PRODUCT.md
 @docs/GIT_WORKFLOW.md
 @docs/TOKENS.md
 
 ## Sobre o projeto
 
-LetzPlay é um redesign focado em Beach Tennis do app LetzPlay, uma plataforma de gestão de rankings, torneios e comunidade de esportes de raquete. O objetivo é reconstruir a experiência do jogador competitivo de Beach Tennis com uma interface mais intuitiva e uma arquitetura moderna.
+Redesign focado em Beach Tennis do app LetzPlay, uma plataforma de gestão de rankings, torneios e comunidade de esportes de raquete. O objetivo é reconstruir a experiência do jogador competitivo de Beach Tennis com uma interface mais intuitiva e uma arquitetura moderna.
 
 Este é um side project com três objetivos simultâneos: portfolio de Design Engineer, produto real para lançamento, e aprendizado técnico prático. Portanto, o Claude deve agir de forma colaborativa e explicativa — como um professor ensina um aluno — para que o desenvolvedor possa não só executar, mas entender e absorver todos os conceitos.
 
@@ -22,6 +22,21 @@ O desenvolvedor é um designer (~4 anos em branding/marketing/gráfico, ~2 anos 
 - **Conecte com o que já se sabe.** Use analogias com design, Figma e UX sempre que possível.
 - **Pergunte antes de assumir.** Se uma decisão impacta design ou experiência, pergunte antes de implementar.
 
+## Filosofia de documentação
+
+Documentamos o que é estável. Decisões, padrões, princípios, hurdles, convenções — coisas que mudam raramente e que, quando mudarem, merecem PR e `git blame`. **Não documentamos estado.** Status de tarefa, progresso de fase, "o que vem depois" volúvel pertence ao tracker (GitHub Issues), não ao repo.
+
+**Teste antes de criar ou manter um doc:** "Se eu não atualizar isso por 3 meses, ele ainda estará correto?" Se a resposta é não, é estado disfarçado de documentação. Vai pro tracker.
+
+**Mapa de docs:**
+
+- `CLAUDE.md` — convenções, padrões, hurdles, filosofia
+- `docs/PRODUCT.md` — visão, escopo MVP, princípios de design, métricas
+- `docs/TOKENS.md` — design system
+- `docs/GIT_WORKFLOW.md` — workflow de branches, PR, versionamento
+- `docs/components/<nome>.md` — documentação de componente individual
+- **GitHub Issues** — tarefas, progresso, próximos passos
+
 ## Stack técnica
 
 - **Framework:** Next.js 16 (App Router)
@@ -33,7 +48,7 @@ O desenvolvedor é um designer (~4 anos em branding/marketing/gráfico, ~2 anos 
   - `@supabase/supabase-js` ^2.101.1
   - `@supabase/ssr` ^0.10.0
 - **Deploy:** Vercel (deploy automático via GitHub)
-- **Repositório:** GitHub (privado, nome "letzplay")
+- **Repositório:** GitHub (privado, nome "letzplay") — Issues como tracker de execução
 - **IDE:** VS Code com Claude Code (plano Max)
 
 ## Convenções de código
@@ -60,6 +75,17 @@ O desenvolvedor é um designer (~4 anos em branding/marketing/gráfico, ~2 anos 
 - Constantes globais: UPPER_SNAKE_CASE
 - Pastas: kebab-case
 
+### Regras numéricas
+
+Restrições mensuráveis, otimizadas para que o agente raciocine sobre o código com atenção plena (Read trunca em 2000 linhas; atenção degrada com tamanho do arquivo).
+
+- **Funções:** 4–20 linhas. Acima disso, dividir.
+- **Arquivos:** abaixo de 500 linhas, idealmente 200–300. Acima disso, extrair responsabilidades.
+- **Indentação:** máximo 2 níveis por função. Preferir early return sobre `else` aninhado.
+- **Tipos:** nunca `any`, nunca função sem assinatura tipada, nunca `Record<string, unknown>` quando o shape é conhecido.
+- **Nomes:** específicos e únicos. Evitar genéricos (`data`, `handler`, `Manager`, `Service`). Antes de aceitar um nome novo, mentalmente: `grep` por ele retorna < 5 resultados relevantes? Se retorna muito ruído, refinar.
+- **Mensagens de exceção:** incluir o valor que causou o problema e o formato esperado. Ex: `` `OTP inválido: recebi '${code}', esperado 8 dígitos numéricos` `` em vez de `"OTP inválido"`.
+
 ### Estilo
 
 - Código (variáveis, funções, tipos): inglês
@@ -71,6 +97,14 @@ O desenvolvedor é um designer (~4 anos em branding/marketing/gráfico, ~2 anos 
 - Design tokens definidos como CSS Custom Properties em `styles/tokens/`
 - Nomenclatura BEM dentro dos arquivos `.module.css`: `.card__header`, `.btn--primary`
 - Mobile-first, responsivo depois
+
+### Comentários
+
+- **WHY, não WHAT.** Código bem nomeado já diz o que faz. Comentário existe para justificar decisão não óbvia: workaround para bug upstream, constraint de negócio, ordem específica que importa, alternativa que parecia óbvia mas não funciona.
+- **Não apagar comentários em refactor.** Se um comentário existe, presume-se que carrega proveniência ou intenção. Em refactor, preservar — só remover quando se confirma que ficou redundante ou errado. Comentário óbvio (`// increment counter`) é exceção e pode ir.
+- **Docstrings em funções públicas:** intenção em uma linha + um exemplo de uso quando o uso não for óbvio.
+- **Referenciar issues, PRs ou commits** quando uma linha existe por causa de um bug específico ou constraint de lib externa. Ex: `// workaround: supabase-js@2.101 não trata expired session em verifyOtp (#123)`.
+- **Não comentar o óbvio.** `i++ // increment i` desperdiça tokens e atenção do agente.
 
 ### Ícones
 
@@ -86,7 +120,7 @@ O desenvolvedor é um designer (~4 anos em branding/marketing/gráfico, ~2 anos 
 
 ## Documentação de componentes
 
-Cada componente do sistema tem seu arquivo de documentação em `docs/components/`.
+Cada novo componente do design system ganha seu arquivo de documentação em `docs/components/`.
 Incluir o arquivo relevante no início da sessão quando for trabalhar num componente específico.
 
 ```
@@ -94,7 +128,7 @@ docs/
   TOKENS.md              ← tokens primitivos e semânticos (referenciado via @ acima)
   components/
     icon.md              ← componente Icon
-    button.md            ← (a criar quando Button for documentado)
+    ...                  ← um arquivo por componente do DS
 ```
 
 ## Supabase
@@ -108,7 +142,7 @@ docs/
 
 ### Sobre o ecossistema de Beach Tennis
 
-- Rankings são contínuos (semestre), culminando em "Finals" para os 8 melhores duplas
+- Rankings são contínuos (semestre), culminando em "Finals" para as 8 melhores duplas
 - Torneios são eventos discretos (1-2 dias de fim de semana)
 - Marcação de jogos de ranking acontece no WhatsApp, não no app
 - O LetzPlay é um app de competição — quem não compete não tem motivo para usá-lo
@@ -145,6 +179,16 @@ Foco: jogador competitivo de Beach Tennis.
 
 ## Qualidade e disciplina
 
+### Calibração — onde IA tende a errar
+
+Áreas onde o Claude deve se questionar ativamente, em vez de seguir o impulso natural do modelo:
+
+- **Decisões de arquitetura.** Tendência ao over-engineering — mais camadas, mais abstrações, mais estados do que o problema pede. Antes de propor 4+ estados/camadas, perguntar: "existe versão mais simples?".
+- **Conhecimento de domínio.** Beach Tennis, ranking competitivo, JTBDs do jogador — são contextos que o Gabriel conhece e o Claude não. Em decisões com peso de domínio, perguntar antes de assumir.
+- **Manter opinião forte em texto.** Tendência a suavizar tudo, "balancear" demais. Quando o Gabriel pede análise crítica, manter a posição.
+- **Segurança proativa.** O Claude implementa o caminho feliz quando pedem. Raramente sugere proteções extras (rate limit, validação no boundary, retry com backoff). Se a feature toca dado sensível ou rede, sinalizar explicitamente quais proteções fazem sentido.
+- **Priorização.** O Claude executa qualquer pedido com igual entusiasmo, mesmo quando o pedido é secundário. Se o trabalho parece desviar de algo mais importante, perguntar.
+
 ### Guardrails (intervenções proativas)
 
 O Claude deve sinalizar proativamente quando:
@@ -157,9 +201,10 @@ O Claude deve sinalizar proativamente quando:
 
 ### Testes
 
-- Não exigir TDD rigoroso (teste antes do código). A abordagem é: implementar a feature, depois escrever testes dos fluxos críticos
-- Prioridade de testes: auth (login, signup, validações), operações de banco (criar perfil, registrar partida), e fluxos que envolvem dados sensíveis
-- Framework de testes será definido no início da Fase 3
+- **Framework:** Vitest. Rodar com `npm test`. Arquivos `<nome>.test.ts(x)` ao lado do código testado
+- **Abordagem equilibrada:** não exige TDD rigoroso, mas todo fluxo crítico ganha teste antes de ser considerado "pronto". Testar imediatamente após implementar — não deixar acumular dívida de teste
+- **Prioridade de cobertura:** auth (login, signup, validações), operações de banco (criar perfil, registrar partida), validações de input, e qualquer fluxo que envolva dados sensíveis
+- **Bug fix → teste de regressão.** Todo bug corrigido ganha um teste que reproduziria o bug, para evitar regressão futura
 
 ### Oferecer a versão simples primeiro
 
@@ -204,6 +249,19 @@ Daí acessar `http://<IP-do-dev>:3000` do celular. Em prod tudo funciona.
 **Sintoma:** Primeiro tap em um elemento com regra `:hover` não dispara `click` no iOS — aplica o estado hover e espera o segundo tap.
 
 **Solução:** Envolver todas as regras `:hover` em `@media (hover: hover)` para que só apliquem em dispositivos com cursor real. Padrão seguido em todos os `.module.css` do DS.
+
+### Stack de avatares em duplas no CardHeader
+
+**Sintoma:** CardHeader renderiza só player_a.avatar_url em cards de enrollment duplas.
+
+**Solução pendente:** estender CardHeader para receber player_b quando enrollment_format === 'doubles' e renderizar stack com offset 8px.
+
+**Quando resolver:** ao evoluir o CardHeader para o feed real.
+
+### Componentes com stubs sem comportamento
+
+ProfileMiniCard, H2HButton, botões Torcer e "+ Adicionar" foram implementados como <button> sem onClick.
+Quando resolver: plugar handlers e <Link> ao integrar esses componentes com o feed real.
 
 ## Regras gerais
 
