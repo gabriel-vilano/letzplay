@@ -1,0 +1,63 @@
+import {
+  Meta,
+  Subtitle,
+  Canvas,
+  ArgTypes,
+} from "@storybook/addon-docs/blocks";
+import * as LogoStories from "./Logo.stories";
+
+<Meta of={LogoStories} />
+
+<Subtitle>Logo da marca LetzPlay — único, fixo, otimizado.</Subtitle>
+
+**Código-fonte:** [`src/components/icons/Logo.tsx`](https://github.com/gabriel-vilano/letzplay/blob/master/src/components/icons/Logo.tsx)
+
+## Visão geral
+
+`Logo` renderiza o logo da marca via `next/image` com `priority` (carregado fora da fila de lazy-loading porque costuma estar above-the-fold). Tamanho e cor são fixos por design — variantes não são expostas como props.
+
+<Canvas of={LogoStories.Default} />
+
+## Estados
+
+### Em fundo escuro
+
+Validação de contraste. O logo deve permanecer legível sobre `--color-background-strong`.
+
+<Canvas of={LogoStories.OnDarkBackground} />
+
+## Quando usar
+
+- Header de páginas de auth (login, signup, recuperar senha)
+- Header global da app (quando existir)
+- Empty states de marca, splash screens
+
+## Acessibilidade
+
+- `alt="LetzPlay"` aplicado automaticamente — leitor de tela anuncia o nome da marca
+- `priority` no `next/image` evita CLS (layout shift) ao carregar
+- Tamanho fixo (208×56) com aspect ratio preservado — sem squish/stretch
+
+## Evitar
+
+- ❌ **Distorcer aspect ratio** — width/height vêm definidos, não sobrescrever só uma das dimensões
+- ❌ **Mudar cor do logo** — a marca tem cor fixa; recolorir compromete identidade visual
+- ❌ **Usar `Logo` como ícone genérico** em listas ou placeholders — é elemento de marca, não decoração
+- ❌ **Substituir por SVG inline ad-hoc** — sempre via componente, garante consistência de tamanho e alt
+
+## API
+
+<ArgTypes of={LogoStories} />
+
+## Decisões de design
+
+**Por que PNG em vez de SVG?**
+A marca tem detalhes de cor que ficam mais limpos como bitmap nessa dimensão fixa. Em redesigns futuros pra escalabilidade arbitrária (ex: logo gigante em landing page), considerar SVG — por ora, PNG cobre todos os casos atuais.
+
+**Por que sem prop `size`?**
+Logo aparece em pouquíssimos lugares e sempre no mesmo contexto (cabeçalho). Adicionar `size` antes de ter caso de uso real seria over-engineering. Se surgir necessidade, expandir como prop com 2-3 tamanhos semânticos.
+
+## Referências
+
+- Asset: `public/brand/letzplay.png` (208×56)
+- [next/image documentation](https://nextjs.org/docs/app/api-reference/components/image)
