@@ -1,0 +1,53 @@
+import {
+  Meta,
+  Subtitle,
+  Canvas,
+  ArgTypes,
+} from "@storybook/addon-docs/blocks";
+import * as AuthFormContainerStories from "./AuthFormContainer.stories";
+
+<Meta of={AuthFormContainerStories} />
+
+<Subtitle>
+  Wrapper das telas de auth — `<main>` com largura/espaçamento padronizados.
+</Subtitle>
+
+**Código-fonte:** [`src/components/auth/AuthFormContainer/AuthFormContainer.tsx`](https://github.com/gabriel-vilano/letzplay/blob/master/src/components/auth/AuthFormContainer/AuthFormContainer.tsx)
+
+## Visão geral
+
+`AuthFormContainer` é o `<main>` que envelopa as telas de auth (login, signup, recuperar senha). Centraliza largura máxima, padding lateral mobile e espaçamento entre header e form. Conteúdo é responsabilidade do consumidor.
+
+<Canvas of={AuthFormContainerStories.Default} />
+
+## Quando usar
+
+- Toda tela em `app/(auth)/**/page.tsx` envolve seu conteúdo neste componente
+- Quando a tela tem um único formulário centralizado vertical em mobile
+- Como elemento estrutural — não como wrapper genérico de qualquer página
+
+## Componentes relacionados
+
+- [`AuthFormHeader`](?path=/docs/auth-authformheader--docs) — título + subtítulo, costuma ser o primeiro filho
+- [`FormInput`](?path=/docs/ui-forminput--docs) — campos de texto/email/senha
+- [`Button`](?path=/docs/ui-button--docs) — ação primária do form (tipicamente `fullWidth`)
+- [`TextLink`](?path=/docs/ui-textlink--docs) — links auxiliares ("Esqueci a senha", "Já tem conta?")
+
+## Acessibilidade
+
+- Renderiza `<main>` — landmark de conteúdo principal anunciado por leitores de tela
+- Apenas um `<main>` por página (regra HTML); por isso não usar este componente em pedaços ou modais
+
+## Evitar
+
+- ❌ **Aninhar AuthFormContainers** — só um `<main>` por documento
+- ❌ **Usar fora de telas de auth** — pra outras páginas, criar wrapper específico do contexto
+
+## API
+
+<ArgTypes of={AuthFormContainerStories} />
+
+## Referências
+
+- [MDN — `<main>` element](https://developer.mozilla.org/docs/Web/HTML/Element/main)
+- Tokens relacionados: `docs/TOKENS.md` (`--spacing-page-margin`, larguras de breakpoint)
