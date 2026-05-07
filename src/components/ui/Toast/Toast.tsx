@@ -46,6 +46,41 @@ export function useToast() {
 const TOAST_DURATION = 4000;
 const EXIT_DURATION = 170;
 
+type ToastVisualProps = {
+  type: ToastType;
+  message: string;
+  exiting?: boolean;
+  onDismiss?: () => void;
+};
+
+export function ToastVisual({
+  type,
+  message,
+  exiting = false,
+  onDismiss,
+}: ToastVisualProps) {
+  const className = [
+    styles.toast,
+    styles[`toast--${type}`],
+    exiting && styles["toast--exiting"],
+  ]
+    .filter(Boolean)
+    .join(" ");
+
+  return (
+    <div className={className} role="alert">
+      {message}
+      <button
+        className={styles.toast__dismiss}
+        onClick={onDismiss}
+        aria-label="Fechar"
+      >
+        <Icon icon={XIcon} size="sm" />
+      </button>
+    </div>
+  );
+}
+
 export function ToastProvider({ children }: { children: ReactNode }) {
   const [toasts, setToasts] = useState<Toast[]>([]);
   const idRef = useRef(0);
@@ -79,22 +114,13 @@ export function ToastProvider({ children }: { children: ReactNode }) {
       {toasts.length > 0 && (
         <div className={styles["toast-container"]}>
           {toasts.map((toast) => (
-            <div
+            <ToastVisual
               key={toast.id}
-              className={`${styles.toast} ${styles[`toast--${toast.type}`]} ${
-                toast.exiting ? styles["toast--exiting"] : ""
-              }`}
-              role="alert"
-            >
-              {toast.message}
-              <button
-                className={styles.toast__dismiss}
-                onClick={() => dismissToast(toast.id)}
-                aria-label="Fechar"
-              >
-                <Icon icon={XIcon} size="sm" />
-              </button>
-            </div>
+              type={toast.type}
+              message={toast.message}
+              exiting={toast.exiting}
+              onDismiss={() => dismissToast(toast.id)}
+            />
           ))}
         </div>
       )}
