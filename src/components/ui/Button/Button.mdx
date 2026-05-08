@@ -1,0 +1,124 @@
+import {
+  Meta,
+  Subtitle,
+  Canvas,
+  ArgTypes,
+} from "@storybook/addon-docs/blocks";
+import * as ButtonStories from "./Button.stories";
+
+<Meta of={ButtonStories} />
+
+<Subtitle>
+  Ação primária do app — três variantes de ênfase visual.
+</Subtitle>
+
+**Código-fonte:** [`src/components/ui/Button/Button.tsx`](https://github.com/gabriel-vilano/letzplay/blob/master/src/components/ui/Button/Button.tsx)
+
+## Visão geral
+
+`Button` dispara uma ação imediata — submeter um formulário, confirmar inscrição, fechar um modal, registrar um resultado. É o elemento mais frequente de interação fora de navegação.
+
+<Canvas of={ButtonStories.Primary} />
+
+## Variantes
+
+Três níveis de ênfase visual, ordenados do mais forte ao mais sutil. A escolha comunica **prioridade** ao usuário — o que é a ação principal vs. ações de suporte.
+
+<Canvas of={ButtonStories.AllVariants} />
+
+### Primary
+
+Ação principal da tela. Convenção: **uma primary por tela**. Quem entra na tela sabe imediatamente qual é a ação esperada.
+
+<Canvas of={ButtonStories.Primary} />
+
+### Secondary
+
+Ação importante mas não principal. Permite múltiplas por tela. Comum em pares com primary (ex: "Cancelar" + "Confirmar"), ou em listas onde várias ações têm peso equivalente.
+
+<Canvas of={ButtonStories.Secondary} />
+
+### Ghost
+
+Ação terciária. Use em contextos onde primary ou secondary chamariam atenção demais — toolbars, ações dentro de listas, links de "ver mais".
+
+<Canvas of={ButtonStories.Ghost} />
+
+## Estados
+
+Estados controlados via props (`loading`, `disabled`, `fullWidth`).
+
+### Loading
+
+Esconde o conteúdo (`visibility: hidden`) e mostra um spinner sobreposto. **Mantém o tamanho do botão** — não causa layout shift. Use durante operações async (submit de formulário, upload). O botão fica não-clicável automaticamente.
+
+<Canvas of={ButtonStories.Loading} />
+
+### Disabled
+
+Use quando a ação está temporariamente indisponível **por razão evidente ao usuário** (formulário inválido com erro visível, condição de rede). Evite disabled "permanente" sem explicação — é hostil; nesse caso, esconda o botão ou exiba um Alert explicando.
+
+<Canvas of={ButtonStories.Disabled} />
+
+### Full width
+
+Ocupa 100% da largura do container. Padrão em formulários mobile e bottom sheets, onde o botão é a ação ancora da tela.
+
+<Canvas of={ButtonStories.FullWidth} />
+
+## Com ícone
+
+Sempre via componente `<Icon />`, tamanho `sm`. Cor herda do botão via `currentColor` — não definir cor própria.
+
+### Ícone leading
+
+Ícone à esquerda. Sinaliza o **tipo** da ação. Ex: troféu + "Ver ranking", lápis + "Editar perfil".
+
+<Canvas of={ButtonStories.WithLeadingIcon} />
+
+### Ícone trailing
+
+Ícone à direita. Sinaliza **navegação ou transição**. Ex: seta + "Continuar", chevron + "Próximo".
+
+<Canvas of={ButtonStories.WithTrailingIcon} />
+
+## Quando usar
+
+- Submissão de formulário ou confirmação de fluxo
+- Disparo de ação destrutiva (com `attention` quando criarmos a variante)
+- Toggle de estado que produz efeito imediato (abrir modal, fechar bottom sheet)
+- Ação principal que ancora uma tela ou seção
+
+## Componentes relacionados
+
+- Para **navegar entre rotas**, use [`ButtonLink`](?path=/docs/ui-buttonlink--docs) — preserva semântica nativa de link (cmd+click pra abrir em nova aba, comportamento do botão direito do mouse)
+- Para **ações dentro de prose** (texto corrido), use [`TextLink`](?path=/docs/ui-textlink--docs)
+- Para **alternar estados** (toggle, checkbox, switch), use o componente apropriado — Button não comunica "ativado/desativado"
+
+## Acessibilidade
+
+- Semântica nativa de `<button>` — leitor de tela anuncia "botão" + label
+- `:focus-visible` produz outline azul de alto contraste — **nunca remover** sem substituir
+- `disabled` desabilita pointer-events e foco automaticamente
+- Tap target mínimo de 48px atendido via `min-height: var(--dimension-action-height-lg)` (WCAG 2.5.5)
+- Loading substitui conteúdo via `visibility: hidden` (preserva tamanho) — leitor de tela ainda anuncia o botão como tal
+- Conteúdo do botão deve ser texto descritivo da ação. Em casos de ícone-only, usar `aria-label`
+
+## Evitar
+
+- ❌ **Múltiplos primary na mesma tela** competindo por atenção — força o usuário a escolher entre ações de igual peso visual
+- ❌ **Usar Button para navegar** — quebra cmd+click, abrir em nova aba e outras affordances nativas de link
+- ❌ **Texto longo** em botão — máximo 2-3 palavras. "Confirmar inscrição" sim; "Confirmar minha inscrição neste torneio" não
+- ❌ **Customizar cor inline** — sempre via prop `variant`. Cores fora do sistema quebram consistência e contraste
+- ❌ **Disabled sem feedback do motivo** — se o botão está disabled, o usuário precisa entender por quê (mensagem inline, tooltip, Alert)
+
+## API
+
+<ArgTypes of={ButtonStories} />
+
+## Referências
+
+- [MDN — `<button>` element](https://developer.mozilla.org/docs/Web/HTML/Element/button)
+- [WAI-ARIA — Button Pattern](https://www.w3.org/WAI/ARIA/apg/patterns/button/)
+- [WCAG 2.5.5 — Target Size](https://www.w3.org/WAI/WCAG21/Understanding/target-size.html)
+- Tokens relacionados: `docs/TOKENS.md` (`--dimension-action-height-*`, `--color-state-layer-*`)

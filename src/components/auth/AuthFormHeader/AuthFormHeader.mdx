@@ -1,0 +1,80 @@
+import {
+  Meta,
+  Subtitle,
+  Canvas,
+  ArgTypes,
+} from "@storybook/addon-docs/blocks";
+import * as AuthFormHeaderStories from "./AuthFormHeader.stories";
+
+<Meta of={AuthFormHeaderStories} />
+
+<Subtitle>
+  Título e subtítulo das telas de auth — `<h1>` semântico + `<p>` opcional.
+</Subtitle>
+
+**Código-fonte:** [`src/components/auth/AuthFormHeader/AuthFormHeader.tsx`](https://github.com/gabriel-vilano/letzplay/blob/master/src/components/auth/AuthFormHeader/AuthFormHeader.tsx)
+
+## Visão geral
+
+`AuthFormHeader` é o cabeçalho padrão das telas de auth — h1 com o título e p opcional com contexto. `subtitle` aceita `ReactNode`, então links inline (TextLink) cabem dentro sem quebrar o ritmo.
+
+<Canvas of={AuthFormHeaderStories.TitleAndSubtitle} />
+
+## Variantes
+
+A diferença prática é o que aparece no subtítulo — texto puro, com link, ou ausente.
+
+### Title only
+
+Só o `<h1>`, sem subtítulo. Use quando o título já é auto-explicativo ou a UI ao redor já dá contexto.
+
+<Canvas of={AuthFormHeaderStories.TitleOnly} />
+
+### Title + subtitle
+
+Padrão mais comum. Subtitle dá orientação/contexto após o título.
+
+<Canvas of={AuthFormHeaderStories.TitleAndSubtitle} />
+
+### Subtitle com link
+
+`subtitle` é `ReactNode`, então TextLinks inline cabem naturalmente — útil pra cross-links entre telas de auth ("Já tem conta?", "Crie sua conta").
+
+<Canvas of={AuthFormHeaderStories.SubtitleWithLink} />
+
+### Title longo
+
+Validação do comportamento de quebra de linha. Mantém ritmo vertical mesmo com 2-3 linhas no título e 2-3 no subtítulo.
+
+<Canvas of={AuthFormHeaderStories.LongTitle} />
+
+## Quando usar
+
+- No topo de telas em `app/(auth)/**/page.tsx`, dentro do `AuthFormContainer`
+- Em modais ou bottom sheets de auth (login rápido, criar conta in-flow)
+
+## Componentes relacionados
+
+- [`AuthFormContainer`](?path=/docs/auth-authformcontainer--docs) — wrapper que costuma envelopar o header
+- [`TextLink`](?path=/docs/ui-textlink--docs) — pra links inline no `subtitle`
+
+## Acessibilidade
+
+- Renderiza `<h1>` — primeiro nível de heading da página, anunciado por screen readers
+- Apenas um `<h1>` por página (regra HTML/A11y); se a tela tiver outro título proeminente, esse outro deve ser `<h2>`
+- `subtitle` é `<p>` — leitor de tela lê como prose contínua após o título
+
+## Evitar
+
+- ❌ **Múltiplos `AuthFormHeader` na mesma tela** — só um `<h1>` por página
+- ❌ **HTML interativo no `subtitle`** que não seja link/botão semântico — use `TextLink` ou crie componente próprio
+- ❌ **Usar como heading de seção dentro de um form** — esse componente é pra topo de tela
+
+## API
+
+<ArgTypes of={AuthFormHeaderStories} />
+
+## Referências
+
+- [MDN — `<h1>` element](https://developer.mozilla.org/docs/Web/HTML/Element/Heading_Elements)
+- [WCAG 2.4.6 — Headings and Labels](https://www.w3.org/WAI/WCAG21/Understanding/headings-and-labels.html)

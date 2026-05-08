@@ -1,0 +1,90 @@
+import {
+  Meta,
+  Subtitle,
+  Canvas,
+  ArgTypes,
+} from "@storybook/addon-docs/blocks";
+import * as AvatarUploadStories from "./AvatarUpload.stories";
+
+<Meta of={AvatarUploadStories} />
+
+<Subtitle>
+  Upload de avatar com preview inline e validação de formato/tamanho.
+</Subtitle>
+
+**Código-fonte:** [`src/components/auth/AvatarUpload/AvatarUpload.tsx`](https://github.com/gabriel-vilano/letzplay/blob/master/src/components/auth/AvatarUpload/AvatarUpload.tsx)
+
+## Visão geral
+
+`AvatarUpload` permite o usuário escolher uma imagem do dispositivo e ver preview imediato. Aceita JPEG, PNG e WebP. Valida tamanho via `validateAvatar` antes de aceitar — em caso de falha, mostra erro inline e não chama `onFileSelect`.
+
+<Canvas of={AvatarUploadStories.Empty} />
+
+## Anatomia
+
+```
+┌─────────────────┐
+│   ┌─────────┐   │
+│   │   ➕    │   │  ← área (placeholder ou preview)
+│   └─────────┘   │
+│ Adicionar foto  │  ← label (ou erro)
+└─────────────────┘
+```
+
+- **área** — círculo de 96×96 com placeholder (ícone `+`) ou preview da imagem selecionada
+- **badge** — quando há preview, ícone de câmera no canto inferior direito sinaliza "trocar"
+- **label** — texto abaixo da área. "Adicionar foto" ou "Trocar foto" conforme o estado, ou mensagem de erro em vermelho
+
+## Estados
+
+`preview` e `error` são gerenciados internamente via `useState` — não aceita props pra forçar visualmente.
+
+### Empty
+
+Estado inicial. Sem imagem, sem erro. Clique abre o file picker do browser.
+
+<Canvas of={AvatarUploadStories.Empty} />
+
+> **Nota:** estados "with avatar" e "with error" não estão documentados como stories estáticas — exigem refactor extraindo a UI pra componente apresentacional. Tracking pra próximo PR.
+
+## Quando usar
+
+- Step 2 do signup (upload de foto após criar conta básica)
+- Edição de perfil (trocar avatar existente)
+- Em qualquer fluxo onde o avatar é único arquivo de imagem do usuário
+
+## Componentes relacionados
+
+- [`FormInput`](?path=/docs/ui-forminput--docs) — pra campos de texto/email no mesmo form
+- (Futuro) componente de upload genérico, quando surgir caso de uso fora de avatar
+
+## Acessibilidade
+
+- Renderiza como `<div role="button" tabIndex={0}>` — acionável por teclado (Enter ou Space)
+- `aria-label` dinâmico: "Adicionar foto de perfil" / "Trocar foto de perfil" conforme estado
+- `<input type="file">` interno tem `tabIndex={-1}` — só é ativado via clique no wrapper
+- Mensagem de erro aparece como texto inline (sem `role="alert"` por enquanto — limitação atual)
+- Foco visível via `:focus-visible`
+
+## Evitar
+
+- ❌ **Esconder o erro depois de exibido** sem o usuário interagir — o erro precisa permanecer até o próximo upload
+- ❌ **Permitir formatos não-validados** (HEIC, GIF) — `validateAvatar` é a fonte de verdade; expandir lá se precisar de novos formatos
+- ❌ **Usar pra upload de múltiplos arquivos** — esse componente é single-file; criar outro pra galeria
+
+## API
+
+<ArgTypes of={AvatarUploadStories} />
+
+## Decisões de design
+
+**Por que `role="button"` em `<div>` em vez de usar `<button>` real?**
+O componente precisa de uma área visual circular grande (96×96) com layout interno (preview overlap + badge + label abaixo). `<button>` traz estilo padrão do browser que conflitaria — bordas, fundos, padding. Usar `<div role="button" tabIndex={0}>` + handlers de teclado dá controle total sobre a aparência mantendo semântica de botão pra leitores de tela.
+
+**Por que validar antes de chamar `onFileSelect`?**
+Centraliza a regra de aceitação no componente. Consumidores não precisam re-validar — se `onFileSelect` foi chamado com `File`, ele já é válido. Se foi chamado com `null`, o usuário rejeitou (cancelou) ou validação falhou.
+
+## Referências
+
+- [MDN — `<input type="file">`](https://developer.mozilla.org/docs/Web/HTML/Element/input/file)
+- [WAI-ARIA — Button Pattern (incluindo div com role=button)](https://www.w3.org/WAI/ARIA/apg/patterns/button/)

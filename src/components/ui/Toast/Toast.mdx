@@ -1,0 +1,212 @@
+import {
+  Meta,
+  Subtitle,
+  Canvas,
+  ArgTypes,
+} from "@storybook/addon-docs/blocks";
+import * as ToastStories from "./Toast.stories";
+
+<Meta of={ToastStories} />
+
+<Subtitle>
+  Mensagem transitória — `ToastVisual` (apresentacional) + `ToastProvider` +
+  `useToast` (orquestração).
+</Subtitle>
+
+**Código-fonte:** [`src/components/ui/Toast/Toast.tsx`](https://github.com/gabriel-vilano/letzplay/blob/master/src/components/ui/Toast/Toast.tsx)
+
+## Visão geral
+
+Toast tem duas camadas:
+
+- **`ToastVisual`** — componente apresentacional. Recebe `type`, `message`, `exiting`, `onDismiss` por props e renderiza o toast individual. É o que você vê na maior parte deste documento.
+- **`ToastProvider` + `useToast`** — orquestração. Gerencia a fila, timing de auto-dismiss, exit animation. Você usa essas APIs pra disparar toasts no app real.
+
+<Canvas of={ToastStories.Info} />
+
+## Variantes
+
+Três tipos comunicam a natureza da mensagem.
+
+<Canvas of={ToastStories.AllTypes} />
+
+### Info
+
+Neutro, contextual. Use pra notificações que não exigem ação ("Novo torneio na sua região").
+
+<Canvas of={ToastStories.Info} />
+
+### Success
+
+Positivo. Use pra confirmar ação concluída ("Inscrição confirmada").
+
+<Canvas of={ToastStories.Success} />
+
+### Error
+
+Falha. Use pra erros não-bloqueantes que o usuário pode ignorar e tentar de novo ("Sem conexão com o servidor").
+
+<Canvas of={ToastStories.Error} />
+
+## Estados
+
+### Saindo
+
+Quando `exiting=true`, o toast aplica animação de saída (fade + slide). Em produção dura ~170ms antes de ser removido do DOM.
+
+<Canvas of={ToastStories.Exiting} />
+
+## Provider e hook
+
+`ToastProvider` orquestra a fila de toasts; `useToast` expõe `showToast()` em qualquer componente abaixo.
+
+### Auto-dismiss (padrão)
+
+Toast some sozinho após 4s. Comportamento default — apropriado pra confirmações curtas.
+
+<Canvas of={ToastStories.ProviderTriggers} />
+
+### Persistente
+
+`options.persistent: true` impede o auto-dismiss. Use pra mensagens que exigem leitura (instruções importantes, erros bloqueantes).
+
+<Canvas of={ToastStories.ProviderPersistent} />
+
+## Como usar
+
+```tsx
+// 1. Envolver a app com ToastProvider (uma vez, no layout root)
+import { ToastProvider } from "@/src/components/ui/Toast";
+
+export default function RootLayout({ children }) {
+  return (
+    <html>
+      <body>
+        <ToastProvider>{children}</ToastProvider>
+      </body>
+    </html>
+  );
+}
+
+// 2. Em qualquer componente abaixo, usar o hook
+import { useToast } from "@/src/components/ui/Toast";
+
+function MyForm() {
+  const { showToast } = useToast();
+
+  async function handleSubmit() {
+    try {
+      await api.submit();
+      showToast("Inscrição confirmada", "success");
+    } catch {
+      showToast("Falha ao confirmar — tente novamente", "error");
+    }
+  }
+}
+```
+
+## Quando usar
+
+- Confirmação de ação **transitória** que não precisa permanecer (criar, salvar, excluir)
+- Erro **não-bloqueante** que o usuário pode ignorar e tentar de novo
+- Notificação contextual ("Novo torneio publicado") sem interromper o fluxo
+
+## Componentes relacionados
+
+- Para **mensagem persistente** dentro do fluxo da tela, use [`Alert`](?path=/docs/ui-alert--docs)
+- Para **erro de campo de formulário**, use a prop `error` do [`FormInput`](?path=/docs/ui-forminput--docs)
+
+## Acessibilidade
+
+- Cada toast tem `role="alert"` — leitor de tela anuncia imediatamente
+- Botão de dismiss tem `aria-label="Fechar"`
+- Auto-dismiss em 4s pode ser curto pra leitores lentos — usar `persistent: true` quando o conteúdo for crítico
+- Animação de entrada/saída usa `transition` curtas (170ms) — não interfere com `prefers-reduced-motion` significativamente, mas vale validar
+
+## Evitar
+
+- ❌ **Toast longo** — máximo ~6 palavras. Se a mensagem for grande, considere `Alert` ou modal
+- ❌ **Toast pra erro de validação de campo** — usar a prop `error` do `FormInput`, que é contextual ao campo
+- ❌ **Múltiplos toasts simultâneos da mesma ação** — debounce ou consolidar em uma só mensagem
+- ❌ **Toast persistente sem botão de fechar visível** — o `X` deve ser óbvio, senão o usuário fica preso
+
+## API
+
+### `ToastVisual`
+
+<ArgTypes of={ToastStories} />
+
+### `ToastProvider`
+
+<table>
+  <thead>
+    <tr>
+      <th>Prop</th>
+      <th>Tipo</th>
+      <th>Descrição</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>children</code></td>
+      <td><code>ReactNode</code></td>
+      <td>Árvore que terá acesso ao hook</td>
+    </tr>
+  </tbody>
+</table>
+
+### `useToast()`
+
+Retorna `{ showToast }`.
+
+```ts
+showToast(
+  message: string,
+  type?: "info" | "success" | "error",
+  options?: { persistent?: boolean }
+): void
+```
+
+<table>
+  <thead>
+    <tr>
+      <th>Argumento</th>
+      <th>Tipo</th>
+      <th>Default</th>
+      <th>Descrição</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>message</code></td>
+      <td><code>string</code></td>
+      <td>—</td>
+      <td>Texto do toast (curto, 6 palavras max)</td>
+    </tr>
+    <tr>
+      <td><code>type</code></td>
+      <td><code>"info" | "success" | "error"</code></td>
+      <td><code>"info"</code></td>
+      <td>Cor + ícone</td>
+    </tr>
+    <tr>
+      <td><code>options.persistent</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>Se <code>true</code>, não some sozinho</td>
+    </tr>
+  </tbody>
+</table>
+
+## Decisões de design
+
+**Por que `ToastVisual` separado de `ToastProvider`?**
+Documentação. `ToastVisual` puro é renderizável com props mockadas em qualquer story — args panel funciona, variantes lado a lado, `exiting` controlável. Provider+hook continuam pra orquestração no app real, mas não são o que você quer documentar visualmente.
+
+**Por que Provider + hook em vez de componente declarativo (`<Toast show={true}>`)?**
+Toast é resposta a eventos (resultado de ação async), não estado da tela. Modelo declarativo forçaria cada componente a manter `useState` próprio do toast, multiplicando boilerplate. Provider centraliza renderização; hook reduz call site a uma linha (`showToast("OK", "success")`).
+
+## Referências
+
+- [WAI-ARIA — Alert role](https://www.w3.org/TR/wai-aria-1.1/#alert)
+- [WCAG 2.2.1 — Timing Adjustable](https://www.w3.org/WAI/WCAG21/Understanding/timing-adjustable.html) (relevante pra duração de auto-dismiss)
