@@ -70,6 +70,7 @@ export const Block: Story = {
 };
 
 export const InlineInProse: Story = {
+  args: { href: "/", children: "Entre aqui" },
   render: () => (
     <p className="sb-prose">
       Já tem uma conta? <TextLink href="/entrar">Entre aqui</TextLink> para
