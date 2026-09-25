@@ -43,6 +43,13 @@ Código, tipo (ver [`README.md`](README.md)), o que é, data e como foi lido. Tr
 | --- | --- | --- | --- |
 | GH | [Repositório público `beach-tennis-app` (produto "ArenaHub")](https://github.com/Icarohsilva/beach-tennis-app/pulls?q=is%3Apr): app de gestão de academia de BT com torneios, aulas e day use, 1.088 commits. Lidos os títulos de 25 PRs e as descrições dos PRs #50, #54, #61, #64, #69, #70, #72 | 25/08–23/09/2026 | Lido |
 
+## Pesquisa acadêmica com visita e entrevista (ACAD)
+
+| Código | Fonte | Data | Leitura |
+| --- | --- | --- | --- |
+| ACAD1 | [SemeAd 27 — caso de ensino "Um beach tennis longe do mar... O mar está para peixe e todo mundo sabe"](https://login.semead.com.br/27semead/anais/arquivos/635.pdf): Arena SandPlay, Aurora (CE). Construído com visitas à arena e entrevista com um dos sócios; os nomes das pessoas e os diálogos são fictícios, os fatos e números são reais segundo os autores | Dados até 04/2024 | Lido na íntegra |
+| ACAD2 | [PODIUM Sport, Leisure and Tourism Review — "Diretrizes para gestão da qualidade em arenas de beach tennis"](https://periodicos.uninove.br/podium/article/view/27131) (DOI 10.5585/2025.27131): visitas a 10 arenas (SP, PE, CE, BA, SE) entre jan e jul/2024, acompanhadas pelo dono, com entrevistas não estruturadas | 2025 | Lido (seções de método e resultados) |
+
 ## Demanda publicada (DEM)
 
 | Código | Fonte | Data | Leitura |
@@ -58,6 +65,7 @@ Código, tipo (ver [`README.md`](README.md)), o que é, data e como foi lido. Tr
 | N2 | [Brazil Journal — "Beach tennis, um mercado sem dono"](https://braziljournal.com/beach-tennis-um-mercado-sem-dono/). Opinião | 07/09/2026 | Lido |
 | N3 | Macena Open: fala de organizador ("semanas de trabalho duro e muitos desafios"), recorde de 1.702 atletas em 40 quadras. [Lance!](https://www.lance.com.br/tenis/atletas-exaltam-estrutura-de-edicao-recorde-do-macena-open-na-praia-do-frances.html) | 2023 | Resumo |
 | N4 | [Vídeo da Prefeitura de Ribeirão Claro — publicação ao vivo das chaves do torneio municipal](https://www.youtube.com/watch?v=MXwnFPohf0M) | 20/03/2026 | Descrição lida, sem transcrição |
+| N6 | [Esporte Ágil — gestora de arena em Campo Grande (MS)](https://www.esporteagil.com.br/conteudo/rafaela_aposta_no_beach_tennis_para_formar_atletas_e_ampliar_visibilidade_do_esporte_em_ms) | 10/07/2025 | Lido |
 | N5 | [A Peteca — Copa São Caetano (badminton)](https://apeteca.substack.com/p/copa-sao-caetano-faz-sucesso-e-pode). **Outro esporte** | 30/04/2025 | Lido |
 
 ## Marketing de fornecedor (MKT) — só contexto

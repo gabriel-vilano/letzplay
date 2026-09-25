@@ -29,6 +29,7 @@ O critério da issue é **dor real, dita por quem vive o problema**. Cada fonte 
 | **1P** | Primeira pessoa: organizador, dono de arena, árbitro ou diretor de federação falando do próprio trabalho | Vlog de organizadoras (YT1), diretor de federação em podcast (YT2), review de organizador na loja (AS1) |
 | **2L** | Dois lados: reclamação de atleta **com resposta** do organizador ou da plataforma | Reclame Aqui com resposta (RA1–RA7) |
 | **REG** | Regulamento lido na íntegra. Mostra a regra que o organizador precisou escrever, e por isso o conflito que ele tenta evitar | FET, Nômades, AVB (REG1–REG3) |
+| **ACAD** | Pesquisa acadêmica feita com visita e entrevista a donos e gestores (a fala chega filtrada pelos autores) | Caso da Arena SandPlay (ACAD1), 10 arenas visitadas (ACAD2) |
 | **PC** | Praticante-construtor: alguém que opera ou atende uma academia e escreve o próprio software em público | Pull requests do ArenaHub (GH) |
 | **DEM** | Demanda publicada: pedido de freelancer, produto vendido para o organizador | 99Freelas, Hotmart |
 | **N** | Notícia com fala de dono de arena ou organizador | O Tempo 2021 |
@@ -40,8 +41,8 @@ A mesma da pesquisa de mercado, com um ajuste para o critério desta issue:
 
 | Nível | Critério |
 | --- | --- |
-| **Forte** | Duas ou mais fontes independentes concordam, e pelo menos uma é **1P, 2L ou REG lida na íntegra** |
-| **Média** | Uma fonte 1P, 2L ou REG lida na íntegra; ou várias fontes concordantes de tipo PC, DEM, N |
+| **Forte** | Duas ou mais fontes independentes concordam, e pelo menos uma é **1P, 2L, REG ou ACAD lida na íntegra** |
+| **Média** | Uma fonte 1P, 2L, REG ou ACAD lida na íntegra; ou várias fontes concordantes de tipo PC, DEM, N |
 | **Fraca** | Só marketing, só resumo de busca, fonte de outro esporte, ou inferência |
 
 "Lido" = página ou transcrição lida inteira. "Resumo" = só o resumo do mecanismo de busca.
