@@ -69,7 +69,7 @@ Somado à coleta anterior (110 itens), a amostra total fica em **159 itens**.
 
 | App | Motivo |
 | --- | --- |
-| Ranketes | Não tem app nas lojas. A busca em Google Play e App Store não achou nada com o nome. Parece ser só web (ver `TEARDOWN.md`) |
+| Ranketes | Tem app nas duas lojas, mas sem voz: **1 avaliação** na App Store e **50+ downloads** no Google Play, sem nenhuma review escrita. A busca pelo nome não o encontrou; o endereço veio do próprio site (ver `TEARDOWN.md`) |
 | Rankedin | Não há app oficial com reviews encontrável. O que aparece é um app de terceiro (Padelin) que lê dados públicos do Rankedin |
 | RankingBR | A página do Google Play indicada pela busca devolve 404 (app removido ou renomeado) |
 | Apps de arena white-label (ex.: Arena Santista BT) | A página da App Store devolve 404 no Brasil. Apps de marca da arena têm pouquíssima avaliação |
