@@ -10,10 +10,19 @@ Guia de workflow Git do projeto. Define estrutura de branches, fluxo de trabalho
 
 ```
 master (branch principal, sempre estável)
-  └── branches temporárias por feature/fix/chore
+  ├── branches temporárias por feature/fix/chore/docs
+  └── feature/<nome> (integração de uma feature grande, quando preciso)
+        └── branches temporárias das issues dessa feature
 ```
 
 Não utilizamos branches de ambiente (develop, staging, etc). O projeto segue um modelo simples: `master` é a fonte de verdade, e **todo** trabalho acontece em branches temporárias que voltam via PR — inclusive docs e config. A `master` é protegida e não aceita push direto (ver "Proteção de branch").
+
+**Branch de feature (integração):** quando uma feature precisa de vários PRs antes de chegar ao `master` (ex.: `feature/feed-cards`), os PRs das issues dela apontam para a branch de feature. Ela funciona diferente do `master`:
+
+- não tem ruleset: o GitHub não barra merge com CI vermelha nela;
+- push nela não roda CI. A CI só roda nos PRs para ela, e só se ela tiver o `master` mergeado (senão falta o `ci.yml`).
+
+O portão completo acontece no PR final da feature para o `master`.
 
 ---
 
@@ -94,6 +103,10 @@ Só mergear com a CI verde.
 
 - Merge via GitHub (botão "Merge pull request")
 - Preferir **merge commit** (não squash) para manter o histórico de commits da branch
+- **PR desatualizado** (o `master` andou depois da última CI do PR): o ruleset exige atualizar antes do merge. Clicar em **Update branch → Update with merge commit**, esperar a CI e mergear. Nunca usar "Update with rebase", que reescreve os commits da branch e quebra o checkout do agente dono dela
+- **Atualização just-in-time:** só se atualiza o PR que vai ser mergeado agora. Atualizar todos a cada merge gasta CI em PRs que vão ficar desatualizados de novo no merge seguinte
+- **Conflito:** o GitHub não oferece o "Update branch". Quem resolve é o dono da branch, mergeando o `master` nela (nunca rebase nem force push)
+- **Auto-merge desligado de propósito** (Settings → General → "Allow auto-merge"): ele mergeia a versão que estiver no PR quando a CI ficar verde, inclusive um push de agente feito depois da revisão. Com a opção desligada, nenhum agente consegue habilitá-lo
 - Deletar a branch após merge
 
 ### Deploy
@@ -137,7 +150,7 @@ Ruleset `master` (Settings → Rules → Rulesets), aplicado à branch padrão:
 - **Require a pull request before merging** — sem push direto na `master`
 - **Require status checks to pass** — `Lint, testes e build`, `Stories (Storybook + a11y)` e `E2E (Playwright + Supabase local)`
 - **Block force pushes** e **Restrict deletions** — protegem o histórico
-- **Require branches to be up to date:** desativado (projeto solo; evita atualizar a branch antes de cada merge)
+- **Require branches to be up to date:** ativado. Com vários agentes em paralelo, cada PR passa na CI completa (E2E incluído) sobre o `master` atual antes do merge: o que foi testado é exatamente o que entra, e migrations de PRs diferentes são testadas juntas antes de chegar ao Supabase. O custo é que os merges viram fila: cada PR depois do primeiro espera uma rodada de CI (~3 min). O fluxo está em "Pull requests" > "Merge"
 - **Require reviews:** desativado (projeto solo — a CI é o portão de qualidade)
 - **Bypass list:** só o admin do repositório, para emergências
 
