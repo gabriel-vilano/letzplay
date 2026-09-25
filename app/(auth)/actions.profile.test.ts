@@ -73,11 +73,12 @@ describe("createProfile", () => {
     expect(supabase.profilesQuery.upsert).not.toHaveBeenCalled();
   });
 
-  it("username inválido devolve erro de campo e não salva", async () => {
+  // Regressão: o erro de username ia para `fieldErrors.name`
+  it("username inválido devolve erro no campo username e não salva", async () => {
     const result = await createProfile(null, buildFormData({ username: "an" }));
-    expect(Object.values(result?.fieldErrors ?? {})).toContain(
-      "Username precisa ter pelo menos 3 caracteres",
-    );
+    expect(result).toEqual({
+      fieldErrors: { username: "Username precisa ter pelo menos 3 caracteres" },
+    });
     expect(supabase.profilesQuery.upsert).not.toHaveBeenCalled();
   });
 
