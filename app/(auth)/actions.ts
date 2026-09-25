@@ -2,8 +2,13 @@
 
 import { redirect } from "next/navigation";
 import { createClient } from "@/src/lib/supabase/server";
-import { validateEmail, validatePassword, validateName, validateOtp, validateUsername } from "@/src/lib/validations";
+import { validateEmail, validatePassword, validateName, validateOtp, validateUsername, validateAvatar } from "@/src/lib/validations";
+import { AVATAR_HEADER_LENGTH, detectAvatarFormat } from "@/src/lib/avatarFormat";
 import type { AuthActionState } from "@/src/types/auth";
+
+// O Supabase devolve o mesmo erro para código errado e expirado ("Token has expired
+// or is invalid", code `otp_expired`), então não dá para dizer qual dos dois aconteceu.
+const OTP_REJECTED_MESSAGE = "Código inválido ou expirado. Confira o código ou solicite um novo.";
 
 export async function login(
   _prevState: AuthActionState,
@@ -107,10 +112,7 @@ export async function verifyOtp(
   });
 
   if (error) {
-    if (error.message.toLowerCase().includes("expired")) {
-      return { error: "Código expirado. Solicite um novo código." };
-    }
-    return { error: "Código inválido. Tente novamente." };
+    return { error: OTP_REJECTED_MESSAGE };
   }
 
   redirect("/cadastro/perfil");
@@ -139,6 +141,14 @@ export async function resendOtp(
   return { success: true };
 }
 
+// Anti-enumeração: o Supabase responde sucesso para e-mail sem conta, mas o cooldown
+// de reenvio (`over_email_send_rate_limit`) só existe para conta real. Mostrar esse erro
+// revelaria que o e-mail tem cadastro, então ele segue como sucesso: o código enviado
+// antes continua valendo e a tela de verificação já tem reenvio com timer.
+function isRecoveryCooldown(error: { code?: string }): boolean {
+  return error.code === "over_email_send_rate_limit";
+}
+
 export async function requestRecovery(
   _prevState: AuthActionState,
   formData: FormData
@@ -153,8 +163,8 @@ export async function requestRecovery(
   const supabase = await createClient();
   const { error } = await supabase.auth.resetPasswordForEmail(email);
 
-  if (error) {
-    return { error: "E-mail não encontrado." };
+  if (error && !isRecoveryCooldown(error)) {
+    return { error: "Não foi possível enviar o código. Tente novamente em alguns minutos." };
   }
 
   redirect(`/recuperar-senha/verificar?email=${encodeURIComponent(email)}`);
@@ -180,10 +190,7 @@ export async function verifyRecoveryOtp(
   });
 
   if (error) {
-    if (error.message.toLowerCase().includes("expired")) {
-      return { error: "Código expirado. Solicite um novo código." };
-    }
-    return { error: "Código inválido. Tente novamente." };
+    return { error: OTP_REJECTED_MESSAGE };
   }
 
   redirect("/recuperar-senha/nova-senha");
@@ -202,7 +209,7 @@ export async function resendRecoveryOtp(
   const supabase = await createClient();
   const { error } = await supabase.auth.resetPasswordForEmail(email);
 
-  if (error) {
+  if (error && !isRecoveryCooldown(error)) {
     return { error: "Erro ao reenviar código. Tente novamente." };
   }
 
@@ -255,14 +262,54 @@ export async function checkUsername(username: string): Promise<{
   }
 
   const supabase = await createClient();
-  const { data } = await supabase
+  // maybeSingle: 0 linhas é o caso "livre", não erro (single() devolveria erro)
+  const { data, error } = await supabase
     .from("profiles")
     .select("id")
     .eq("username", username)
     .limit(1)
-    .single();
+    .maybeSingle();
+
+  // Falha na consulta não pode virar "disponível": na dúvida, bloqueia
+  if (error) {
+    return { available: false, error: "Não foi possível verificar o username. Tente novamente." };
+  }
 
   return { available: !data };
+}
+
+type SupabaseServerClient = Awaited<ReturnType<typeof createClient>>;
+
+// A action pode ser chamada direto (fora da tela), então o avatar é revalidado aqui:
+// tipo e tamanho declarados + formato real pelos bytes. Extensão e contentType vêm do
+// formato detectado, nunca do nome ou do `type` enviados pelo usuário.
+async function uploadAvatar(
+  supabase: SupabaseServerClient,
+  userId: string,
+  avatarFile: File
+): Promise<{ avatarUrl: string } | { error: string }> {
+  const validation = validateAvatar(avatarFile);
+  if (!validation.valid) {
+    return { error: validation.error ?? "Foto inválida." };
+  }
+
+  const header = new Uint8Array(await avatarFile.slice(0, AVATAR_HEADER_LENGTH).arrayBuffer());
+  const format = detectAvatarFormat(header);
+  if (!format) {
+    return { error: "Formato aceito: JPG, PNG ou WebP" };
+  }
+
+  const path = `${userId}/avatar.${format.extension}`;
+  const { error: uploadError } = await supabase.storage
+    .from("avatars")
+    .upload(path, avatarFile, { upsert: true, contentType: format.mimeType });
+
+  if (uploadError) {
+    return { error: "Erro ao enviar foto. Tente novamente." };
+  }
+
+  const { data: { publicUrl } } = supabase.storage.from("avatars").getPublicUrl(path);
+  return { avatarUrl: publicUrl };
 }
 
 export async function createProfile(
@@ -287,37 +334,23 @@ export async function createProfile(
   if (username) {
     const usernameValidation = validateUsername(username);
     if (!usernameValidation.valid) {
-      return { fieldErrors: { name: usernameValidation.error } };
+      return { fieldErrors: { username: usernameValidation.error } };
     }
 
-    const { available } = await checkUsername(username);
+    const { available, error: checkError } = await checkUsername(username);
     if (!available) {
-      return { error: "Username já está em uso." };
+      return { error: checkError ?? "Username já está em uso." };
     }
   }
 
   let avatarUrl: string | null = null;
 
   if (avatarFile && avatarFile.size > 0) {
-    const ext = avatarFile.name.split(".").pop() ?? "jpg";
-    const path = `${user.id}/avatar.${ext}`;
-
-    const { error: uploadError } = await supabase.storage
-      .from("avatars")
-      .upload(path, avatarFile, {
-        upsert: true,
-        contentType: avatarFile.type,
-      });
-
-    if (uploadError) {
-      return { error: "Erro ao enviar foto. Tente novamente." };
+    const upload = await uploadAvatar(supabase, user.id, avatarFile);
+    if ("error" in upload) {
+      return { error: upload.error };
     }
-
-    const {
-      data: { publicUrl },
-    } = supabase.storage.from("avatars").getPublicUrl(path);
-
-    avatarUrl = publicUrl;
+    avatarUrl = upload.avatarUrl;
   }
 
   const { error: insertError } = await supabase.from("profiles").upsert({

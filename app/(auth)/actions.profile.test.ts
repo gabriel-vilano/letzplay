@@ -4,6 +4,7 @@ import { checkUsername, createProfile } from "./actions";
 import {
   asSupabaseClient,
   buildFormData,
+  buildPngFile,
   createSupabaseMock,
   redirectSignal,
   TEST_USER,
@@ -28,8 +29,14 @@ beforeEach(() => {
 });
 
 function mockUsernameTaken() {
-  supabase.profilesQuery.single.mockResolvedValueOnce({ data: { id: "outro-user" }, error: null });
+  supabase.profilesQuery.maybeSingle.mockResolvedValueOnce({ data: { id: "outro-user" }, error: null });
 }
+
+function mockUsernameQueryFailure() {
+  supabase.profilesQuery.maybeSingle.mockResolvedValueOnce({ data: null, error: { message: INTERNAL_ERROR } });
+}
+
+const USERNAME_CHECK_FAILED = "Não foi possível verificar o username. Tente novamente.";
 
 describe("checkUsername", () => {
   it("rejeita formato inválido sem consultar o banco", async () => {
@@ -50,6 +57,12 @@ describe("checkUsername", () => {
   it("username livre está disponível", async () => {
     expect(await checkUsername("ana.bt")).toEqual({ available: true });
   });
+
+  // Regressão: antes o `error` da query era ignorado e a falha virava "disponível"
+  it("falha na consulta não vira disponível e não vaza o erro interno", async () => {
+    mockUsernameQueryFailure();
+    expect(await checkUsername("ana.bt")).toEqual({ available: false, error: USERNAME_CHECK_FAILED });
+  });
 });
 
 describe("createProfile", () => {
@@ -60,11 +73,12 @@ describe("createProfile", () => {
     expect(supabase.profilesQuery.upsert).not.toHaveBeenCalled();
   });
 
-  it("username inválido devolve erro de campo e não salva", async () => {
+  // Regressão: o erro de username ia para `fieldErrors.name`
+  it("username inválido devolve erro no campo username e não salva", async () => {
     const result = await createProfile(null, buildFormData({ username: "an" }));
-    expect(Object.values(result?.fieldErrors ?? {})).toContain(
-      "Username precisa ter pelo menos 3 caracteres",
-    );
+    expect(result).toEqual({
+      fieldErrors: { username: "Username precisa ter pelo menos 3 caracteres" },
+    });
     expect(supabase.profilesQuery.upsert).not.toHaveBeenCalled();
   });
 
@@ -75,11 +89,18 @@ describe("createProfile", () => {
     expect(supabase.profilesQuery.upsert).not.toHaveBeenCalled();
   });
 
+  it("falha ao verificar username: não salva", async () => {
+    mockUsernameQueryFailure();
+    const result = await createProfile(null, buildFormData({ username: "ana.bt" }));
+    expect(result).toEqual({ error: USERNAME_CHECK_FAILED });
+    expect(supabase.profilesQuery.upsert).not.toHaveBeenCalled();
+  });
+
   it("username é opcional: salva com null e vai para o feed", async () => {
     await expect(createProfile(null, buildFormData({ username: "" }))).rejects.toThrow(
       redirectSignal("/feed"),
     );
-    expect(supabase.profilesQuery.single).not.toHaveBeenCalled();
+    expect(supabase.profilesQuery.maybeSingle).not.toHaveBeenCalled();
     expect(supabase.profilesQuery.upsert).toHaveBeenCalledWith({
       id: TEST_USER.id,
       full_name: "Ana Souza",
@@ -89,8 +110,7 @@ describe("createProfile", () => {
   });
 
   it("com foto: sobe no bucket do usuário e salva a URL pública", async () => {
-    const avatar = new File(["png-bytes"], "foto.png", { type: "image/png" });
-    const form = buildFormData({ username: "ana.bt", avatar });
+    const form = buildFormData({ username: "ana.bt", avatar: buildPngFile() });
 
     await expect(createProfile(null, form)).rejects.toThrow(redirectSignal("/feed"));
     expect(supabase.storage.from).toHaveBeenCalledWith("avatars");
@@ -106,10 +126,44 @@ describe("createProfile", () => {
 
   it("falha no upload da foto: mensagem amigável e não salva", async () => {
     supabase.avatarsBucket.upload.mockResolvedValueOnce({ error: { message: INTERNAL_ERROR } });
-    const avatar = new File(["png-bytes"], "foto.png", { type: "image/png" });
-    const result = await createProfile(null, buildFormData({ username: "", avatar }));
+    const result = await createProfile(null, buildFormData({ username: "", avatar: buildPngFile() }));
     expect(result).toEqual({ error: "Erro ao enviar foto. Tente novamente." });
     expect(supabase.profilesQuery.upsert).not.toHaveBeenCalled();
+  });
+
+  // Regressão: antes a extensão vinha do nome e o contentType do `type` enviados pelo usuário
+  it("extensão e contentType vêm dos bytes, não do nome enviado", async () => {
+    const avatar = buildPngFile("foto.html");
+    await expect(createProfile(null, buildFormData({ username: "", avatar }))).rejects.toThrow(
+      redirectSignal("/feed"),
+    );
+    expect(supabase.avatarsBucket.upload).toHaveBeenCalledWith(
+      "user-123/avatar.png",
+      expect.any(File),
+      { upsert: true, contentType: "image/png" },
+    );
+  });
+
+  it("rejeita tipo declarado fora da lista sem subir nada", async () => {
+    const avatar = new File(["<svg onload=alert(1)>"], "foto.svg", { type: "image/svg+xml" });
+    const result = await createProfile(null, buildFormData({ username: "", avatar }));
+    expect(result).toEqual({ error: "Formato aceito: JPG, PNG ou WebP" });
+    expect(supabase.avatarsBucket.upload).not.toHaveBeenCalled();
+    expect(supabase.profilesQuery.upsert).not.toHaveBeenCalled();
+  });
+
+  it("rejeita arquivo que declara image/png mas não é imagem", async () => {
+    const avatar = new File(["<html><script>alert(1)</script>"], "foto.png", { type: "image/png" });
+    const result = await createProfile(null, buildFormData({ username: "", avatar }));
+    expect(result).toEqual({ error: "Formato aceito: JPG, PNG ou WebP" });
+    expect(supabase.avatarsBucket.upload).not.toHaveBeenCalled();
+  });
+
+  it("rejeita foto acima do limite sem subir nada", async () => {
+    const oversized = new File([new Uint8Array(5 * 1024 * 1024 + 1)], "foto.png", { type: "image/png" });
+    const result = await createProfile(null, buildFormData({ username: "", avatar: oversized }));
+    expect(result).toEqual({ error: "Foto deve ter no máximo 5MB" });
+    expect(supabase.avatarsBucket.upload).not.toHaveBeenCalled();
   });
 
   it("corrida no username (unique violation no upsert): mensagem de username em uso", async () => {
