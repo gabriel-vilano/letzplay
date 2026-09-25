@@ -136,7 +136,7 @@ Preços de 2023 a 2026, em reais. Grande variação regional.
 | Responsabilidade de acompanhar chave e horário é do atleta | FCTBT 2025, CBT 2026 (`DISCOVERY.md`) | Lido | Forte |
 | Arenas divulgam preço e novidades por Instagram (ex.: tabela de valores da Arena Mogi em post) | [Instagram Arena Mogi](https://www.instagram.com/p/DM-VIOLR3fT/) | Resumo | Fraca |
 | Pelo menos 6 plataformas de inscrição concorrem (LetzPlay, Tênis Integrado, Torneio Já, Tornfy, TennisUP, Super Oito) | `DISCOVERY.md` | — | Média |
-| App do LetzPlay atual: 2,8★ nas duas lojas, 250 mil+ downloads Android | `DISCOVERY.md` | — | Média |
+| App do LetzPlay atual: App Store 2,8★ (217 avaliações); Google Play 3,9★ (238 avaliações), 100 mil+ downloads. O `DISCOVERY.md` citava 2,8★ nas duas lojas e 250 mil+ | `CONCORRENTES.md`, `VOZ_DO_USUARIO.md` (lojas lidas em 25/09/2026) | Lido | Forte |
 | **% de jogadores que usam app para ranking, reserva ou inscrição: não encontrado** | — | — | Lacuna |
 
 ---

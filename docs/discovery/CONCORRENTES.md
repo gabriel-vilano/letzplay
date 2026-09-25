@@ -49,7 +49,7 @@ O núcleo da concorrência. Todos atendem **organizador e jogador ao mesmo tempo
 | Features gestor | Clientes, agenda, aulas e professores, locação online, clubinho e day use, rankings e barragens, torneios, financeiro, loja e lanchonete, automações, "mais de 40 gráficos" | Forte (Lido) | Home |
 | Receita | SaaS para gestor. Sem preço público: CTA "Solicitar perfil de gestão" | Forte (Lido) | Home |
 | App Store | **2,8★, 217 avaliações.** Nº 29 em Esportes (grátis). Idioma declarado: só inglês | Forte (Lido, 25/09/2026) | [App Store](https://apps.apple.com/br/app/letzplay/id1262006308) |
-| Google Play | **100 mil+ downloads.** Atualizado em 10/09/2026. Nota não exibida na leitura. Resumo de busca anterior citava 250 mil+ e 2,8★ | Forte para downloads (Lido); divergência não explicada | [Google Play](https://play.google.com/store/apps/details?id=com.lptennis.letzplay&hl=pt_BR) |
+| Google Play | **100 mil+ downloads.** Atualizado em 10/09/2026. Nota não exibida nesta leitura; a coleta do `VOZ_DO_USUARIO.md` no mesmo dia leu **3,9★ com 238 avaliações**. Resumo de busca anterior citava 250 mil+ e 2,8★ | Forte (Lido); divergência com o resumo antigo não explicada | [Google Play](https://play.google.com/store/apps/details?id=com.lptennis.letzplay&hl=pt_BR) |
 | Mudança recente | Versão 10 (19/08/2026): "nova identidade visual", "prepara a infraestrutura para uma nova fase". Versão 11 (24/08/2026): "sessão passa a ser preservada após atualizações", correção de autenticação | Forte (Lido) | Histórico de versões, App Store |
 | Queixas (reviews) | Logout após poucos minutos; notificação que não aparece ("perdemos torneios"); lentidão; jogos pendentes 2 meses porque o gestor não atualiza; não dá para excluir conta; cadastro com "tente mais tarde"; não dá para remover parceiros antigos | Forte (Lido) | App Store |
 
@@ -322,7 +322,7 @@ Descritivo. Sem recomendação.
 
 | Lacuna | Evidência | Força |
 | --- | --- | --- |
-| **Nota de loja dos apps de ranking BR é baixa**, exceto um | LetzPlay 2,8★ e Tênis Integrado 2,5★ contra Meu Ranking 4,5★ (todos lidos). As queixas são de sessão, notificação, lentidão, conta que não exclui, e não de feature ausente | Forte |
+| **Nota de loja dos apps de ranking BR é baixa**, exceto um | Na App Store, LetzPlay 2,8★ e Tênis Integrado 2,5★ contra Meu Ranking 4,5★ (todos lidos). No Google Play a distância é menor (LetzPlay 3,9★, Tênis Integrado 3,4★). As queixas são de sessão, notificação, lentidão, conta que não exclui, e não de feature ausente | Forte |
 | **Programação e notificação confiáveis no dia do torneio** | Review do Tênis Integrado (W.O. num Brasileiro por programação que não apareceu); reviews do LetzPlay ("perdemos torneios"); LiveBT existe desde 2019 para esse mesmo problema; organizadores empurram o jogador para o grupo de WhatsApp | Forte |
 | **Resultado depende do organizador lançar** | Review do LetzPlay: jogos pendentes 2 meses. Só Ranketes e rankings específicos declaram confirmação pelo adversário com prazo | Média |
 | **Não existe rating individual de BT que atravesse arenas e federações** | UTR, DUPR, WTN e Playtomic não cobrem BT. No Brasil, cada arena, circuito, CBT e CBBT tem seu ranking. Ranketes propõe pontos próprios, mas é novo | Forte (ausência confirmada em várias buscas) |
