@@ -29,7 +29,7 @@ export default defineConfig({
         },
         test: {
           name: "unit",
-          include: ["src/**/*.test.{ts,tsx}", "app/**/*.test.{ts,tsx}"],
+          include: ["src/**/*.test.{ts,tsx}", "app/**/*.test.{ts,tsx}", "*.test.ts"],
           exclude: ["src/**/*.stories.{ts,tsx}", "node_modules/**"],
         },
       },
