@@ -11,7 +11,7 @@ Como vários agentes trabalham ao mesmo tempo em issues diferentes sem se atrope
 - **1 issue = 1 agente = 1 branch = 1 PR.** Cada agente trabalha isolado, na própria sessão na nuvem, com o próprio clone do repo.
 - **O Linear é o quadro compartilhado.** Agentes não conversam direto. Tudo que outro agente ou o Gabriel precisa saber vira status, relação ou comentário no Linear. Isso é o padrão *blackboard*: ninguém fala com ninguém, todos leem e escrevem no mesmo quadro. Resultado: o estado de todo o trabalho é auditável num lugar só.
 - **O Gabriel decide produto e domínio.** Pesquisa, implementação e testes são autônomos. Quando a decisão é de produto, de UX ou de Beach Tennis, o agente para e pergunta.
-- **A CI é o portão.** Nenhum agente mexe no `master` direto nem faz merge. O Gabriel mergeia.
+- **A CI é o portão.** Nenhum agente mexe no `master` direto. Quem mergeia é o Gabriel, ou um agente que ele autorizou explicitamente para um lote de PRs (ver "Merge").
 
 ---
 
@@ -109,6 +109,17 @@ Não usar Needs Decision para dúvida técnica que o próprio agente consegue re
 
 ---
 
+## Merge
+
+O ruleset do `master` exige PR atualizado com a base e CI verde antes do merge (ver `docs/GIT_WORKFLOW.md` > "Proteção de branch"). Para os agentes, isso vira quatro regras:
+
+- **PR desatualizado não é trabalho do agente.** Não atualizar a branch só porque o `master` andou. Quem atualiza é quem vai mergear, na hora do merge (just-in-time).
+- **Conflito é do dono da branch.** Resolver mergeando o `master` na própria branch. Nunca rebase nem force push, e nunca atualizar a branch de outro agente, nem pelo botão nem pela API.
+- **Auto-merge, nunca.** Habilitar auto-merge é mergear por procuração, e a opção fica desligada no repositório de propósito.
+- **Merge delegado só com autorização explícita, por lote.** Quando o Gabriel autoriza um agente a mergear, a autorização vale só para os PRs daquele lote, não para PRs abertos depois. Antes de mergear vários PRs, simular a combinação (`git merge-tree` + lint e testes no resultado combinado) e mergear com `expectedHeadSha`.
+
+---
+
 ## Orquestração
 
 O Gabriel escolhe o lote; uma sessão orquestradora abre uma sessão na nuvem por issue, com o prompt `/pegar-issue <ID>`.
@@ -116,3 +127,10 @@ O Gabriel escolhe o lote; uma sessão orquestradora abre uma sessão na nuvem po
 - **Máximo de 3 agentes simultâneos.** O gargalo é a revisão de PRs e as respostas a Needs Decision, não a quantidade de agentes.
 - **Só issues independentes no mesmo lote:** sem `blocked by` entre si e, de preferência, sem arquivos em comum.
 - **Issues que compartilham uma branch de feature** (ex.: correções de uma branch ainda não mergeada) vão para **um agente só**, em sequência. Coordenar vários agentes na mesma branch custa mais do que o ganho de paralelismo.
+- **Guarda de uso:** o Gabriel reserva parte do limite semanal do plano Max para uso próprio. A cada check-in, a orquestradora lê o `rate_limit_info` das sessões na nuvem em execução (`get_session`). Ela para tudo se aparecer qualquer um destes sinais:
+  - uso semanal em 80% ou mais (`utilization` ≥ 0.8 na janela `seven_day…`);
+  - `status` diferente de `allowed`;
+  - uso excedente (`isUsingOverage`).
+
+  Parar é interromper todas as sessões, não disparar nenhuma nova e registrar o motivo. O estado e os detalhes operacionais ficam no documento de orquestração do Linear.
+- **Ferramentas cobradas à parte ficam fora** (ex.: Firecrawl no modo Alexandria).

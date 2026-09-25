@@ -15,6 +15,7 @@ Se as ferramentas do Linear (`mcp__Linear__*`) não estiverem disponíveis na se
 2. Verificar se pode pegar:
    - Status precisa ser **Todo** (ou **Needs Decision** já respondida, quando retomando). Se estiver em In Progress / Exploring, outro agente está nela: pare e informe.
    - Nenhuma issue em `blocked by` pode estar aberta. Se estiver, pare e informe qual.
+   - **Guarda de uso:** se a ferramenta `get_session` existir na sessão, chamar sem `session_id` e olhar o `rate_limit_info`. Parar sem pegar a issue se aparecer qualquer um destes sinais: `utilization` ≥ 0.8 com `rateLimitType` semanal (`seven_day…`); `status` diferente de `allowed`; `isUsingOverage` verdadeiro. Nesse caso, comentar na issue o motivo, sem mudar o status. Regra em `docs/AGENT_WORKFLOW.md` > "Orquestração".
 3. Ler os docs que a issue cita e as seções relevantes do `CLAUDE.md`.
 
 ## 2. Reivindicar
@@ -43,6 +44,8 @@ npm run build
 npm run test:stories   # quando mexer em componente ou story
 ```
 
+O E2E (`npm run test:e2e`) precisa de Docker e roda só na CI: acompanhar o job E2E no PR.
+
 Reler o próprio diff procurando o que a CI ou um revisor rejeitaria.
 
 ## 5. Entregar
@@ -53,7 +56,8 @@ Reler o próprio diff procurando o que a CI ou um revisor rejeitaria.
 2. `git push -u origin <branch>`.
 3. Abrir o PR seguindo `.github/pull_request_template.md`, com `Closes <ID>` na seção "Por que". Título no estilo dos commits. **O único ID de issue no PR (título, corpo e commits) é o da issue que ele fecha.** Qualquer ID citado fica ligado ao PR, e o merge move aquela issue para Done. Outras issues são referenciadas sem ID.
 4. Acompanhar a CI. Se falhar: diagnosticar, corrigir e fazer push de novo até ficar verde. Nunca desativar teste para passar.
-5. Não fazer merge. O merge é do Gabriel. Atribuir a issue ao Gabriel (PR para aprovar).
+5. PR desatualizado com o `master` não é trabalho seu: não atualizar a branch só por isso. Conflito é: resolver mergeando o `master` na própria branch, nunca com rebase nem force push.
+6. Não fazer merge nem habilitar auto-merge. Quem mergeia é o Gabriel, ou um agente autorizado por ele para um lote (`docs/AGENT_WORKFLOW.md` > "Merge"). Atribuir a issue ao Gabriel (PR para aprovar).
 
 **PRD:**
 

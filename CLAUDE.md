@@ -144,7 +144,7 @@ Workshop pra desenvolver e testar componentes em isolamento. Cada componente do 
 
 ### Comandos
 
-- `npm run storybook` — sobe dev server em `http://localhost:6006` (acessível via LAN com `-H 0.0.0.0`)
+- `npm run storybook` — sobe dev server em `http://localhost:6006` (o script já usa `--host 0.0.0.0`, então abre pela rede local)
 - `npm run build-storybook` — build estática em `storybook-static/`
 - `npm run test:stories` — roda cada story como teste no Chromium (Playwright + Vitest browser mode)
 - `npm run test:all` — unit + storybook
@@ -243,7 +243,7 @@ Sempre incluir o link pro código-fonte no topo, logo após o Subtitle.
 - ❌ Criar MDX antes de ter stories — MDX referencia stories via `<Canvas of={...} />`. Stories primeiro, MDX depois.
 - ❌ TOC manual — Storybook 10 auto-gera TOC do lado direito a partir dos H2/H3 do MDX.
 
-**`docs/components/` foi deprecado.** MDX é a fonte única de documentação por componente. Decisões de design (rationale, alternativas consideradas) que antes ficavam em `docs/components/<nome>.md` agora vão como **última seção do próprio MDX**, conforme o item 12 abaixo.
+**`docs/components/` foi deprecado.** MDX é a fonte única de documentação por componente. Decisões de design (rationale, alternativas consideradas) que antes ficavam em `docs/components/<nome>.md` agora vão na seção **Decisões de design** do próprio MDX (item 11 da lista acima), logo antes de Referências.
 
 ### Padrão de story
 
@@ -262,11 +262,11 @@ Sempre incluir o link pro código-fonte no topo, logo após o Subtitle.
 
 ### Decisão de adapter
 
-Usamos `@storybook/nextjs-vite` (não `nextjs` webpack). Vite roda mais rápido, alinha com o pipeline do Vitest e é a direção declarada do time do Storybook. Trade aceito: regras webpack do `next.config.ts` não se aplicam — hoje irrelevante porque o `next.config` é vanilla.
+Usamos `@storybook/nextjs-vite` (não `nextjs` webpack). Vite roda mais rápido, alinha com o pipeline do Vitest e é a direção declarada do time do Storybook. Trade aceito: regras webpack do `next.config.ts` não se aplicam — hoje irrelevante porque o `next.config.ts` não tem regras de webpack (só a guarda de segredos e o `allowedDevOrigins`).
 
 ### Sobre RSC e `"use client"`
 
-Storybook + Vite não tem RSC. Stories rodam tudo client-side por default. A regra do projeto sobre `"use client"` em consumidores de Phosphor (do `CLAUDE.md > Common hurdles`) aplica ao app real, não às stories — ali nada quebra.
+Storybook + Vite não tem RSC. Stories rodam tudo client-side por default. A regra sobre Phosphor em Server Components (ver "Common hurdles" > "Phosphor em Server Components") vale para o app real, não para as stories — ali nada quebra.
 
 ## Supabase
 
@@ -393,6 +393,14 @@ Daí acessar `http://<IP-do-dev>:3000` do celular. Em prod tudo funciona.
 **Sintoma:** Primeiro tap em um elemento com regra `:hover` não dispara `click` no iOS — aplica o estado hover e espera o segundo tap.
 
 **Solução:** Envolver todas as regras `:hover` em `@media (hover: hover)` para que só apliquem em dispositivos com cursor real. Padrão seguido em todos os `.module.css` do DS.
+
+### Phosphor em Server Components
+
+**Sintoma:** ícone do `@phosphor-icons/react` falha quando renderizado num Server Component.
+
+**Causa:** o import padrão do Phosphor usa React Context, que não existe em Server Components (README do pacote, seção "React Server Components and SSR").
+
+**Solução:** o componente que importa o ícone roda no cliente. Ou ele tem `"use client"` (`Toast`, `FormInput`, `AvatarUpload`), ou só é usado dentro de componentes client (`Alert` e `PasswordChecklist`, usados só em páginas de auth com `"use client"`). Num Server Component, importar de `@phosphor-icons/react/ssr`.
 
 ### Stack de avatares em duplas no CardHeader
 
