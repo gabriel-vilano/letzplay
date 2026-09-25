@@ -96,6 +96,16 @@ git push
   - **O que** foi feito (resumo em 1-3 bullets)
   - **Por que** (contexto, JTBD relacionado)
   - **Como testar** (passos para verificar)
+- O template em `.github/pull_request_template.md` já traz essas seções e um checklist — é preenchido automaticamente ao abrir o PR
+
+### CI
+
+GitHub Actions (`.github/workflows/ci.yml`) roda em todo PR e em todo push na `master`, em dois jobs paralelos:
+
+- **Lint, testes e build** — `npm run lint`, `npm test`, `npm run build` (o build inclui a checagem de tipos)
+- **Stories** — `npm run test:stories` no Chromium, incluindo o addon de a11y
+
+Só mergear com a CI verde.
 
 ### Merge
 
