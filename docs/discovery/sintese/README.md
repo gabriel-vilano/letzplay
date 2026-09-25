@@ -70,7 +70,7 @@ Os arquivos de origem estão em PRs abertos. Os links relativos destes artefatos
 | `ARE` | [`organizadores/ARENA.md`](../organizadores/ARENA.md) | idem | O papel da competição no negócio da arena |
 | `RTE` | [`organizadores/ROTEIRO_ENTREVISTA.md`](../organizadores/ROTEIRO_ENTREVISTA.md) | idem | Roteiro pronto de entrevista com organizador |
 | `REF` | [`referencias/`](../referencias/README.md) | `docs/prd-14-referencias-visuais` (#27) | Padrões de UI por superfície (ranking, feed, navegação…) |
-| `TLY` | Formulário do Tally "Beach Tennis competitivo: como você joga e acompanha" (`q46Jk8`) | — | Rascunho com 23 perguntas e 0 respostas em 25/09/2026. Lido, não editado |
+| `TLY` | Formulário do Tally "Beach Tennis competitivo: como você joga e acompanha" (`q46Jk8`) | — | Rascunho com 24 perguntas e 0 respostas em 25/09/2026. Lido, não editado |
 
 Uma citação como `MER O3` quer dizer "oportunidade 3 do `SINTESE.md` de mercado"; `DOR D1` é a dor D1 do `DORES.md`; `DSC H2` é a hipótese H2 do `DISCOVERY.md`.
 
@@ -99,13 +99,13 @@ A mesma de todo o discovery, para que os números conversem:
 Só o Gabriel responde. Consolidadas dos 8 artefatos. As perguntas das pesquisas de origem continuam valendo e não se repetem aqui; estas são as que **a síntese** levantou ou deixou mais nítidas.
 
 1. **Qual formato de competição a síntese deve tomar como principal: ranking de arena (desafio) ou torneio?** O mapa do job (4) e o blueprint (5) mostram que quem lança o resultado, quem avisa o horário e onde nasce a dor mudam por completo entre os dois. Refina a pergunta 1 do `DSC` e a 4 do `ORG`.
-2. **Qual é o resultado desejado (outcome) da árvore de oportunidades?** A árvore (2) propõe três formulações candidatas (retenção do jogador, resultado confiável no ranking, tarefa do dia sem atrito). Torres pede **um** outcome por árvore; escolher é decisão de produto.
-3. **A persona do organizador entra no escopo da pesquisa com pessoas reais, mesmo com a visão do organizador fora do MVP?** O blueprint (5) e as forças (3) mostram que 3 das 5 suposições mais arriscadas dependem do organizador (`S3`, `S13`, `S22`).
+2. **Qual é o resultado desejado (outcome) da árvore de oportunidades?** A árvore (2) propõe três candidatos: R1 resultado confiável, R2 retorno do jogador, R3 tarefa do dia sem atrito. Torres pede **um** outcome por árvore; escolher é decisão de produto.
+3. **A persona do organizador entra no escopo da pesquisa com pessoas reais, mesmo com a visão do organizador fora do MVP?** O blueprint (5) e as forças (3) mostram que a suposição mais arriscada do mapa (`S3`, alguém lança o resultado a tempo) depende do organizador, e duas das que a evidência já derrubou em parte (`S13` e `S22`) também. O roteiro de entrevista com organizador já existe (`RTE`).
 4. **O professor-organizador é uma persona à parte?** Aparece na evidência de arena (`ARE`) e no vídeo de organizadoras (`JOR`), e a proto-persona P5 (6) o descreve. Nenhum JTBD do `CLAUDE.md` o cobre.
 5. **Quais suposições entram na primeira rodada de validação?** O plano (8) ordena pelo risco, mas quantas entrevistas cabem antes do beta, e com quem, é escolha de tempo e acesso.
 6. **O rascunho do Tally vai ao ar antes ou depois das entrevistas?** A proposta (9) funciona melhor depois de 5 a 8 entrevistas de troca, que dão a lista de resultados desejados (outcomes) a medir. Publicar antes ganha volume e perde precisão.
-7. **Aceita encurtar o Tally para abrir espaço para a bateria de importância × satisfação e Kano?** A proposta (9) sugere tirar 4 perguntas e acrescentar 3 blocos. Ficaria em ~9 minutos, contra os ~6 anunciados.
-8. **A hipótese de Kano deve considerar o jogador que não escolheu o app?** Quem usa o app porque a federação ou a arena exige (`MER RS4`) tende a tratar como "obrigatório" o que o jogador que escolheu trataria como "desempenho". Muda a leitura da tabela do Kano (7).
+7. **Aceita encurtar o Tally para abrir espaço para a bateria de importância × satisfação e Kano?** A proposta (9) sugere tirar 4 perguntas e acrescentar 2 perguntas de perfil e 2 blocos (importância × satisfação e Kano). Ficaria em ~9 a 10 minutos, contra os ~6 anunciados.
+8. **A hipótese de Kano deve considerar o jogador que não escolheu o app?** Quem usa o app porque a federação ou a arena exige (`MER RS4`) tende a tratar como "obrigatório" o que o jogador que escolheu trataria como "desempenho". Muda a leitura da tabela do Kano (7). A proposta (9) inclui a pergunta que permite separar os dois grupos na análise.
 
 ---
 

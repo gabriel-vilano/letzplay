@@ -143,24 +143,34 @@ Logo abaixo: **S15** (progressão de categoria) e **S24** (evolução), ambas so
 
 ---
 
-## De onde saiu cada suposição
+## Onde cada suposição é citada
 
-Um mapa rápido de quais artefatos desta pasta tocam cada suposição, para seguir o fio:
+Quais artefatos desta pasta citam cada suposição pelo ID, para seguir o fio. S19 e S21 não são citadas fora deste mapa.
 
-| ID | Árvore (2) | Forças (3) | Job map (4) | Blueprint (5) | Personas (6) | Kano (7) | Plano (8) |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| S1 | ✓ | | ✓ | | ✓ | | ✓ |
-| S2 | ✓ | ✓ | ✓ | | ✓ | ✓ | ✓ |
-| S3 | ✓ | ✓ | ✓ | ✓ | | | ✓ |
-| S4 | ✓ | ✓ | | ✓ | | ✓ | |
-| S5 | ✓ | ✓ | ✓ | | ✓ | | ✓ |
-| S7 | ✓ | | ✓ | | ✓ | ✓ | ✓ |
-| S8 | ✓ | ✓ | ✓ | ✓ | | ✓ | |
-| S13 | | ✓ | | ✓ | ✓ | | ✓ |
-| S15 | ✓ | | ✓ | | ✓ | ✓ | ✓ |
-| S17 | | | | | ✓ | | ✓ |
-| S22 | ✓ | ✓ | | ✓ | | | ✓ |
-| S24 | ✓ | | ✓ | | ✓ | ✓ | ✓ |
+| ID | Árvore (2) | Forças (3) | Job map (4) | Blueprint (5) | Personas (6) | Kano (7) | Plano (8) | Tally (9) |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| S1 | | | | | ✓ | | ✓ | ✓ |
+| S2 | | | | | ✓ | | ✓ | ✓ |
+| S3 | ✓ | ✓ | | | ✓ | | ✓ | ✓ |
+| S4 | ✓ | | | | | | | ✓ |
+| S5 | ✓ | | ✓ | | ✓ | | ✓ | |
+| S6 | ✓ | | | | | | | ✓ |
+| S7 | ✓ | | | | ✓ | | ✓ | ✓ |
+| S8 | ✓ | | | | | | | ✓ |
+| S9 | ✓ | | | | | ✓ | ✓ | |
+| S10 | ✓ | | | | ✓ | ✓ | | |
+| S11 | | | | | | | | ✓ |
+| S12 | ✓ | | | | | | | |
+| S13 | ✓ | ✓ | | | ✓ | | ✓ | ✓ |
+| S14 | ✓ | | | | ✓ | | | ✓ |
+| S15 | ✓ | | ✓ | | ✓ | | ✓ | |
+| S16 | ✓ | | | | | | | |
+| S17 | | | | | | | ✓ | |
+| S18 | | | | | | | | ✓ |
+| S20 | ✓ | | | | | | | ✓ |
+| S22 | ✓ | ✓ | | ✓ | | | ✓ | ✓ |
+| S23 | ✓ | | | | | | | |
+| S24 | ✓ | | ✓ | | ✓ | | ✓ | ✓ |
 
 ---
 
