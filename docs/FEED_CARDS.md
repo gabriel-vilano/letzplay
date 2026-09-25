@@ -5,7 +5,7 @@
 **Gerado em:** Abril 2026  
 **Contexto:** Este documento consolida todas as decisões tomadas nas sessões de design review, análise de wireframes e iterações de componentes. Substitui `letzplay-feed-cards-prd.md` e `letzplay-feed-cards-prd-v2.md`.
 
-> Este documento é a fonte de verdade para implementação dos componentes React do feed. Para schema de banco de dados, consultar `DATABASE.md`. Para queries e integração com Supabase, consultar `FEED_QUERIES.md`.
+> Este documento é a fonte de verdade para implementação dos componentes React do feed. As decisões de dados que os cards assumem estão na seção 11. Os tipos que materializam o contrato estão em `src/types/feed.ts`.
 
 ---
 
@@ -60,7 +60,7 @@ Dois padrões dependendo do tipo de card:
 - Fase: `--text-label-md`, `--color-foreground-accent` — "Rodada 3", "QF", "Final"
 - Nome da competição: `--text-body-md`, `font-weight-bold`, `--color-foreground-primary`, truncado com ellipsis após 1 linha
 - @username + timestamp: `--text-label-md`, `--color-foreground-secondary`
-- Botão Seguir: `--text-label-md`, `--color-foreground-accent` — visível apenas quando usuário não segue a org
+- Botão Seguir: **fora do MVP** (ver 11.2). Quando voltar: `--text-label-md`, `--color-foreground-accent`, visível apenas quando o usuário não segue a org
 
 **Padrão B — Cabeçalho de jogador** (amizade, ranking)
 ```
@@ -678,3 +678,38 @@ Antes de marcar qualquer card como implementado, verificar:
 - [ ] `:focus-visible` implementado em todos os elementos interativos
 - [ ] Ícones decorativos com `aria-hidden={true}`
 - [ ] Botões sem texto visível têm `aria-label` no `<button>`
+
+---
+
+## 11. Decisões de dados
+
+Decisões de schema e de semântica que os cards assumem. Hoje os cards rodam com mocks (`src/mocks/feed.ts`); quando o Supabase entrar, estas decisões valem para as tabelas e para a geração das activities.
+
+### 11.1 `total_matches` em `profiles`
+
+Coluna desnormalizada em `profiles`, atualizada por trigger a cada partida confirmada. Aparece nos cards de confronto ("274 jogos"), na lista de amigos e no perfil do jogador. Por isso mora em `PlayerInfo`, e não no lado da partida (`MatchSide`): cada contexto recebe o dado junto com o jogador, sem buscar separado.
+
+### 11.2 Seguir organização fica fora do MVP
+
+A feature exige uma tabela `follows (follower_id → profiles, followee_id → organizations)`, que não entra no MVP. Por isso `OrgCardHeader` não tem `is_following` e o `CardHeader` não renderiza o botão "Seguir". Quando a tabela existir, o campo volta para `OrgCardHeader` e o botão volta para o `CardHeader`.
+
+### 11.3 Torcida: `match_cheers`
+
+`cheer_a`, `cheer_b` e `user_cheer` em `MatchCard` vêm da tabela `match_cheers (match_id, player_id, side, created_at)`.
+
+- `PRIMARY KEY (match_id, player_id)`: um voto por usuário por partida
+- Torcida reversível: trocar de lado é `UPDATE`, desfazer é `DELETE`
+- Contagem no MVP: `COUNT … GROUP BY side`. Se a escala pedir, migrar para colunas desnormalizadas mantidas por trigger
+
+### 11.4 `enrollment_count` conta jogadores
+
+O número de inscritos é sempre de jogadores, não de inscrições. Assim a exibição é consistente entre simples (1 jogador por inscrição) e duplas (2 por inscrição).
+
+- Cálculo: `COUNT(enrollments)` em simples, `COUNT(enrollments) × 2` em duplas
+- Calculado ao gerar o `metadata` da activity, não guardado como contador em `categories`
+
+### 11.5 Categorias
+
+- **Faixa de nível:** `level_min` / `level_max` no lugar de um `level` único. Representa categorias como "Feminina A/B" (`level_min = 'A'`, `level_max = 'B'`). Categoria de um nível só tem os dois iguais
+- **Nível ou faixa etária:** nível técnico e `age_group` são mutuamente exclusivos. Uma categoria é definida por um ou pelo outro
+- **Mista implica duplas:** constraint no banco bloqueia `gender = 'mixed' AND modality = 'singles'`
