@@ -113,16 +113,24 @@ describe("verifyOtp", () => {
     expect(supabase.auth.verifyOtp).not.toHaveBeenCalled();
   });
 
-  it("OTP expirado pede um novo código", async () => {
-    supabase.auth.verifyOtp.mockResolvedValueOnce({ error: { message: "Token has expired" } });
+  // Regressão: código errado aparecia como "Código expirado", porque o Supabase usa
+  // o mesmo erro (`otp_expired`) para os dois casos
+  it("código errado ou expirado: mensagem única que cobre os dois casos", async () => {
+    supabase.auth.verifyOtp.mockResolvedValueOnce({
+      error: { code: "otp_expired", message: "Token has expired or is invalid" },
+    });
     const result = await verifyOtp(null, form());
-    expect(result).toEqual({ error: "Código expirado. Solicite um novo código." });
+    expect(result).toEqual({
+      error: "Código inválido ou expirado. Confira o código ou solicite um novo.",
+    });
   });
 
-  it("OTP inválido: mensagem genérica", async () => {
+  it("erro desconhecido: mesma mensagem, sem vazar o erro interno", async () => {
     supabase.auth.verifyOtp.mockResolvedValueOnce({ error: { message: INTERNAL_ERROR } });
     const result = await verifyOtp(null, form());
-    expect(result).toEqual({ error: "Código inválido. Tente novamente." });
+    expect(result).toEqual({
+      error: "Código inválido ou expirado. Confira o código ou solicite um novo.",
+    });
   });
 
   it("OTP válido verifica como `email` e segue para o perfil", async () => {
