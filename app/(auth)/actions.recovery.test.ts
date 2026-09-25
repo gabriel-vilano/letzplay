@@ -24,6 +24,10 @@ vi.mock("next/navigation", () => ({
 }));
 
 const INTERNAL_ERROR = "AuthApiError: connection to db-internal-42 refused";
+const EMAIL_COOLDOWN_ERROR = {
+  code: "over_email_send_rate_limit",
+  message: "For security purposes, you can only request this after 42 seconds.",
+};
 
 let supabase: SupabaseMock;
 
@@ -39,11 +43,21 @@ describe("requestRecovery", () => {
     expect(supabase.auth.resetPasswordForEmail).not.toHaveBeenCalled();
   });
 
-  it("erro do Supabase: mensagem amigável, sem vazar o erro interno", async () => {
+  // Regressão: antes qualquer erro virava "E-mail não encontrado."
+  it("erro do Supabase: mensagem neutra, sem citar o e-mail nem vazar o erro interno", async () => {
     supabase.auth.resetPasswordForEmail.mockResolvedValueOnce({ error: { message: INTERNAL_ERROR } });
     const result = await requestRecovery(null, buildFormData({ email: "ana@test.com" }));
-    expect(result?.error).toBeDefined();
-    expect(result?.error).not.toContain(INTERNAL_ERROR);
+    expect(result).toEqual({
+      error: "Não foi possível enviar o código. Tente novamente em alguns minutos.",
+    });
+  });
+
+  // Regressão (enumeração): o cooldown só existe para conta real; erro aqui revelaria o cadastro
+  it("cooldown de envio segue como sucesso, igual a e-mail sem conta", async () => {
+    supabase.auth.resetPasswordForEmail.mockResolvedValueOnce({ error: EMAIL_COOLDOWN_ERROR });
+    const form = buildFormData({ email: "ana@test.com" });
+    const verifyUrl = "/recuperar-senha/verificar?email=ana%40test.com";
+    await expect(requestRecovery(null, form)).rejects.toThrow(redirectSignal(verifyUrl));
   });
 
   it("envia o código e redireciona para a verificação", async () => {
@@ -97,6 +111,12 @@ describe("resendRecoveryOtp", () => {
     supabase.auth.resetPasswordForEmail.mockResolvedValueOnce({ error: { message: INTERNAL_ERROR } });
     const result = await resendRecoveryOtp(null, buildFormData({ email: "ana@test.com" }));
     expect(result).toEqual({ error: "Erro ao reenviar código. Tente novamente." });
+  });
+
+  it("cooldown de envio não revela a conta: responde sucesso", async () => {
+    supabase.auth.resetPasswordForEmail.mockResolvedValueOnce({ error: EMAIL_COOLDOWN_ERROR });
+    const result = await resendRecoveryOtp(null, buildFormData({ email: "ana@test.com" }));
+    expect(result).toEqual({ success: true });
   });
 
   it("reenvia o código de recuperação", async () => {
