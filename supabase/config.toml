@@ -216,13 +216,15 @@ enable_signup = true
 # addresses. If disabled, only the new email is required to confirm.
 double_confirm_changes = true
 # If enabled, users need to confirm their email address before signing in.
-enable_confirmations = false
+# Ligado para espelhar produção: o cadastro do app exige o código enviado por e-mail.
+enable_confirmations = true
 # If enabled, users will need to reauthenticate or have logged in recently to change their password.
 secure_password_change = false
 # Controls the minimum amount of time that must pass before sending another signup confirmation or password reset email.
 max_frequency = "1s"
 # Number of characters used in the email OTP.
-otp_length = 6
+# 8 como em produção; precisa bater com `OTP_LENGTH` em src/lib/validations.ts.
+otp_length = 8
 # Number of seconds before the email OTP expires (defaults to 1 hour).
 otp_expiry = 3600
 
@@ -240,6 +242,16 @@ otp_expiry = 3600
 # [auth.email.template.invite]
 # subject = "You have been invited"
 # content_path = "./supabase/templates/invite.html"
+
+# Cadastro e recuperação de senha pedem o código, não o link: os templates locais mostram
+# o `{{ .Token }}`, e os testes E2E leem esse código no Mailpit. Os de produção ficam no dashboard.
+[auth.email.template.confirmation]
+subject = "Seu código de verificação LetzPlay"
+content_path = "./supabase/templates/confirmation.html"
+
+[auth.email.template.recovery]
+subject = "Código para redefinir sua senha LetzPlay"
+content_path = "./supabase/templates/recovery.html"
 
 # Uncomment to customize notification email template
 # [auth.email.notification.password_changed]
