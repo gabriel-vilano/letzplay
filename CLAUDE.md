@@ -270,10 +270,11 @@ Storybook + Vite não tem RSC. Stories rodam tudo client-side por default. A reg
 
 - Row Level Security (RLS) ativo em todas as tabelas
 - Sempre definir policies antes de usar uma tabela
-- Nunca expor a `service_role` key no frontend
-- Variáveis de ambiente: `NEXT_PUBLIC_SUPABASE_URL` e `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- Nunca expor chave secreta no frontend — nem a `service_role` legada nem a secret key (`sb_secret_…`). Toda variável `NEXT_PUBLIC_*` vira texto no JavaScript enviado ao navegador; o `next.config.ts` bloqueia o build se detectar segredo numa delas
+- Variáveis de ambiente: `NEXT_PUBLIC_SUPABASE_URL` e `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` (`sb_publishable_…`), lidas só via `getSupabasePublicEnv()` (`src/lib/supabase/env.ts`). A anon key legada (JWT) não é usada
+- **Env vars na Vercel:** a integração Supabase ↔ Vercel sincroniza só o ambiente Production, com os segredos marcados como *sensitive*. Preview e Development recebem apenas as variáveis públicas, cadastradas à mão — build de branch (o repo é público) nunca recebe segredo
 - **Schema versionado em `supabase/migrations/`.** Toda mudança de schema, policy ou bucket entra como migration — nunca editar direto pelo dashboard. O repo é a fonte de verdade do banco; o dashboard é só leitura
-- Nome de migration: `<timestamp>_<descricao_em_snake_case>.sql`. Aplicada no remoto com `supabase db push` (ou `apply_migration` via MCP, que registra a mesma versão)
+- Migration nasce com `supabase migration new <descricao_em_snake_case>` (gera `<timestamp>_<descricao>.sql`) e entra por PR. **Quem aplica no remoto é o merge na `master`**, via integração GitHub do Supabase (*Deploy to production*). Nunca aplicar à mão (`supabase db push`, `apply_migration` via MCP): o `apply_migration` grava a hora da chamada como versão, diferente do timestamp do arquivo — no merge a integração roda o mesmo SQL de novo e o histórico do banco diverge do repo. Para testar antes do merge: `supabase db reset` local (Docker)
 - **Dados mockados primeiro.** O Supabase é ambiente de testes para ver o produto num cenário real, não banco de produção. Features nascem com mocks tipados; tabela nova só entra quando a feature precisa do cenário real
 
 ## Insights estratégicos

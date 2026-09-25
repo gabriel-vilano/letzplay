@@ -94,6 +94,15 @@ Só mergear com a CI verde.
 - Preferir **merge commit** (não squash) para manter o histórico de commits da branch
 - Deletar a branch após merge
 
+### Deploy
+
+O merge na `master` publica sozinho:
+
+- **Vercel** faz o build de produção do app (cada branch também ganha um deploy de preview)
+- **Supabase** aplica as migrations novas de `supabase/migrations/` (integração GitHub, *Deploy to production*)
+
+Por isso o PR é o único caminho de uma migration até o banco — revisar o SQL no PR como código de produção.
+
 ---
 
 ## Versionamento
