@@ -50,7 +50,7 @@ Documentamos o que é estável. Decisões, padrões, princípios, hurdles, conve
 - **Workshop de componentes:** Storybook 10 (`@storybook/nextjs-vite`) — rodar com `npm run storybook`
 - **Testes:** Vitest 4 — `npm test` (unit) e `npm run test:stories` (browser via Playwright)
 - **Deploy:** Vercel (deploy automático via GitHub)
-- **Repositório:** GitHub (privado, nome "letzplay")
+- **Repositório:** GitHub (público, `gabriel-vilano/letzplay`) — `master` protegida por ruleset; toda mudança entra via PR com CI verde
 - **Tracker de execução:** Linear (`linear.app/letzplay`)
 - **IDE:** VS Code com Claude Code (plano Max)
 
