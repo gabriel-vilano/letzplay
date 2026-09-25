@@ -10,6 +10,7 @@ Código, tipo (ver [`README.md`](README.md)), o que é, data e como foi lido. Tr
 | YT2 | [Beach Tennis Brasil TV — "O problema com a categoria dos atletas de beach tennis"](https://www.youtube.com/watch?v=LFxsPhjZfyw). Corte de podcast com diretor da Federação Paulista de Tênis (beach tennis) | 07/01/2023 | Transcrição lida. O episódio completo (2h50) voltou sem transcrição |
 | YT3 | [TudoBT — "Fazer um torneio de beach tennis antigamente não era fácil"](https://www.youtube.com/watch?v=lNRxDO1sKUU). *Short* com organizador veterano sobre patrocínio | 09/07/2024 | Transcrição lida |
 | AS1 | [App Store — Meu Ranking - Organizador](https://apps.apple.com/br/app/meu-ranking-organizador/id1661980654?see-all=reviews). 4,9★ (64). Reviews de organizadores e arenas | Sem data visível | Lido |
+| AS2 | [App Store — Winner - Organizar torneios](https://apps.apple.com/br/app/id1453673502?see-all=reviews). 4,5★ (370). App genérico de campeonato, **não é de BT** | 2021–2025 | Lido |
 
 ## Dois lados (2L) — Reclame Aqui com resposta
 
@@ -32,6 +33,9 @@ Código, tipo (ver [`README.md`](README.md)), o que é, data e como foi lido. Tr
 | REG1 | [Regulamento de Beach Tennis FET 2025/26](https://tenis-integrado-prod.s3.amazonaws.com/sync-prod/id48142/anexos/anexo_1756267934.pdf) (Federação Espírito-Santense de Tênis), 27 páginas | 2025/26 | Lido na íntegra |
 | REG2 | [Nômades Beach Tennis — Ranking Regulamento](https://nomadesbt.com.br/ranking-regulamento/). Ranking de desafio de um grupo/clube | Desde 01/2022 | Lido |
 | REG3 | [Regulamento do Ranking AVB Arena de Beach Tennis](https://onthebeach.com.br/regulamento-do-ranking-de-beach-tennis/) (Arena On The Beach, MG) | 23/01/2024 | Lido |
+| REG4 | [Regulamento Beach Tennis do Estado do Ceará 2025](https://tenis-integrado-prod.s3.amazonaws.com/sync-prod/id6815/anexos/anexo_1737742025.pdf) (FCTBT), 15 páginas | 2025 | Lido na íntegra |
+| LP1 | [Página de torneio no LetzPlay — 2º Circuito de Beach Tennis Amador de Teresina](https://letzplay.me/jeretv/tourneys/19577): inscrição R$ 0,00, 5 categorias de 14 a 28 duplas, sem informação adicional do organizador | 04/2024 | Lido |
+| LP2 | [Página do Campeonato Brasileiro Amador CBBT 2024 no LetzPlay](https://letzplay.me/CBBT/tourneys/27863): inscrição no site da CBBT, R$ 179 a 1ª categoria e R$ 89 as seguintes, 20 categorias com 421 duplas em 3 dias | 11/2024 | Lido |
 
 ## Praticante-construtor (PC)
 
@@ -54,3 +58,13 @@ Código, tipo (ver [`README.md`](README.md)), o que é, data e como foi lido. Tr
 | N2 | [Brazil Journal — "Beach tennis, um mercado sem dono"](https://braziljournal.com/beach-tennis-um-mercado-sem-dono/). Opinião | 07/09/2026 | Lido |
 | N3 | Macena Open: fala de organizador ("semanas de trabalho duro e muitos desafios"), recorde de 1.702 atletas em 40 quadras. [Lance!](https://www.lance.com.br/tenis/atletas-exaltam-estrutura-de-edicao-recorde-do-macena-open-na-praia-do-frances.html) | 2023 | Resumo |
 | N4 | [Vídeo da Prefeitura de Ribeirão Claro — publicação ao vivo das chaves do torneio municipal](https://www.youtube.com/watch?v=MXwnFPohf0M) | 20/03/2026 | Descrição lida, sem transcrição |
+| N5 | [A Peteca — Copa São Caetano (badminton)](https://apeteca.substack.com/p/copa-sao-caetano-faz-sucesso-e-pode). **Outro esporte** | 30/04/2025 | Lido |
+
+## Marketing de fornecedor (MKT) — só contexto
+
+| Código | Fonte | Leitura |
+| --- | --- | --- |
+| MKT1 | Blogs de fornecedor sobre organizar torneio: [Atletis](https://www.atletis.com.br/como-organizar-torneio-beach-tennis), [Raquetes para Tênis](https://raquetesparatenis.com.br/organizacao-de-torneios-amadores-de-beach-tennis/), [Lets](https://lets.events/blog/organizar-torneio-de-beach-tennis/) | Resumo |
+| MKT2 | Depoimentos em sites de sistema de arena: [ArenaAi](https://arenai.com.br/) ("Antes era tudo em planilha e WhatsApp manual"), [BT Match](https://btmatch.com.br/) (fundador: "aulas, reservas e torneios viviam espalhados em cadernos, planilhas e grupos de WhatsApp") | Resumo |
+| MKT3 | [Tecnofit — lucro de uma quadra de beach tennis](https://www.tecnofit.com.br/blog/lucro-de-uma-quadra-de-beach-tennis/) e blogs semelhantes (ocupação de 60–70% para rentabilizar, R$ 8–15 mil/mês por quadra) | Resumo |
+| MKT4 | [ABC EVO — "Investir ou não investir em Beach Tennis no Brasil?"](https://www.youtube.com/watch?v=1iyrwEqrMgg), webinar de fornecedor | Transcrição lida |
