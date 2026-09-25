@@ -86,7 +86,7 @@ GitHub Actions (`.github/workflows/ci.yml`) roda em todo PR e em todo push na `m
 
 - **Lint, testes e build** — `npm run lint`, `npm test`, `npm run build` (o build inclui a checagem de tipos)
 - **Stories** — `npm run test:stories` no Chromium, incluindo o addon de a11y
-- **E2E** — `npm run test:e2e`: fluxos de auth no Chromium (viewport 430px) contra um Supabase local com as migrations aplicadas do zero. Ainda não é check obrigatório do ruleset: entra depois de alguns runs verdes
+- **E2E** — `npm run test:e2e`: fluxos de auth no Chromium (viewport 430px) contra um Supabase local com as migrations aplicadas do zero
 
 Só mergear com a CI verde.
 
@@ -135,13 +135,15 @@ O repositório é **público** — requisito para que rulesets sejam aplicados s
 Ruleset `master` (Settings → Rules → Rulesets), aplicado à branch padrão:
 
 - **Require a pull request before merging** — sem push direto na `master`
-- **Require status checks to pass** — `Lint, testes e build` e `Stories (Storybook + a11y)`
+- **Require status checks to pass** — `Lint, testes e build`, `Stories (Storybook + a11y)` e `E2E (Playwright + Supabase local)`
 - **Block force pushes** e **Restrict deletions** — protegem o histórico
 - **Require branches to be up to date:** desativado (projeto solo; evita atualizar a branch antes de cada merge)
 - **Require reviews:** desativado (projeto solo — a CI é o portão de qualidade)
 - **Bypass list:** só o admin do repositório, para emergências
 
 Se um check novo for adicionado à CI, incluí-lo também na lista de checks obrigatórios do ruleset.
+
+A CI de um PR roda sobre o merge da branch com a base, não sobre a branch sozinha: um job novo no `master` aparece em qualquer PR no próximo push, mesmo que a branch ainda tenha o `ci.yml` antigo. PR sem push desde que o job entrou fica sem o check: um push novo (ou mergear o `master` na branch) resolve.
 
 ---
 
