@@ -82,10 +82,11 @@ git branch -d feature/auth
 
 ### CI
 
-GitHub Actions (`.github/workflows/ci.yml`) roda em todo PR e em todo push na `master`, em dois jobs paralelos:
+GitHub Actions (`.github/workflows/ci.yml`) roda em todo PR e em todo push na `master`, em três jobs paralelos:
 
 - **Lint, testes e build** — `npm run lint`, `npm test`, `npm run build` (o build inclui a checagem de tipos)
 - **Stories** — `npm run test:stories` no Chromium, incluindo o addon de a11y
+- **E2E** — `npm run test:e2e`: fluxos de auth no Chromium (viewport 430px) contra um Supabase local com as migrations aplicadas do zero. Ainda não é check obrigatório do ruleset: entra depois de alguns runs verdes
 
 Só mergear com a CI verde.
 

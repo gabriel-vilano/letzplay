@@ -30,6 +30,20 @@ App disponível em [http://localhost:3000](http://localhost:3000). O `dev` roda 
 | `npm start`     | Roda o build localmente              |
 | `npm run lint`  | ESLint                               |
 | `npm test`      | Testes (Vitest)                      |
+| `npm run test:e2e` | Testes E2E (Playwright + Supabase local) |
+
+### Testes E2E
+
+Os testes de `e2e/` rodam contra o build de produção e um Supabase local, com os e-mails capturados pelo Mailpit. Precisam do [Supabase CLI](https://supabase.com/docs/guides/local-development/cli/getting-started) e do Docker rodando. Na CI, o job E2E faz tudo isso sozinho.
+
+```bash
+supabase start                                    # sobe o Supabase local e aplica as migrations
+export $(bash scripts/supabase-e2e-env.sh | xargs)  # aponta o app e os testes para o Supabase local
+npm run build
+npm run test:e2e
+```
+
+O build fica apontado para o Supabase local. Para voltar ao `.env.local`, abra outro terminal e rode `npm run build` de novo.
 
 ## Variáveis de ambiente
 
