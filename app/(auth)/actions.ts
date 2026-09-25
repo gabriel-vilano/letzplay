@@ -6,6 +6,10 @@ import { validateEmail, validatePassword, validateName, validateOtp, validateUse
 import { AVATAR_HEADER_LENGTH, detectAvatarFormat } from "@/src/lib/avatarFormat";
 import type { AuthActionState } from "@/src/types/auth";
 
+// O Supabase devolve o mesmo erro para código errado e expirado ("Token has expired
+// or is invalid", code `otp_expired`), então não dá para dizer qual dos dois aconteceu.
+const OTP_REJECTED_MESSAGE = "Código inválido ou expirado. Confira o código ou solicite um novo.";
+
 export async function login(
   _prevState: AuthActionState,
   formData: FormData
@@ -108,10 +112,7 @@ export async function verifyOtp(
   });
 
   if (error) {
-    if (error.message.toLowerCase().includes("expired")) {
-      return { error: "Código expirado. Solicite um novo código." };
-    }
-    return { error: "Código inválido. Tente novamente." };
+    return { error: OTP_REJECTED_MESSAGE };
   }
 
   redirect("/cadastro/perfil");
@@ -189,10 +190,7 @@ export async function verifyRecoveryOtp(
   });
 
   if (error) {
-    if (error.message.toLowerCase().includes("expired")) {
-      return { error: "Código expirado. Solicite um novo código." };
-    }
-    return { error: "Código inválido. Tente novamente." };
+    return { error: OTP_REJECTED_MESSAGE };
   }
 
   redirect("/recuperar-senha/nova-senha");
