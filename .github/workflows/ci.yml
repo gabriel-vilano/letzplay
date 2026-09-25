@@ -61,7 +61,13 @@ jobs:
           version: latest
       # Sobe só o que os fluxos usam (banco, Auth, REST, Storage, gateway e Mailpit)
       - run: supabase start -x studio,postgres-meta,realtime,imgproxy,edge-runtime,logflare,vector,supavisor
-      - run: bash scripts/supabase-e2e-env.sh >> "$GITHUB_ENV"
+      - name: Apontar app e testes para o Supabase local
+        run: |
+          bash scripts/supabase-e2e-env.sh > "$RUNNER_TEMP/e2e.env"
+          # A secret key é a de dev do Supabase local e só vale dentro do runner, mas o log é
+          # público e o GitHub imprime as env de cada passo: mascarada, aparece como ***
+          echo "::add-mask::$(grep '^E2E_SUPABASE_SECRET_KEY=' "$RUNNER_TEMP/e2e.env" | cut -d= -f2-)"
+          cat "$RUNNER_TEMP/e2e.env" >> "$GITHUB_ENV"
       - run: npm ci
       - run: npx playwright install --with-deps chromium
       # Build com as variáveis do Supabase local: as NEXT_PUBLIC_* são embutidas no build
