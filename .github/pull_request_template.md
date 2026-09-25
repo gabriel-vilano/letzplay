@@ -8,7 +8,7 @@
 
 ## Por que
 
-<!-- Contexto, JTBD relacionado e issue do Linear (ex: LP-12) -->
+<!-- Contexto e JTBD relacionado. Issue do Linear com palavra-chave para fechar no merge: Closes ENG-12 -->
 
 ## Como testar
 

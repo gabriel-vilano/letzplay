@@ -4,6 +4,7 @@
 @docs/PRODUCT.md
 @docs/GIT_WORKFLOW.md
 @docs/TOKENS.md
+@docs/AGENT_WORKFLOW.md
 
 ## Sobre o projeto
 
@@ -34,6 +35,7 @@ Documentamos o que é estável. Decisões, padrões, princípios, hurdles, conve
 - `docs/PRODUCT.md` — visão, escopo MVP, princípios de design, métricas
 - `docs/TOKENS.md` — design system
 - `docs/GIT_WORKFLOW.md` — workflow de branches, PR, versionamento
+- `docs/AGENT_WORKFLOW.md` — estrutura do Linear e coordenação de agentes em paralelo
 - `src/components/.../Component.mdx` — **fonte única** de documentação por componente (renderizada no Storybook)
 - **Linear** (`linear.app/letzplay`) — tarefas, progresso, próximos passos
 
@@ -343,6 +345,7 @@ O Claude deve sinalizar proativamente quando:
 - **Framework:** Vitest 4. `npm test` roda só o project `unit` (testes node). `npm run test:stories` roda as stories no Chromium. Arquivos `<nome>.test.ts(x)` ao lado do código testado
 - **Abordagem equilibrada:** não exige TDD rigoroso, mas todo fluxo crítico ganha teste antes de ser considerado "pronto". Testar imediatamente após implementar — não deixar acumular dívida de teste
 - **Prioridade de cobertura:** auth (login, signup, validações), operações de banco (criar perfil, registrar partida), validações de input, e qualquer fluxo que envolva dados sensíveis
+- **Server actions:** testar com `vi.mock` em `@/src/lib/supabase/server` (fake de `app/(auth)/actions.test-utils.ts`) e em `next/navigation`, com `redirect` lançando `NEXT_REDIRECT:<url>` como o real. Asserção de redirect: `rejects.toThrow(redirectSignal(url))`
 - **Bug fix → teste de regressão.** Todo bug corrigido ganha um teste que reproduziria o bug, para evitar regressão futura
 
 ### Oferecer a versão simples primeiro
