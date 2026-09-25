@@ -50,7 +50,7 @@ Documentamos o que é estável. Decisões, padrões, princípios, hurdles, conve
   - `@supabase/supabase-js` ^2.101.1
   - `@supabase/ssr` ^0.10.0
 - **Workshop de componentes:** Storybook 10 (`@storybook/nextjs-vite`) — rodar com `npm run storybook`
-- **Testes:** Vitest 4 — `npm test` (unit) e `npm run test:stories` (browser via Playwright)
+- **Testes:** Vitest 4 — `npm test` (unit) e `npm run test:stories` (browser via Playwright); Playwright — `npm run test:e2e` (E2E contra Supabase local, roda na CI)
 - **Deploy:** Vercel (deploy automático via GitHub)
 - **Repositório:** GitHub (público, `gabriel-vilano/letzplay`) — `master` protegida por ruleset; toda mudança entra via PR com CI verde
 - **Tracker de execução:** Linear (`linear.app/letzplay`)
@@ -346,6 +346,8 @@ O Claude deve sinalizar proativamente quando:
 - **Abordagem equilibrada:** não exige TDD rigoroso, mas todo fluxo crítico ganha teste antes de ser considerado "pronto". Testar imediatamente após implementar — não deixar acumular dívida de teste
 - **Prioridade de cobertura:** auth (login, signup, validações), operações de banco (criar perfil, registrar partida), validações de input, e qualquer fluxo que envolva dados sensíveis
 - **Server actions:** testar com `vi.mock` em `@/src/lib/supabase/server` (fake de `app/(auth)/actions.test-utils.ts`) e em `next/navigation`, com `redirect` lançando `NEXT_REDIRECT:<url>` como o real. Asserção de redirect: `rejects.toThrow(redirectSignal(url))`
+- **E2E:** Playwright em `e2e/`, contra o build de produção e um Supabase local (`supabase start`) com as migrations aplicadas do zero; o código de verificação dos e-mails vem do Mailpit. Roda no job E2E da CI. Sessões de agente não têm Docker: validam pelo resultado desse job no PR, não localmente. Cada teste cria usuário com e-mail único (`uniqueEmail`), e os helpers recusam qualquer Supabase que não seja local
+- **Seletores E2E:** preferir `getByLabel`/`getByRole` com `exact: true`. Alerta sempre filtrado pelo texto (`getByRole("alert").filter({ hasText })`): o anunciador de rota do Next também tem `role="alert"`
 - **Bug fix → teste de regressão.** Todo bug corrigido ganha um teste que reproduziria o bug, para evitar regressão futura
 
 ### Oferecer a versão simples primeiro
