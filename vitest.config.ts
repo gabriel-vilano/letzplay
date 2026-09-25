@@ -13,7 +13,7 @@ const dirname =
     : path.dirname(fileURLToPath(import.meta.url));
 
 // Dois projects:
-// - "unit": testes node puros (validations etc.). É o que `npm test` roda.
+// - "unit": testes node puros (validations, server actions etc.). É o que `npm test` roda.
 // - "storybook": cada story vira teste no browser via Playwright + Chromium.
 //   Roda com `npm run test:stories` (mais lento, requer browser).
 //
@@ -23,9 +23,13 @@ export default defineConfig({
     projects: [
       {
         extends: true,
+        // Espelha o `paths` do tsconfig: as server actions importam via `@/src/...`.
+        resolve: {
+          alias: { "@": dirname },
+        },
         test: {
           name: "unit",
-          include: ["src/**/*.test.{ts,tsx}"],
+          include: ["src/**/*.test.{ts,tsx}", "app/**/*.test.{ts,tsx}"],
           exclude: ["src/**/*.stories.{ts,tsx}", "node_modules/**"],
         },
       },
