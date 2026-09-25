@@ -27,12 +27,12 @@ Pesquisa feita em 25/09/2026. Legenda de fontes e de força no [`README.md`](REA
 | Calendário e sede | Etapa federada entra num calendário anual aprovado pela federação. O organizador tem de oferecer **número mínimo de quadras** (FET: 8 sem luz ou 6 com luz), árbitro credenciado, água e banheiro | REG1 (lido) | Forte |
 | Dimensionar quadras × inscritos | A FET amarra quadras ao número de inscritos (até 100 duplas: 4 quadras com luz ou 10 sem luz; +2 quadras a cada 50) "para minimizar eventuais atrasos na programação". O limite de inscritos por categoria é "de sua inteira responsabilidade" | REG1 (lido) | Forte |
 | Equipe | Até 100 duplas: 1 árbitro geral, 1 auxiliar e 2 *staffs* de quadra. Até 200 duplas: 1 + 3 + 4 | REG1 (lido) | Forte |
-| Preço e inscrição | Faixa de preço definida pela federação (FET: R$ 119–199 filiado; R$ 139–219 avulso). Em arenas no LetzPlay, R$ 50–80 por categoria (`NEGOCIO.md` do PRD-13). A inscrição pode ser lançada e paga em até 48h; depois disso é cancelada automaticamente | REG1 (lido); resumo | Forte |
+| Preço e inscrição | Faixa de preço definida pela federação (FET: R$ 119–199 filiado; R$ 139–219 avulso). Em arenas no LetzPlay, R$ 50–80 por categoria (`NEGOCIO.md` da pesquisa de mercado). A inscrição pode ser lançada e paga em até 48h; depois disso é cancelada automaticamente | REG1 (lido); resumo | Forte |
 | Dupla e pagamento | "A inscrição só é confirmada quando os dois membros da dupla realizam o pagamento" (TF Sports). Um sistema de arena teve de corrigir o fluxo em que só quem inscrevia pagava e "partners entered free" | RA3 (lido); GH (lido) | Forte |
 | Troca de parceiro | Janela curta e formal: FET até 20h da véspera, com justificativa por e-mail; outros regulamentos, 72h com atestado. Na prática, o pedido chega por e-mail e WhatsApp e pode ficar sem resposta por duas semanas | REG1 (lido); RA6 (lido) | Forte |
 | Categoria e elegibilidade | Checar se o atleta pode jogar aquela categoria: ranking em outras federações, torneios em categoria superior, perfis duplicados. Ver `DORES.md`, D1 | RA2, RA3, RA4, YT2 (lidos) | Forte |
 | Camisa e kit | O organizador descobria o tamanho da camisa de cada atleta "individualmente via WhatsApp depois de fechar inscrição" e montava a encomenda para a confecção | GH #70 (lido) | Média (um caso) |
-| Chave e programação | Sorteio com cabeças de chave (pesquisa de domínio da PRD-10). Programação publicada "preferencialmente" 48h antes. Há prefeitura que transmite ao vivo a publicação das chaves | REG1 (lido); vídeo de prefeitura (lido, sem transcrição) | Forte |
+| Chave e programação | Sorteio com cabeças de chave (pesquisa de regras de ranking). Programação publicada "preferencialmente" 48h antes. Há prefeitura que transmite ao vivo a publicação das chaves | REG1 (lido); vídeo de prefeitura (lido, sem transcrição) | Forte |
 | Grupo de WhatsApp | Depois da inscrição, os atletas são "direcionados a um grupo de WhatsApp" com informações e link de denúncia | RA3 (lido) | Média |
 | Patrocínio | Buscar patrocínio local exige mostrar contrapartida ("como que eu vou aparecer"). Organizadora cita patrocinadores locais no vídeo do evento | YT1, YT3 (lidos) | Média |
 
@@ -61,14 +61,14 @@ Pesquisa feita em 25/09/2026. Legenda de fontes e de força no [`README.md`](REA
 | Reembolso | Só em casos previstos; FET devolve "somente após o fim da etapa", por e-mail, ou dá crédito. Circuito nacional não devolve, não troca e não gera crédito (dupla perdeu R$ 438) | REG1 (lido); RA7 (lido) | Forte |
 | Impugnação tardia | Impugnação de categoria feita 10 dias depois da etapa: o resultado fica (prazo vencido), mas a vaga nas Finals é negada e passa à próxima dupla. Atleta leva à Justiça | RA4 (lido) | Média (um caso, bem documentado) |
 | Finals e convocação | Convite enviado, questionado e revertido. Cinco protocolos sem resposta em 7 dias | RA4 (lido) | Média |
-| Pontuação no ranking | W.O. vale 0 na etapa (FET). Em ranking de arena, cada um define a tabela (pesquisa da PRD-10) | REG1 (lido) | Forte |
+| Pontuação no ranking | W.O. vale 0 na etapa (FET). Em ranking de arena, cada um define a tabela (pesquisa de regras de ranking) | REG1 (lido) | Forte |
 | Premiação | Prêmio em roupa que a loja não quis trocar vira reclamação contra o organizador | RA TF Sports (título) | Fraca |
 
 ---
 
 ## 2. Ranking de arena (ciclo contínuo)
 
-Os três regulamentos lidos na íntegra são de **escada de desafio** (Nômades BT, AVB Arena). A PRD-10 descreveu outros formatos (sorteio periódico, rodadas com grupos), só por resumo de busca.
+Os três regulamentos lidos na íntegra são de **escada de desafio** (Nômades BT, AVB Arena). A pesquisa de regras de ranking descreveu outros formatos (sorteio periódico, rodadas com grupos), só por resumo de busca.
 
 | Etapa | O que o organizador (ou a "comissão gestora") faz | O que fica com o jogador | Fonte |
 | --- | --- | --- | --- |
@@ -83,7 +83,7 @@ Os três regulamentos lidos na íntegra são de **escada de desafio** (Nômades 
 | Divulgar | Nome, estatísticas e imagens no site e nas redes da arena (autorizado na inscrição) | — | REG3 (lido) |
 | Tamanho | "quase 80 pessoas em nosso ranking" no 3º mês de uso de um app (clube em Sorocaba) | — | AS1 (lido) |
 
-**Leitura descritiva:** no ranking de desafio, o organizador desenha a regra e depois **depende do jogador** para marcar, jogar e informar. Sem ferramenta, o elo é o grupo de WhatsApp com *template* de aviso. Com ferramenta, a queixa do lado do jogador é "2 meses e os jogos ainda estão pendentes" porque "o gestor não atualiza" (`VOZ_DO_USUARIO.md` do PRD-13).
+**Leitura descritiva:** no ranking de desafio, o organizador desenha a regra e depois **depende do jogador** para marcar, jogar e informar. Sem ferramenta, o elo é o grupo de WhatsApp com *template* de aviso. Com ferramenta, a queixa do lado do jogador é "2 meses e os jogos ainda estão pendentes" porque "o gestor não atualiza" (`VOZ_DO_USUARIO.md` da pesquisa de mercado).
 
 ---
 

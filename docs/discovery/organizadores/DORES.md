@@ -60,7 +60,7 @@ Uma ressalva vale para todo o arquivo: **a maior parte da voz 2L é de circuitos
 | Federação não conhece o nível de quem vem de outra federação: o atleta "deverá se inscrever nas categorias respectivas às federações de origem" | REG | REG4 |
 | Promoção obrigatória como remédio: FCTBT sobe o campeão da iniciante para a D; FPT sobe o top 4 | REG · 1P | REG4, YT2 |
 | Construtor de software trava o gênero na categoria ("Categoria masculino/feminino passa a travar o gênero na inscrição") e configura quais combinações de dupla o torneio aceita | PC | GH |
-| Lado do jogador: sandbagging e perfil duplicado em 4 apps; "compromete o equilíbrio dos torneios" | Voz (PRD-13) | `VOZ_DO_USUARIO.md` |
+| Lado do jogador: sandbagging e perfil duplicado em 4 apps; "compromete o equilíbrio dos torneios" | Voz (pesquisa de mercado) | `VOZ_DO_USUARIO.md` |
 
 **O que a evidência não diz:** quanto tempo o organizador gasta verificando nível antes do torneio. Nenhuma fonte mede.
 
@@ -80,9 +80,9 @@ Uma ressalva vale para todo o arquivo: **a maior parte da voz 2L é de circuitos
 | Três caminhos de pagamento convivem: gateway, PIX na chave do torneio com **upload de comprovante**, e "pendente, o administrador confirma depois" | PC | GH #69 |
 | Mensagem de WhatsApp com a cobrança antes do link do torneio; comprovante recebido muda o status para "em análise" | PC | GH #72 |
 | Página de torneio no LetzPlay com inscrição de R$ 0,00 na plataforma (pagamento combinado por fora, inferência) | Página do organizador | LP1 |
-| Torneios que cobram por PIX direto na chave do organizador, fora da plataforma | Resumo (PRD-13) | `NEGOCIO.md` |
+| Torneios que cobram por PIX direto na chave do organizador, fora da plataforma | Resumo (pesquisa de mercado) | `NEGOCIO.md` |
 | Central de ajuda do LetzPlay para gestores: "Os inadimplentes são removidos automaticamente?" Resposta: "Não, isso deve ser feito manualmente", na lista de inscritos | DOC | DOC1 |
-| Plataforma: taxa de R$ 9,00 por inscrição (Tênis Integrado); LetzPlay 1,5% no PIX com mínimo de R$ 3 | REG · lido (PRD-13) | REG1; `NEGOCIO.md` |
+| Plataforma: taxa de R$ 9,00 por inscrição (Tênis Integrado); LetzPlay 1,5% no PIX com mínimo de R$ 3 | REG · lido (pesquisa de mercado) | REG1; `NEGOCIO.md` |
 | Lado do jogador: "Fiz o pagamento pelo App e a Arena não recebeu!"; cobrança indevida é 3 de 5 reclamações visíveis do LetzPlay | 2L · Voz | RA-L1; `VOZ_DO_USUARIO.md` |
 | Fornecedor recomenda "esquecer a planilha de Excel e o comprovante de PIX enviado por e-mail" | MKT | Blog de fornecedor (resumo) |
 
@@ -121,7 +121,7 @@ Uma ressalva vale para todo o arquivo: **a maior parte da voz 2L é de circuitos
 | Sem o WhatsApp do atleta no cadastro, a academia "não tinha como mandar senha, cobrança ou aviso de horário" | PC | GH #72 |
 | Tamanho da camisa descoberto "individualmente via WhatsApp depois de fechar inscrição" | PC | GH #70 |
 | Programação publicada "preferencialmente" 48h antes; "informações sobre a programação poderão ser obtidas no local dos jogos" | REG | REG1 |
-| Um concorrente passou a exibir o link do grupo de WhatsApp depois da inscrição | Oferta (PRD-13) | `CONCORRENTES.md` |
+| Um concorrente passou a exibir o link do grupo de WhatsApp depois da inscrição | Oferta (pesquisa de mercado) | `CONCORRENTES.md` |
 
 ---
 
@@ -139,7 +139,7 @@ Uma ressalva vale para todo o arquivo: **a maior parte da voz 2L é de circuitos
 | Árbitro pode trocar o formato no meio da rodada por clima ou atraso; jogo entre meia-noite e 6h proibido | REG | REG1 |
 | W.O. após 15 min da chamada, "por meio de sistema de som"; se um da dupla falta, os dois perdem | REG | REG1, REG4 |
 | Descanso mínimo entre jogos: 5 min (grupos), 10 min (eliminatória) | REG | REG4 |
-| Lado do jogador: W.O. numa quartas de final de Brasileiro porque o app não mostrou o horário; a organização reconheceu e manteve o W.O. | Voz (PRD-13) | `CONCORRENTES.md` |
+| Lado do jogador: W.O. numa quartas de final de Brasileiro porque o app não mostrou o horário; a organização reconheceu e manteve o W.O. | Voz (pesquisa de mercado) | `CONCORRENTES.md` |
 | "Short set (4 games) é útil ... quando chove e atrasa tudo" | MKT | Blog (resumo) |
 
 ---
@@ -153,7 +153,7 @@ Uma ressalva vale para todo o arquivo: **a maior parte da voz 2L é de circuitos
 | Mais de 10 dias sem o 3º lugar lançado. Resposta da plataforma: "a gestão e a operação do torneio, incluindo o lançamento dos placares e a atualização dos resultados, são de responsabilidade dos organizadores do evento" | 2L | RA1 |
 | Árbitros fazem "uma súmula auxiliar para cada jogo" e depois lançam no sistema | REG | REG1 |
 | O repasse do dinheiro ao organizador só corre depois da "finalização do torneio no sistema" | REG | REG1 |
-| Lado do jogador: "2 meses e os jogos ainda estão pendentes"; "não força o gestor do torneio a atualizar os jogos!" | Voz (PRD-13) | `VOZ_DO_USUARIO.md` |
+| Lado do jogador: "2 meses e os jogos ainda estão pendentes"; "não força o gestor do torneio a atualizar os jogos!" | Voz (pesquisa de mercado) | `VOZ_DO_USUARIO.md` |
 
 **Por que a causa é Fraca:** nenhuma fonte ouviu o organizador sobre **por que** o lançamento atrasa (falta de tempo, súmula em papel, disputa de placar, ferramenta difícil). A consequência é bem documentada; a causa é inferência. É a primeira pergunta do roteiro de entrevista. Um dado que aponta para a mesma direção: na FET, o organizador tem incentivo financeiro para finalizar no sistema (o repasse depende disso), e mesmo assim a regra precisa estar escrita.
 
