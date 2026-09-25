@@ -35,7 +35,8 @@ Regras:
 
 - Sempre kebab-case
 - Curto e descritivo (2-4 palavras)
-- Sem prefixo de ticket por enquanto (o formato de branch integrado ao Linear ainda não foi decidido)
+- Quando há issue no Linear, o ID vem logo após o tipo: `<tipo>/<id>-<descrição>`, ex.: `fix/eng-6-placar-wo`. O ID liga a branch e o PR à issue pela integração GitHub ↔ Linear, que move o status sozinha (PR aberto → In Review, merge → Done)
+- No PR, incluir `Closes <ID>` na descrição
 
 ---
 

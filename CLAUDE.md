@@ -4,6 +4,7 @@
 @docs/PRODUCT.md
 @docs/GIT_WORKFLOW.md
 @docs/TOKENS.md
+@docs/AGENT_WORKFLOW.md
 
 ## Sobre o projeto
 
@@ -34,6 +35,7 @@ Documentamos o que é estável. Decisões, padrões, princípios, hurdles, conve
 - `docs/PRODUCT.md` — visão, escopo MVP, princípios de design, métricas
 - `docs/TOKENS.md` — design system
 - `docs/GIT_WORKFLOW.md` — workflow de branches, PR, versionamento
+- `docs/AGENT_WORKFLOW.md` — estrutura do Linear e coordenação de agentes em paralelo
 - `src/components/.../Component.mdx` — **fonte única** de documentação por componente (renderizada no Storybook)
 - **Linear** (`linear.app/letzplay`) — tarefas, progresso, próximos passos
 
