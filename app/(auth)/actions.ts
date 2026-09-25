@@ -328,7 +328,7 @@ export async function createProfile(
   if (username) {
     const usernameValidation = validateUsername(username);
     if (!usernameValidation.valid) {
-      return { fieldErrors: { name: usernameValidation.error } };
+      return { fieldErrors: { username: usernameValidation.error } };
     }
 
     const { available, error: checkError } = await checkUsername(username);

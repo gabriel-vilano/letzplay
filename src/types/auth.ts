@@ -5,6 +5,7 @@ export type AuthActionState = {
     email?: string;
     password?: string;
     otp?: string;
+    username?: string;
   };
   success?: boolean;
 } | null;

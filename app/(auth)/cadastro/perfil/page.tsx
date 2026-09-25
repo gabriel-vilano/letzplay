@@ -28,6 +28,18 @@ export default function ProfilePage() {
 
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  // Erro de username vindo do servidor entra no mesmo estado da validação local:
+  // aparece no campo e some quando o usuário volta a digitar.
+  const [serverState, setServerState] = useState(state);
+  if (state !== serverState) {
+    setServerState(state);
+    const serverUsernameError = state?.fieldErrors?.username;
+    if (serverUsernameError) {
+      setUsernameStatus("invalid");
+      setUsernameError(serverUsernameError);
+    }
+  }
+
   useEffect(() => {
     async function loadUserName() {
       const supabase = createClient();
