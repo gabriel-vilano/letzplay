@@ -81,6 +81,7 @@ Uma ressalva vale para todo o arquivo: **a maior parte da voz 2L é de circuitos
 | Mensagem de WhatsApp com a cobrança antes do link do torneio; comprovante recebido muda o status para "em análise" | PC | GH #72 |
 | Página de torneio no LetzPlay com inscrição de R$ 0,00 na plataforma (pagamento combinado por fora, inferência) | Página do organizador | LP1 |
 | Torneios que cobram por PIX direto na chave do organizador, fora da plataforma | Resumo (PRD-13) | `NEGOCIO.md` |
+| Central de ajuda do LetzPlay para gestores: "Os inadimplentes são removidos automaticamente?" Resposta: "Não, isso deve ser feito manualmente", na lista de inscritos | DOC | DOC1 |
 | Plataforma: taxa de R$ 9,00 por inscrição (Tênis Integrado); LetzPlay 1,5% no PIX com mínimo de R$ 3 | REG · lido (PRD-13) | REG1; `NEGOCIO.md` |
 | Lado do jogador: "Fiz o pagamento pelo App e a Arena não recebeu!"; cobrança indevida é 3 de 5 reclamações visíveis do LetzPlay | 2L · Voz | RA-L1; `VOZ_DO_USUARIO.md` |
 | Fornecedor recomenda "esquecer a planilha de Excel e o comprovante de PIX enviado por e-mail" | MKT | Blog de fornecedor (resumo) |
@@ -100,6 +101,7 @@ Uma ressalva vale para todo o arquivo: **a maior parte da voz 2L é de circuitos
 | Substituição só até 20h da véspera, com justificativa por e-mail; "caso o evento tenha iniciado, não será permitida em nenhuma hipótese" | REG | REG1 |
 | *Alternate* na 1ª rodada para evitar W.O., pagando PIX na hora para a conta da federação | REG | REG1 |
 | Ranking de desafio: trocar de parceiro tira a dupla do ranking | REG | REG2 |
+| Perguntas frequentes de gestores na central de ajuda do LetzPlay: substituir jogador **depois da chave publicada**, inscrever alguém depois de encerrar, reabrir inscrições, estorno pedido pelo jogador, W.O. duplo | DOC | DOC1 |
 | Construtor cria uma área de "duplas incompletas" para trocar ou remover parceiro e promover o parceiro a titular quando quem pagou desiste | PC | GH #50 |
 | Estorno de day use: arena cancela, sempre devolve; aluno cancela, devolve dentro da janela; o aluno escolhe PIX ou crédito | PC | GH #64 |
 

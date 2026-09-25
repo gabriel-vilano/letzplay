@@ -68,6 +68,14 @@ Código, tipo (ver [`README.md`](README.md)), o que é, data e como foi lido. Tr
 | N6 | [Esporte Ágil — gestora de arena em Campo Grande (MS)](https://www.esporteagil.com.br/conteudo/rafaela_aposta_no_beach_tennis_para_formar_atletas_e_ampliar_visibilidade_do_esporte_em_ms) | 10/07/2025 | Lido |
 | N5 | [A Peteca — Copa São Caetano (badminton)](https://apeteca.substack.com/p/copa-sao-caetano-faz-sucesso-e-pode). **Outro esporte** | 30/04/2025 | Lido |
 
+## Documentação de fornecedor (DOC)
+
+Não é voz de organizador, mas mostra o fluxo de trabalho dentro da ferramenta e as dúvidas que os gestores levam ao suporte.
+
+| Código | Fonte | Leitura |
+| --- | --- | --- |
+| DOC1 | Central de ajuda do LetzPlay: seções ["No dia do Torneio"](https://help.letzplay.me/hc/pt-br/sections/7672726611469-No-dia-do-Torneio) (substituir jogador, trocar de grupo, corrigir resultado informado incorretamente, placar de tiebreak e de W.O.) e ["Perguntas Frequentes"](https://help.letzplay.me/hc/pt-br/sections/360012970272-Perguntas-Frequentes) (9 perguntas), e o artigo ["Os inadimplentes são removidos automaticamente?"](https://help.letzplay.me/hc/pt-br/articles/360059491811-Os-inadimplentes-s%C3%A3o-removidos-automaticamente) | Lido (títulos das seções e um artigo) |
+
 ## Marketing de fornecedor (MKT) — só contexto
 
 | Código | Fonte | Leitura |
