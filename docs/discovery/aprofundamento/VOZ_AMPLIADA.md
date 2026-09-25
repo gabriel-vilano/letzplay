@@ -99,6 +99,17 @@ A coleta anterior encontrou "resultado pendente" como dor (4 menções em 2 apps
 
 **Ligação com o BT:** os rankings de arena no LetzPlay já usam "lança → adversário aprova → auto-aprovação em 24h" (pesquisa de domínio). Não há, na amostra, relato do BT sobre contestação. A ausência pode ser falta de fonte (não há Reddit ativo de BT), não falta de problema.
 
+**Como os produtos tratam o veto (regra oficial, lida na íntegra):**
+
+| Produto | Prazo | Se o adversário recusa | Quem arbitra | Fonte |
+| --- | --- | --- | --- | --- |
+| DUPR | Sem prazo no help center: a partida fica "Pending Validation" até **todos** responderem (um clube cita 72h, fonte secundária) | **Qualquer** jogador que nega remove a partida da plataforma | Ninguém: a regra é consenso total | [DUPR Help, validação](https://dupr.zendesk.com/hc/en-us/articles/23185243905812-How-match-validation-works-How-to-reject-or-validate-a-match) |
+| Playtomic | Validação automática em 24h; um aceite do time adversário valida na hora | O resultado fica "suspenso" e precisa ser lançado de novo | Ninguém: "a Playtomic não tem autoridade para obrigar os jogadores a aceitar um resultado"; resolver "pelo chat da partida" | [Playtomic Help, resultados](https://playerhelp.playtomic.com/hc/en-gb/articles/19831755554449-How-to-publish-your-match-results-to-the-Playtomic-Community) |
+| LetzPlay (ranking de arena) | Aprovação automática em 24h | "Contestação" citada, sem regra | A organização, como "caso omisso" | Ver `TEARDOWN.md` |
+| Ranketes | Sem prazo publicado | Sem regra publicada | Não dito | Ver `TEARDOWN.md` |
+
+**Força: Forte.** Nenhum dos quatro tem um mecanismo de arbitragem dentro do produto. Os dois apps grandes deixam o desempate para a conversa entre jogadores; o LetzPlay deixa para o organizador.
+
 ### 2. Identidade e nível: contas múltiplas para "resetar" o nível
 
 | Trecho | App | Fonte |
@@ -237,5 +248,5 @@ Só o Gabriel responde.
 
 ## Nota de método: uso de ferramentas nesta frente
 
-- **Firecrawl: 23 chamadas.** 17 `firecrawl_scrape` (2 no feed da Apple, vazio; 4 em JSON, das quais 1 fabricou dados e 1 deu 404; 2 de verificação em markdown; 5 em lojas; 1 no Reclame Aqui do LetzPlay; 1 no Reclame Aqui do Tênis Integrado, 404; 1 no Reddit, recusada) e 6 `firecrawl_search` (Reddit). Nenhuma no modo Alexandria (as buscas usaram `sources: ["web"]`).
-- **Busca nativa: 7** (2 recusadas por causa do domínio do Reddit).
+- **Firecrawl: 23 chamadas na coleta**, mais 2 na verificação final (regras de validação do DUPR e da Playtomic, seção 1). Na coleta: 18 `firecrawl_scrape` (2 no feed da Apple, vazio; 5 em JSON, das quais 1 fabricou dados e 1 deu 404; 3 de verificação em markdown; 5 em lojas; 1 no Reclame Aqui do LetzPlay; 1 no Reclame Aqui do Tênis Integrado, 404; 1 no Reddit, recusada) e 5 `firecrawl_search` (Reddit). Nenhuma no modo Alexandria (as buscas usaram `sources: ["web"]`).
+- **Busca nativa: 9** na coleta (2 recusadas por causa do domínio do Reddit), mais 2 na verificação final.

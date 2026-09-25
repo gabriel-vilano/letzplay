@@ -47,7 +47,17 @@ O caderno de encargos para promotores de BT de 2026 é o documento mais concreto
 | Premiação | Paga pela federação ao atleta e **descontada do acerto** com o promotor. Faixas por número de duplas: até 5, de 6 a 12, 13 ou mais |
 | Encerramento | Relatório final em até **2 dias** após o fim do evento |
 
-### 1.2 Ranking de arena (LetzPlay)
+### 1.2 Torneio nacional (CBT, 2026)
+
+O regulamento de BT 2026 da CBT ([PDF](https://tenis-integrado-prod.s3.amazonaws.com/sync-prod/id22798/anexos/anexo_1768245583.pdf), lido na íntegra) acrescenta, do lado do organizador:
+
+- **Homologação obrigatória** de todo torneio de BT no país, seja de promotor, clube ou federação. Sem ela, o evento é "irregular" e quem organiza ou participa fica sujeito a sanção (item 1).
+- A organização é responsável pela **atualização diária** da programação "no local de competição" e nos hotéis oficiais. Os jogos são chamados pelo **sistema de som** da sala de arbitragem, e é "responsabilidade do atleta manter-se atento às chamadas". Tolerância de 15 minutos antes do W.O. (item 20).
+- Em atraso ou conflito de horário entre categorias, o árbitro geral e o representante da CBT podem obrigar o atleta a **escolher uma categoria**; se ele não escolher, perde as inscrições conflitantes sem reembolso (item 8).
+
+**Leitura descritiva:** no torneio nacional, a fonte oficial de horário é a sala de arbitragem e o som, não um app. É o contexto das queixas de horário da oportunidade 3.
+
+### 1.3 Ranking de arena (LetzPlay)
 
 As perguntas frequentes do help center do LetzPlay mostram as tarefas recorrentes de quem gere ranking ([seção Perguntas Frequentes](https://help.letzplay.me/hc/pt-br/sections/360013011472-Perguntas-Frequentes), lida):
 
@@ -60,7 +70,7 @@ As perguntas frequentes do help center do LetzPlay mostram as tarefas recorrente
 
 **Leitura descritiva:** a manutenção do ranking é contínua, não só na abertura. Categoria, entrada e saída de jogadores mudam durante a temporada. **Força: Forte** (fonte primária, lida), mas diz o que é perguntado, não com que frequência.
 
-### 1.3 A dor que o fornecedor descreve
+### 1.4 A dor que o fornecedor descreve
 
 A página de promoter do Ranketes lista, em primeira pessoa, o que dá errado num torneio de fim de semana ([lida](https://www.ranketes.com.br/promoters.html)): chave desenhada no papel e redesenhada a cada resultado; inscrição que chega por direct, WhatsApp e comentário, com Pix de quem "some"; "'Quando eu jogo?' A mesma pergunta trinta vezes no sábado de manhã"; placar anotado em papel que some na semifinal; nada para divulgar; torneio que "acaba e some", sem histórico. Blogs de plataformas de inscrição repetem inscrição, pagamento e chave como a parte mais burocrática ([Atletis](https://www.atletis.com.br/como-organizar-torneio-beach-tennis), [Lets](https://lets.events/blog/organizar-torneio-de-beach-tennis/), resumo).
 
@@ -165,6 +175,6 @@ Só o Gabriel responde.
 
 ## Nota de método: uso de ferramentas nesta frente
 
-- **Firecrawl: 6 chamadas.** 5 `firecrawl_scrape` (caderno de encargos em PDF, SourceForge do Playtomic Manager, App Store do Beach Tennis Super 8, Google Play do Super Oito sem reviews, Google Play do Meu Ranking Organizador) e 1 `firecrawl_search` (YouTube, sem resultado). As páginas do LetzPlay e do Ranketes citadas aqui foram lidas na frente de teardown.
-- **Busca nativa: 8.**
+- **Firecrawl: 6 chamadas** nesta frente (o regulamento da CBT citado na seção 1.2 foi lido na rodada de verificação final, contada no `README.md`). 5 `firecrawl_scrape` (caderno de encargos em PDF, SourceForge do Playtomic Manager, App Store do Beach Tennis Super 8, Google Play do Super Oito sem reviews, Google Play do Meu Ranking Organizador) e 1 `firecrawl_search` (YouTube, sem resultado). As páginas do LetzPlay e do Ranketes citadas aqui foram lidas na frente de teardown.
+- **Busca nativa: 9.**
 - Nenhum nome de organizador ou atleta foi copiado. As reviews citadas não identificam autor.
