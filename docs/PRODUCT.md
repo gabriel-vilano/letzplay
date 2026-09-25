@@ -2,7 +2,7 @@
 
 Visão de produto e decisões duráveis. Para JTBDs, insights estratégicos sobre Beach Tennis e problemas do app atual, ver `CLAUDE.md`.
 
-> Tracking de execução (status, próximos passos, priorização concreta) fica em GitHub Issues, não aqui.
+> Tracking de execução (status, próximos passos, priorização concreta) fica no Linear, não aqui.
 
 ---
 

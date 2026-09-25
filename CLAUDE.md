@@ -24,7 +24,7 @@ O desenvolvedor é um designer (~4 anos em branding/marketing/gráfico, ~2 anos 
 
 ## Filosofia de documentação
 
-Documentamos o que é estável. Decisões, padrões, princípios, hurdles, convenções — coisas que mudam raramente e que, quando mudarem, merecem PR e `git blame`. **Não documentamos estado.** Status de tarefa, progresso de fase, "o que vem depois" volúvel pertence ao tracker (GitHub Issues), não ao repo.
+Documentamos o que é estável. Decisões, padrões, princípios, hurdles, convenções — coisas que mudam raramente e que, quando mudarem, merecem PR e `git blame`. **Não documentamos estado.** Status de tarefa, progresso de fase, "o que vem depois" volúvel pertence ao tracker (Linear), não ao repo.
 
 **Teste antes de criar ou manter um doc:** "Se eu não atualizar isso por 3 meses, ele ainda estará correto?" Se a resposta é não, é estado disfarçado de documentação. Vai pro tracker.
 
@@ -35,7 +35,7 @@ Documentamos o que é estável. Decisões, padrões, princípios, hurdles, conve
 - `docs/TOKENS.md` — design system
 - `docs/GIT_WORKFLOW.md` — workflow de branches, PR, versionamento
 - `src/components/.../Component.mdx` — **fonte única** de documentação por componente (renderizada no Storybook)
-- **GitHub Issues** — tarefas, progresso, próximos passos
+- **Linear** (`linear.app/letzplay`) — tarefas, progresso, próximos passos
 
 ## Stack técnica
 
@@ -50,7 +50,8 @@ Documentamos o que é estável. Decisões, padrões, princípios, hurdles, conve
 - **Workshop de componentes:** Storybook 10 (`@storybook/nextjs-vite`) — rodar com `npm run storybook`
 - **Testes:** Vitest 4 — `npm test` (unit) e `npm run test:stories` (browser via Playwright)
 - **Deploy:** Vercel (deploy automático via GitHub)
-- **Repositório:** GitHub (privado, nome "letzplay") — Issues como tracker de execução
+- **Repositório:** GitHub (privado, nome "letzplay")
+- **Tracker de execução:** Linear (`linear.app/letzplay`)
 - **IDE:** VS Code com Claude Code (plano Max)
 
 ## Convenções de código
@@ -271,6 +272,9 @@ Storybook + Vite não tem RSC. Stories rodam tudo client-side por default. A reg
 - Sempre definir policies antes de usar uma tabela
 - Nunca expor a `service_role` key no frontend
 - Variáveis de ambiente: `NEXT_PUBLIC_SUPABASE_URL` e `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- **Schema versionado em `supabase/migrations/`.** Toda mudança de schema, policy ou bucket entra como migration — nunca editar direto pelo dashboard. O repo é a fonte de verdade do banco; o dashboard é só leitura
+- Nome de migration: `<timestamp>_<descricao_em_snake_case>.sql`. Aplicada no remoto com `supabase db push` (ou `apply_migration` via MCP, que registra a mesma versão)
+- **Dados mockados primeiro.** O Supabase é ambiente de testes para ver o produto num cenário real, não banco de produção. Features nascem com mocks tipados; tabela nova só entra quando a feature precisa do cenário real
 
 ## Insights estratégicos
 
