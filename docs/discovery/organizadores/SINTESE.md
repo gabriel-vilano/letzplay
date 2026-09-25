@@ -15,7 +15,7 @@ A pesquisa de mercado dizia que as dores de organizador e arena "vêm quase só 
 | Tipo de fonte | Quantidade | Exemplos |
 | --- | --- | --- |
 | Primeira pessoa (1P) | 4 fontes | Vlog de organizadoras num torneio de 2 dias; diretor de federação sobre categorias; organizador veterano sobre patrocínio; reviews de organizadores |
-| Dois lados (2L) | 7 reclamações lidas com resposta | Circuito nacional (TF Sports), plataforma (LetzPlay) |
+| Dois lados (2L) | 7 reclamações lidas, 5 delas com resposta da empresa | Circuito nacional (TF Sports), plataforma (LetzPlay) |
 | Regulamento lido na íntegra (REG) | 4 | FET, FCTBT, ranking Nômades, ranking AVB |
 | Acadêmico com visita e entrevista (ACAD) | 2 | Caso de uma arena no interior do CE; 10 arenas em 5 estados |
 | Praticante-construtor (PC) | 1 | App de academia escrito em público, com 1.088 commits |
