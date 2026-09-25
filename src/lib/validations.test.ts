@@ -170,7 +170,3 @@ describe("validateAvatar", () => {
     expect(validateAvatar(createFile("image/jpeg", 6)).valid).toBe(false);
   });
 });
-
-// ERRO PROPOSITAL (ENG-28): prova que npm run typecheck deixa a CI vermelha. Revertido no commit seguinte.
-const propositalTypeError: number = "não é número";
-void propositalTypeError;
