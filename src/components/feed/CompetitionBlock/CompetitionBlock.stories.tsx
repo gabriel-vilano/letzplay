@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { CompetitionBlock } from "./CompetitionBlock";
 import {
+  STORY_AVATAR_URL,
   STORY_LONG_COMPETITION_NAME,
   expectNoHorizontalOverflow,
   feedFrame,
@@ -28,6 +29,21 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
+
+export const WithOrgLogo: Story = {
+  args: {
+    competition: { ...meta.args.competition, org_avatar_url: STORY_AVATAR_URL },
+  },
+};
+
+export const SinglesLevelRange: Story = {
+  args: {
+    competition: {
+      ...meta.args.competition,
+      category: { ...storyCategory, modality: "singles", level_min: "C", level_max: "B" },
+    },
+  },
+};
 
 export const LongText: Story = {
   args: {
