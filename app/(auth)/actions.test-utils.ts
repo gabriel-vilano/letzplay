@@ -19,7 +19,7 @@ export function createSupabaseMock() {
     select: vi.fn(),
     eq: vi.fn(),
     limit: vi.fn(),
-    single: vi.fn().mockResolvedValue({ data: null, error: null }),
+    maybeSingle: vi.fn().mockResolvedValue({ data: null, error: null }),
     upsert: vi.fn().mockResolvedValue({ error: null }),
   };
   // Query builder encadeável: select().eq().limit() devolvem o próprio builder
@@ -60,6 +60,13 @@ export type SupabaseMock = ReturnType<typeof createSupabaseMock>;
 /** O mock cobre só parte da API real; o cast fica isolado aqui. */
 export function asSupabaseClient(mock: SupabaseMock): SupabaseServerClient {
   return mock as unknown as SupabaseServerClient;
+}
+
+const PNG_HEADER = [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a];
+
+/** Arquivo que começa com a assinatura real de PNG, para passar pela checagem de bytes. */
+export function buildPngFile(name = "foto.png", type = "image/png"): File {
+  return new File([new Uint8Array([...PNG_HEADER, 0, 0, 0, 0])], name, { type });
 }
 
 export function buildFormData(fields: Record<string, string | File>): FormData {
