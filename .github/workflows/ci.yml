@@ -43,3 +43,36 @@ jobs:
       - run: npm ci
       - run: npx playwright install --with-deps chromium
       - run: npm run test:stories
+
+  # Fluxos de auth de ponta a ponta contra um Supabase local: agentes sem Docker validam por aqui.
+  # Como o banco sobe do zero, o job também prova que as migrations recriam o schema inteiro.
+  e2e:
+    name: E2E (Playwright + Supabase local)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+      # Sobe só o que os fluxos usam (banco, Auth, REST, Storage, gateway e Mailpit)
+      - run: supabase start -x studio,postgres-meta,realtime,imgproxy,edge-runtime,logflare,vector,supavisor
+      - run: bash scripts/supabase-e2e-env.sh >> "$GITHUB_ENV"
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      # Build com as variáveis do Supabase local: as NEXT_PUBLIC_* são embutidas no build
+      - run: npm run build
+      - run: npm run test:e2e
+      - name: Relatório do Playwright
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7
