@@ -139,6 +139,14 @@ export async function resendOtp(
   return { success: true };
 }
 
+// Anti-enumeração: o Supabase responde sucesso para e-mail sem conta, mas o cooldown
+// de reenvio (`over_email_send_rate_limit`) só existe para conta real. Mostrar esse erro
+// revelaria que o e-mail tem cadastro, então ele segue como sucesso: o código enviado
+// antes continua valendo e a tela de verificação já tem reenvio com timer.
+function isRecoveryCooldown(error: { code?: string }): boolean {
+  return error.code === "over_email_send_rate_limit";
+}
+
 export async function requestRecovery(
   _prevState: AuthActionState,
   formData: FormData
@@ -153,8 +161,8 @@ export async function requestRecovery(
   const supabase = await createClient();
   const { error } = await supabase.auth.resetPasswordForEmail(email);
 
-  if (error) {
-    return { error: "E-mail não encontrado." };
+  if (error && !isRecoveryCooldown(error)) {
+    return { error: "Não foi possível enviar o código. Tente novamente em alguns minutos." };
   }
 
   redirect(`/recuperar-senha/verificar?email=${encodeURIComponent(email)}`);
@@ -202,7 +210,7 @@ export async function resendRecoveryOtp(
   const supabase = await createClient();
   const { error } = await supabase.auth.resetPasswordForEmail(email);
 
-  if (error) {
+  if (error && !isRecoveryCooldown(error)) {
     return { error: "Erro ao reenviar código. Tente novamente." };
   }
 
