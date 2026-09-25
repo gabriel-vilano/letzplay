@@ -31,7 +31,11 @@ export const Doubles: Story = {
 };
 
 // Primeiro nome sem espaço para quebrar: pior caso para a coluna do grid.
-const longFirstName = { ...storyLongPlayer, name: "Maximiliano-Alexandre Vasconcelos" };
+const longFirstName = {
+  ...storyLongPlayer,
+  id: "story-player-long-first-name",
+  name: "Maximiliano-Alexandre Vasconcelos",
+};
 
 export const LongNames: Story = {
   args: {
