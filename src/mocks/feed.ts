@@ -90,9 +90,9 @@ export const mockFeedCards: FeedCard[] = [
       header_type: 'org',
       org: arenaRM,
       phase: 'Rodada 2',
-      competition_name: '1º Torneio Arena Sports Rio',
+      competition_name: 'Open Arena RM de Beach Tennis',
       category: {
-        gender: 'F',
+        gender: 'M',
         modality: 'singles',
         level_min: 'C',
         level_max: 'C',
@@ -171,7 +171,7 @@ export const mockFeedCards: FeedCard[] = [
       header_type: 'org',
       org: arenaRM,
       phase: 'Rodada 2',
-      competition_name: 'Rankin',
+      competition_name: 'Ranking Arena RM 2026',
       category: {
         gender: 'M',
         modality: 'singles',
@@ -279,7 +279,7 @@ export const mockFeedCards: FeedCard[] = [
       id: 'comp-copa-bh-duplas',
       name: 'Copa BH de Beach Tennis',
       category: {
-        gender: 'mixed',
+        gender: 'M',
         modality: 'doubles',
         level_min: 'C',
         level_max: 'C',
