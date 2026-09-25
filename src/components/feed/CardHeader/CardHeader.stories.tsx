@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { expect } from "storybook/test";
 import { CardHeader } from "./CardHeader";
 import {
+  STORY_AVATAR_URL,
   STORY_LONG_COMPETITION_NAME,
   expectNoHorizontalOverflow,
   feedFrame,
@@ -39,6 +40,30 @@ export const Player: Story = {
       header_type: "player",
       player: storyPlayer,
       action_text: "Lucas se inscreveu em um torneio",
+    },
+  },
+};
+
+export const WithPhotos: Story = {
+  args: {
+    data: {
+      header_type: "org",
+      org: { ...storyOrg, avatar_url: STORY_AVATAR_URL },
+      phase: "Final",
+      competition_name: "Copa Nubeach de Beach Tennis",
+      category: storyCategory,
+    },
+  },
+};
+
+// Card de amizade: aperto de mão no lugar do avatar.
+export const Handshake: Story = {
+  args: {
+    showHandshake: true,
+    data: {
+      header_type: "player",
+      player: storyPlayer,
+      action_text: "Lucas Silva tornou-se amigo de Rafael Costa",
     },
   },
 };
