@@ -1,6 +1,8 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
+import { getSupabasePublicEnv } from "@/src/lib/supabase/env";
+
 const PUBLIC_AUTH_ROUTES = ["/", "/entrar", "/cadastro"];
 const ALWAYS_PUBLIC_ROUTES = [
   "/cadastro/verificar",
@@ -16,9 +18,10 @@ export async function proxy(request: NextRequest) {
     request: { headers: request.headers },
   });
 
+  const { url, publishableKey } = getSupabasePublicEnv();
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    url,
+    publishableKey,
     {
       cookies: {
         getAll() {

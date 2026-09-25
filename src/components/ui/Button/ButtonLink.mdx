@@ -1,0 +1,95 @@
+import {
+  Meta,
+  Subtitle,
+  Canvas,
+  ArgTypes,
+} from "@storybook/addon-docs/blocks";
+import * as ButtonLinkStories from "./ButtonLink.stories";
+
+<Meta of={ButtonLinkStories} />
+
+<Subtitle>
+  Mesmo visual de Button, mas semântica de link (`<a>` via next/link).
+</Subtitle>
+
+**Código-fonte:** [`src/components/ui/Button/ButtonLink.tsx`](https://github.com/gabriel-vilano/letzplay/blob/master/src/components/ui/Button/ButtonLink.tsx)
+
+## Visão geral
+
+`ButtonLink` é um link visualmente idêntico ao `Button`, usado pra **navegar entre rotas** com forte presença visual. Preserva semântica nativa de link (cmd+click pra abrir em nova aba, comportamento do botão direito do mouse, browser back/forward).
+
+<Canvas of={ButtonLinkStories.Primary} />
+
+## Variantes
+
+Mesmas três variantes do `Button` — primary, secondary, ghost. As regras de uso são idênticas; ver [`Button > Variantes`](?path=/docs/ui-button--docs#variantes) pra detalhes.
+
+<Canvas of={ButtonLinkStories.AllVariants} />
+
+### Primary
+
+CTA principal de navegação. Use pra a ação ancora que leva o usuário ao próximo passo do fluxo.
+
+<Canvas of={ButtonLinkStories.Primary} />
+
+### Secondary
+
+Navegação importante mas não a principal — links auxiliares, "ver detalhes", "voltar".
+
+<Canvas of={ButtonLinkStories.Secondary} />
+
+### Ghost
+
+Navegação terciária. Comum em headers, footers, breadcrumbs.
+
+<Canvas of={ButtonLinkStories.Ghost} />
+
+## Estados
+
+`ButtonLink` **não tem estados `loading` ou `disabled`** — diferente de Button. Links HTML não têm `disabled` nativo, e loading num link sugere que a navegação está em andamento (responsabilidade do framework, não do componente). Se precisar bloquear navegação durante operação async, esconder o link ou usar `Button` com handler async.
+
+### Full width
+
+Ocupa 100% da largura do container. Padrão em formulários mobile e bottom sheets.
+
+<Canvas of={ButtonLinkStories.FullWidth} />
+
+## Quando usar
+
+- Botão principal que **navega** pra outra rota (registro → feed, perfil → editar)
+- CTA de alta ênfase em telas vazias ("Comece criando sua primeira partida")
+- Links destacados em headers ou footers que merecem o peso visual de botão
+
+## Componentes relacionados
+
+- Para **disparar uma ação** (não navegar), use [`Button`](?path=/docs/ui-button--docs)
+- Para **link textual de baixo destaque**, use [`TextLink`](?path=/docs/ui-textlink--docs) — embedado em prose ou abaixo de formulários
+
+## Acessibilidade
+
+- Semântica nativa de `<a>` — leitor de tela anuncia "link" + texto
+- `:focus-visible` produz outline azul de alto contraste — **nunca remover**
+- Para links externos (`target="_blank"`), **sempre incluir `rel="noopener"`** — protege contra `window.opener` exploits
+- Tap target mínimo de 48px atendido via `min-height: var(--dimension-action-height-lg)`
+
+## Evitar
+
+- ❌ **Usar pra ação que não navega** — se a ação é "salvar", "submeter", "fechar", usar `Button`
+- ❌ **`target="_blank"` sem `rel="noopener"`** — vulnerabilidade de segurança real
+- ❌ **Mesma tela com Button e ButtonLink primary lado a lado** — confunde o usuário sobre o que é ação vs navegação
+- ❌ **Texto de link genérico** — "Clique aqui", "Continuar" sem contexto. Sempre descrever o destino: "Ver meu ranking"
+
+## API
+
+<ArgTypes of={ButtonLinkStories} />
+
+## Decisões de design
+
+**Por que componente separado em vez de prop `as="a"` no Button?**
+Polimorfismo via prop `as` complica a tipagem (Button precisaria aceitar props de `<a>` *e* `<button>`). Componentes separados deixam cada um com tipagem precisa do seu uso — `ButtonLink` exige `href`, `Button` aceita `onClick`. Trade aceito: alguma duplicação visual de classes CSS, compensada pela clareza no consumidor.
+
+## Referências
+
+- [MDN — `<a>` element](https://developer.mozilla.org/docs/Web/HTML/Element/a)
+- [next/link documentation](https://nextjs.org/docs/app/api-reference/components/link)
+- [WAI-ARIA — Link Pattern](https://www.w3.org/WAI/ARIA/apg/patterns/link/)

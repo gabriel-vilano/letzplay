@@ -13,7 +13,7 @@ master (branch principal, sempre estável)
   └── branches temporárias por feature/fix/chore
 ```
 
-Não utilizamos branches de ambiente (develop, staging, etc). O projeto segue um modelo simples: `master` é a fonte de verdade, e todo trabalho significativo acontece em branches temporárias que são mergeadas de volta.
+Não utilizamos branches de ambiente (develop, staging, etc). O projeto segue um modelo simples: `master` é a fonte de verdade, e **todo** trabalho acontece em branches temporárias que voltam via PR — inclusive docs e config. A `master` é protegida e não aceita push direto (ver "Proteção de branch").
 
 ---
 
@@ -35,55 +35,37 @@ Regras:
 
 - Sempre kebab-case
 - Curto e descritivo (2-4 palavras)
-- Sem prefixo de ticket (não temos issue tracker formal)
+- Quando há issue no Linear, o ID vem logo após o tipo: `<tipo>/<id>-<descrição>`, ex.: `fix/eng-6-placar-wo`. O ID liga a branch e o PR à issue pela integração GitHub ↔ Linear, que move o status sozinha (PR aberto → In Review, merge → Done)
+- No PR, incluir `Closes <ID>` na descrição
 
 ---
 
 ## Fluxo de trabalho
 
-### Features e funcionalidades → via PR
+Toda mudança — feature, fix, refactor, docs ou config — segue o mesmo caminho:
 
 ```bash
 # 1. Garantir que master está atualizada
 git checkout master
 git pull
 
-# 2. Criar branch da feature
+# 2. Criar branch
 git checkout -b feature/auth
 
 # 3. Trabalhar e commitar
 git add <arquivos>
 git commit -m "feat: adicionar tela de login"
 
-# 4. Push e abrir PR
+# 4. Push e abrir PR (o template preenche a descrição)
 git push -u origin feature/auth
-# Criar PR no GitHub com descrição
 
-# 5. Após merge, limpar
+# 5. CI verde → merge → limpar
 git checkout master
 git pull
 git branch -d feature/auth
 ```
 
-### Docs, config e fixes triviais → direto em master
-
-```bash
-git checkout master
-git add <arquivos>
-git commit -m "docs: atualizar README com instruções de setup"
-git push
-```
-
-### Regra de decisão
-
-| Situação                              | Destino          |
-| ------------------------------------- | ---------------- |
-| Muda comportamento do app             | Branch → PR      |
-| Adiciona funcionalidade               | Branch → PR      |
-| Refactor significativo                | Branch → PR      |
-| Edição em CLAUDE.md, docs/\*          | Direto em master |
-| Config (.gitignore, .env.example)     | Direto em master |
-| Fix de typo ou ajuste trivial         | Direto em master |
+**Por que até docs passam por PR:** com agentes trabalhando de forma autônoma, o PR é o ponto único onde a CI roda e onde fica o registro rastreável de cada mudança. Um PR de docs custa ~2 minutos de CI — preço baixo por um histórico consistente.
 
 ---
 
@@ -96,12 +78,31 @@ git push
   - **O que** foi feito (resumo em 1-3 bullets)
   - **Por que** (contexto, JTBD relacionado)
   - **Como testar** (passos para verificar)
+- O template em `.github/pull_request_template.md` já traz essas seções e um checklist — é preenchido automaticamente ao abrir o PR
+
+### CI
+
+GitHub Actions (`.github/workflows/ci.yml`) roda em todo PR e em todo push na `master`, em dois jobs paralelos:
+
+- **Lint, testes e build** — `npm run lint`, `npm test`, `npm run build` (o build inclui a checagem de tipos)
+- **Stories** — `npm run test:stories` no Chromium, incluindo o addon de a11y
+
+Só mergear com a CI verde.
 
 ### Merge
 
 - Merge via GitHub (botão "Merge pull request")
 - Preferir **merge commit** (não squash) para manter o histórico de commits da branch
 - Deletar a branch após merge
+
+### Deploy
+
+O merge na `master` publica sozinho:
+
+- **Vercel** faz o build de produção do app (cada branch também ganha um deploy de preview)
+- **Supabase** aplica as migrations novas de `supabase/migrations/` (integração GitHub, *Deploy to production*)
+
+Por isso o PR é o único caminho de uma migration até o banco — revisar o SQL no PR como código de produção.
 
 ---
 
@@ -128,13 +129,18 @@ git push origin v0.1.0
 
 ## Proteção de branch
 
-Configuração no GitHub (Settings → Branches → Branch protection rules):
+O repositório é **público** — requisito para que rulesets sejam aplicados sem plano pago do GitHub, e coerente com o objetivo de portfolio. Por ser público, **nunca commitar segredos**: `.env*` fica no `.gitignore`, só o `.env.example` (vazio) é versionado.
 
-- **Prevent force push:** ativado (protege o histórico)
-- **Require pull request:** desativado (permite push direto para docs/config)
-- **Require reviews:** desativado (projeto solo)
+Ruleset `master` (Settings → Rules → Rulesets), aplicado à branch padrão:
 
-Essa configuração pode ser endurecida no futuro se o projeto ganhar colaboradores.
+- **Require a pull request before merging** — sem push direto na `master`
+- **Require status checks to pass** — `Lint, testes e build` e `Stories (Storybook + a11y)`
+- **Block force pushes** e **Restrict deletions** — protegem o histórico
+- **Require branches to be up to date:** desativado (projeto solo; evita atualizar a branch antes de cada merge)
+- **Require reviews:** desativado (projeto solo — a CI é o portão de qualidade)
+- **Bypass list:** só o admin do repositório, para emergências
+
+Se um check novo for adicionado à CI, incluí-lo também na lista de checks obrigatórios do ruleset.
 
 ---
 
