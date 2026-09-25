@@ -2,7 +2,8 @@
 
 import { redirect } from "next/navigation";
 import { createClient } from "@/src/lib/supabase/server";
-import { validateEmail, validatePassword, validateName, validateOtp, validateUsername } from "@/src/lib/validations";
+import { validateEmail, validatePassword, validateName, validateOtp, validateUsername, validateAvatar } from "@/src/lib/validations";
+import { AVATAR_HEADER_LENGTH, detectAvatarFormat } from "@/src/lib/avatarFormat";
 import type { AuthActionState } from "@/src/types/auth";
 
 export async function login(
@@ -255,14 +256,54 @@ export async function checkUsername(username: string): Promise<{
   }
 
   const supabase = await createClient();
-  const { data } = await supabase
+  // maybeSingle: 0 linhas é o caso "livre", não erro (single() devolveria erro)
+  const { data, error } = await supabase
     .from("profiles")
     .select("id")
     .eq("username", username)
     .limit(1)
-    .single();
+    .maybeSingle();
+
+  // Falha na consulta não pode virar "disponível": na dúvida, bloqueia
+  if (error) {
+    return { available: false, error: "Não foi possível verificar o username. Tente novamente." };
+  }
 
   return { available: !data };
+}
+
+type SupabaseServerClient = Awaited<ReturnType<typeof createClient>>;
+
+// A action pode ser chamada direto (fora da tela), então o avatar é revalidado aqui:
+// tipo e tamanho declarados + formato real pelos bytes. Extensão e contentType vêm do
+// formato detectado, nunca do nome ou do `type` enviados pelo usuário.
+async function uploadAvatar(
+  supabase: SupabaseServerClient,
+  userId: string,
+  avatarFile: File
+): Promise<{ avatarUrl: string } | { error: string }> {
+  const validation = validateAvatar(avatarFile);
+  if (!validation.valid) {
+    return { error: validation.error ?? "Foto inválida." };
+  }
+
+  const header = new Uint8Array(await avatarFile.slice(0, AVATAR_HEADER_LENGTH).arrayBuffer());
+  const format = detectAvatarFormat(header);
+  if (!format) {
+    return { error: "Formato aceito: JPG, PNG ou WebP" };
+  }
+
+  const path = `${userId}/avatar.${format.extension}`;
+  const { error: uploadError } = await supabase.storage
+    .from("avatars")
+    .upload(path, avatarFile, { upsert: true, contentType: format.mimeType });
+
+  if (uploadError) {
+    return { error: "Erro ao enviar foto. Tente novamente." };
+  }
+
+  const { data: { publicUrl } } = supabase.storage.from("avatars").getPublicUrl(path);
+  return { avatarUrl: publicUrl };
 }
 
 export async function createProfile(
@@ -290,34 +331,20 @@ export async function createProfile(
       return { fieldErrors: { name: usernameValidation.error } };
     }
 
-    const { available } = await checkUsername(username);
+    const { available, error: checkError } = await checkUsername(username);
     if (!available) {
-      return { error: "Username já está em uso." };
+      return { error: checkError ?? "Username já está em uso." };
     }
   }
 
   let avatarUrl: string | null = null;
 
   if (avatarFile && avatarFile.size > 0) {
-    const ext = avatarFile.name.split(".").pop() ?? "jpg";
-    const path = `${user.id}/avatar.${ext}`;
-
-    const { error: uploadError } = await supabase.storage
-      .from("avatars")
-      .upload(path, avatarFile, {
-        upsert: true,
-        contentType: avatarFile.type,
-      });
-
-    if (uploadError) {
-      return { error: "Erro ao enviar foto. Tente novamente." };
+    const upload = await uploadAvatar(supabase, user.id, avatarFile);
+    if ("error" in upload) {
+      return { error: upload.error };
     }
-
-    const {
-      data: { publicUrl },
-    } = supabase.storage.from("avatars").getPublicUrl(path);
-
-    avatarUrl = publicUrl;
+    avatarUrl = upload.avatarUrl;
   }
 
   const { error: insertError } = await supabase.from("profiles").upsert({
