@@ -39,4 +39,23 @@ describe("mockFeedCards", () => {
     expect(names).not.toContain("Rankin");
     for (const name of names) expect(name.split(" ").length).toBeGreaterThan(1);
   });
+
+  it("resultado foi jogado antes de publicado e confronto está no futuro", () => {
+    const now = Date.now();
+    for (const card of mockFeedCards) {
+      const createdAt = Date.parse(card.created_at);
+      expect(createdAt, card.id).toBeLessThanOrEqual(now);
+      if (card.card_type === "result") {
+        expect(Date.parse(card.date), card.id).toBeLessThanOrEqual(createdAt);
+      }
+      if (card.card_type === "match") {
+        expect(Date.parse(card.date), card.id).toBeGreaterThan(now);
+      }
+    }
+  });
+
+  it("feed vem do mais recente para o mais antigo", () => {
+    const times = mockFeedCards.map((card) => Date.parse(card.created_at));
+    expect(times).toEqual([...times].sort((a, b) => b - a));
+  });
 });
