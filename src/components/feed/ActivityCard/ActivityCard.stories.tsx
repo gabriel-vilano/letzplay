@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+import { expect, within } from "storybook/test";
 import { mockFeedCards } from "@/src/mocks/feed";
 import { ActivityCard } from "./ActivityCard";
 import { expectNoHorizontalOverflow, feedFrame } from "../storyFixtures";
@@ -31,5 +32,8 @@ export const AllCards: Story = {
   ),
   play: async ({ canvasElement }) => {
     await expectNoHorizontalOverflow(canvasElement);
+    // W.O. não tem placar: a área mostra só o rótulo (FEED_CARDS.md §4.3).
+    const woCard = within(canvasElement).getByRole("region", { name: "event-result-wo" });
+    await expect(woCard).toHaveTextContent("Vitória por W.O.");
   },
 };
