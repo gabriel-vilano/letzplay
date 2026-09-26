@@ -59,6 +59,7 @@ Dois padrões dependendo do tipo de card:
 ```
 - Fase: `--text-label-md`, `--color-foreground-accent` — "Rodada 3", "QF", "Final"
 - Nome da competição: `--text-body-md`, `font-weight-bold`, `--color-foreground-primary`, truncado com ellipsis após 1 linha
+- Categoria: gênero + nível + idade, com a modalidade só em simples — "Masculino B", "Mista C 40+", "Masculino B · Simples" (ver 11.5)
 - @username + timestamp: `--text-label-md`, `--color-foreground-secondary`
 - Botão Seguir: **fora do MVP** (ver 11.2). Quando voltar: `--text-label-md`, `--color-foreground-accent`, visível apenas quando o usuário não segue a org
 
@@ -68,6 +69,8 @@ Dois padrões dependendo do tipo de card:
                        @username · há X tempo
 ```
 - Nome + ação: `--text-body-md`, `--color-foreground-primary` — ex: "Lucas Silva subiu no ranking"
+
+**Textos neutros de gênero.** O cadastro não coleta gênero, então nenhum texto do feed flexiona pelo jogador: "agora são amigos" em vez de "tornou-se amigo", "Assumiu a liderança" em vez de "Líder". Verbos ("subiu", "inscreveu-se") já são neutros. Texto novo segue a mesma regra.
 - @username + timestamp: `--text-label-md`, `--color-foreground-secondary`
 
 ### 2.2 Rodapé de ações — idêntico em todos os cards
@@ -174,7 +177,7 @@ Todo card de resultado exibe um label ao lado do nome de cada jogador/dupla:
 
 ```
 ┌─────────────────────────────────────────────────────┐
-│ [Logo org]  Rodada 3 · Ranking BH — Simples B       │
+│ [Logo org]  Rodada 3 · Ranking BH — Masculino B ·…  │
 │             @arenaRM · há 2h · Seguir               │
 ├─────────────────────────────────────────────────────┤
 │                                                     │
@@ -222,7 +225,7 @@ Todo card de resultado exibe um label ao lado do nome de cada jogador/dupla:
 
 ```
 ┌─────────────────────────────────────────────────────┐
-│ [Logo org]  Rodada 3 · Ranking BH — Simples B       │
+│ [Logo org]  Rodada 3 · Ranking BH — Masculino B ·…  │
 │             @arenaRM · há 2h                        │
 ├─────────────────────────────────────────────────────┤
 │                                                     │
@@ -266,7 +269,7 @@ Mesma estrutura do WO com duas diferenças:
 
 ```
 ┌─────────────────────────────────────────────────────┐
-│ [Logo org]  QF · Torneio Sunset — Simples Masc. B   │
+│ [Logo org]  QF · Torneio Sunset — Masculino B ·…    │
 │             @arenasunset · há 3h · Seguir            │
 ├─────────────────────────────────────────────────────┤
 │                                                     │
@@ -295,7 +298,7 @@ Mesma estrutura do WO com duas diferenças:
 
 ```
 ┌─────────────────────────────────────────────────────┐
-│ [Logo org]  QF · Torneio Sunset — Duplas Masc. B    │
+│ [Logo org]  QF · Torneio Sunset — Masculino B       │
 │             @arenasunset · há 3h · Seguir            │
 ├─────────────────────────────────────────────────────┤
 │                                                     │
@@ -381,10 +384,10 @@ Mesma estrutura do WO com duas diferenças:
 │                                                     │
 │  ┌───────────────────────────────────────────────┐  │
 │  │ [Logo  │  Copa BH de Beach Tennis             │  │
-│  │  48px] │  Simples Masc. B                     │  │
+│  │  48px] │  Masculino B · Simples               │  │
 │  │        │  📅 20 e 21 de maio de 2026          │  │
 │  │        │  📍 Arena Sunset · Carandaí/MG       │  │
-│  │        │  👥 14 inscritos                     │  │
+│  │        │  👥 24 jogadores inscritos           │  │
 │  └───────────────────────────────────────────────┘  │
 │                                                     │
 ├─────────────────────────────────────────────────────┤
@@ -402,10 +405,10 @@ Mesma estrutura do WO com duas diferenças:
 │                                                     │
 │  ┌───────────────────────────────────────────────┐  │
 │  │ [Logo  │  Copa BH de Beach Tennis             │  │
-│  │  48px] │  Duplas Mistas C                     │  │
+│  │  48px] │  Mista C                             │  │
 │  │        │  📅 20 e 21 de maio de 2026          │  │
 │  │        │  📍 Arena Sunset · Carandaí/MG       │  │
-│  │        │  👥 14 inscritos                     │  │
+│  │        │  👥 16 duplas inscritas              │  │
 │  └───────────────────────────────────────────────┘  │
 │                                                     │
 ├─────────────────────────────────────────────────────┤
@@ -430,6 +433,7 @@ Mesma estrutura do WO com duas diferenças:
 - Nome do torneio: `--text-body-md`, `font-weight-bold`, `--color-foreground-primary`
 - Categoria: `--text-label-md`, `--color-foreground-secondary`
 - Data, local, inscritos: `--text-label-md`, `--color-foreground-secondary`
+  - Inscritos pela unidade competidora: "16 duplas inscritas" em duplas, "24 jogadores inscritos" em simples (ver 11.4)
   - Ícones: `Calendar`, `MapPin`, `Users` Phosphor — 16px
 
 **Decisão de hierarquia:**
@@ -451,8 +455,8 @@ Mesma estrutura do WO com duas diferenças:
 ```
 ┌─────────────────────────────────────────────────────┐
 │                                                     │
-│  [🤝 40px]  Lucas Silva tornou-se amigo             │
-│             de Pedro Henrique                       │
+│  [🤝 40px]  Lucas Silva e Pedro Henrique            │
+│             agora são amigos                        │
 │             @lucas · há 1 dia                       │
 │                                                     │
 │  ┌──────────────────┐   ┌──────────────────────┐   │
@@ -472,7 +476,7 @@ Mesma estrutura do WO com duas diferenças:
 
 **Cabeçalho:**
 - Ícone de handshake: 40px, `--color-foreground-secondary` — substitui o avatar
-- Texto: `--text-body-md`, `--color-foreground-primary`
+- Texto: `--text-body-md`, `--color-foreground-primary` — "[Nome1] e [Nome2] agora são amigos"
 - Padrão: "@username · há X tempo" — consistente com todos os outros cards
 
 **Mini-cards de perfil:**
@@ -520,7 +524,7 @@ Derivados da análise de referências (Strava, Bump, Zigzag, Revolut, Azar):
 │              @lucas · há 2h                         │
 │                                                     │
 │  ┌─────────────────────────────────────────────┐   │
-│  │  Ranking BH — Duplas Masc. B               │   │
+│  │  Ranking BH — Masculino B                  │   │
 │  │                                             │   │
 │  │               3ª                            │   │
 │  │                                             │   │
@@ -552,7 +556,7 @@ Mesma estrutura. Diferenças:
 │  ┌─────────────────────────────────────────────┐   │
 │  │  fundo: --color-background-accent-subtle    │   │
 │  │                                             │   │
-│  │  Ranking BH — Duplas Masc. B               │   │
+│  │  Ranking BH — Masculino B                  │   │
 │  │                                             │   │
 │  │               1ª                            │   │
 │  │                                             │   │
@@ -560,7 +564,7 @@ Mesma estrutura. Diferenças:
 │  │                                             │   │
 │  │          🏆 520 pontos                      │   │
 │  │                                             │   │
-│  │          [★ Líder]                          │   │
+│  │          [★ Assumiu a liderança]            │   │
 │  └─────────────────────────────────────────────┘   │
 │                                                     │
 ├─────────────────────────────────────────────────────┤
@@ -583,7 +587,7 @@ Mesma estrutura. Diferenças:
 
 | Marco | Badge | Fundo do bloco |
 |---|---|---|
-| 1ª posição | "★ Líder" | `--color-background-accent-subtle` |
+| 1ª posição | "★ Assumiu a liderança" | `--color-background-accent-subtle` |
 | Entrou no Top 10 | "Top 10" | `--color-background-accent-subtle` |
 | Garantiu vaga nas Finals | "Finals" | `--color-background-accent-subtle` |
 
@@ -719,6 +723,7 @@ O número de inscritos de uma categoria conta **quem compete**: duplas numa cate
 
 ### 11.5 Categorias
 
-- **Faixa de nível:** `level_min` / `level_max` no lugar de um `level` único. Representa categorias como "Feminina A/B" (`level_min = 'A'`, `level_max = 'B'`). Categoria de um nível só tem os dois iguais
+- **Faixa de nível:** `level_min` / `level_max` no lugar de um `level` único. Representa categorias como "Feminino A/B" (`level_min = 'A'`, `level_max = 'B'`). Categoria de um nível só tem os dois iguais
 - **Nível e faixa etária são opcionais e independentes:** o comum é gênero + nível ("Masculino B") ou gênero + faixa etária ("Feminino 40+"), mas os dois podem coexistir ("Mista C 40+"). A categoria precisa ter pelo menos um dos dois
+- **Nome exibido:** gênero + nível + idade, nessa ordem ("Masculino B", "Feminino 40+", "Mista C 40+"). É como as arenas escrevem nas inscrições. A modalidade só aparece em simples ("Masculino B · Simples"), porque duplas é o padrão do esporte. Formatado por `formatCategoryLabel` (`src/lib/formatters.ts`)
 - **Mista implica duplas:** constraint no banco bloqueia `gender = 'mixed' AND modality = 'singles'`
