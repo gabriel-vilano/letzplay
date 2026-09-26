@@ -41,3 +41,14 @@
 .score__number--loser {
   color: var(--color-foreground-secondary);
 }
+
+/* W.O. e desistência sem set jogado: rótulo no lugar do placar (§4.3) */
+.score__outcome {
+  margin: 0;
+  text-align: center;
+  font-size: var(--text-title-sm-size);
+  line-height: var(--text-title-sm-line-height);
+  letter-spacing: var(--text-title-sm-tracking);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-foreground-secondary);
+}

@@ -228,8 +228,7 @@ Todo card de resultado exibe um label ao lado do nome de cada jogador/dupla:
 │                                                     │
 │  [avt]  Lucas Silva                    [VITÓRIA]   │
 │                                                     │
-│                    0   ← foreground-secondary       │
-│                    0   ← foreground-secondary       │
+│                 Vitória por W.O.                    │
 │                                                     │
 │  [avt]  Pedro Henrique                  [W.O.]     │
 │                                                     │
@@ -242,7 +241,8 @@ Todo card de resultado exibe um label ao lado do nome de cada jogador/dupla:
 └─────────────────────────────────────────────────────┘
 ```
 
-- Placar 0/0 em `--color-foreground-secondary` — não é informação relevante
+- **Sem placar.** Não houve jogo, então a área do placar mostra só o rótulo "Vitória por W.O." (`--text-title-sm`, `font-weight-bold`, `--color-foreground-secondary`). Um 0/0 leria como placar real
+- O rótulo segue o ponto de vista do card. O card de resultado é sempre lido do lado vencedor (vencedor em cima), por isso "Vitória por W.O."; um card lido do lado de quem perdeu usaria "Derrota por W.O."
 - Texto "Jogo encerrado por W.O.": `--text-label-md`, `--color-foreground-secondary`
 - Sem botão H2H
 
@@ -252,6 +252,7 @@ Mesma estrutura do WO com duas diferenças:
 - Label do perdedor: "Desistência"
 - Texto: "Jogo encerrado por desistência"
 - Se houver sets parciais jogados: esses sets usam cor normal (foreground-primary/secondary conforme quem venceu). Apenas o placeholder de sets não jogados fica em foreground-secondary
+- Se nenhum set foi completado: segue o WO, sem placar. A área mostra só o rótulo "Vitória por desistência"
 
 ---
 
