@@ -11,7 +11,7 @@ Como vários agentes trabalham ao mesmo tempo em issues diferentes sem se atrope
 - **1 issue = 1 agente = 1 branch = 1 PR.** Cada agente trabalha isolado, na própria sessão na nuvem, com o próprio clone do repo.
 - **O Linear é o quadro compartilhado.** Agentes não conversam direto. Tudo que outro agente ou o Gabriel precisa saber vira status, relação ou comentário no Linear. Isso é o padrão *blackboard*: ninguém fala com ninguém, todos leem e escrevem no mesmo quadro. Resultado: o estado de todo o trabalho é auditável num lugar só.
 - **O Gabriel decide produto e domínio.** Pesquisa, implementação e testes são autônomos. Quando a decisão é de produto, de UX ou de Beach Tennis, o agente para e pergunta.
-- **A CI é o portão.** Nenhum agente mexe no `master` direto nem faz merge. O Gabriel mergeia.
+- **A CI é o portão.** Nenhum agente mexe no `master` direto. Quem mergeia é o Gabriel, ou um agente que ele autorizou explicitamente para um lote de PRs (ver "Merge").
 
 ---
 
@@ -28,6 +28,21 @@ Dois times, divididos por **etapa do fluxo**, não por disciplina:
 - **Labels:** grupo `Tipo`, uma por issue: Feature, Bug, Refactor, Chore, Docs, Design.
 - **Specs geram as issues de ENG.** Uma issue de PRD em Ready é o gatilho para criar as issues de ENG correspondentes, ligadas ao mesmo projeto e com `relatedTo` apontando para a spec. Não se criam issues de ENG especulativas antes disso.
 - **Dependências** usam a relação `blocked by`. Issue com bloqueio aberto não pode ser pega.
+- **Responsável = a bola está com o Gabriel.** Agentes trabalham com a issue **sem responsável** e atribuem ao Gabriel só quando param e precisam dele: Needs Decision, PR para aprovar, ação manual. A fila do Gabriel é o **My issues** do Linear.
+
+### Automações da integração GitHub
+
+| Evento de PR | Engineering | Product |
+| --- | --- | --- |
+| PR aberto | → In Review | nada |
+| PR mergeado | → Done | nada |
+| Draft, review, activity, ready for merge | nada | nada |
+
+- **Qualquer ID de issue citado num PR fica ligado a ele**, e o merge move essa issue para Done. Por isso, no PR, **só se cita o ID da issue que ele fecha** (`Closes <ID>`). Outras issues são referenciadas sem o ID (ex.: "as 4 issues listadas no comentário final da issue").
+- **Merge numa branch de feature também move para Done.** É o esperado: a issue está concluída quando entra na branch de feature, e a chegada ao `master` é acompanhada pela issue do PR da própria feature.
+- **Nenhuma automação move para Needs Decision.** Só o agente, sempre junto do comentário com a pergunta.
+- **No Product, nenhuma automação muda status**, mesmo quando há PR de docs. O agente move o status manualmente, e Ready só com a aprovação do Gabriel.
+- Auto-close de issues paradas fica **desligado** nos dois times: backlog parado é intenção, não lixo.
 
 ---
 
@@ -35,8 +50,8 @@ Dois times, divididos por **etapa do fluxo**, não por disciplina:
 
 O passo a passo executável está na skill `/pegar-issue` (`.claude/skills/pegar-issue/SKILL.md`). Resumo:
 
-1. **Pegar.** Só issues em **Todo** e sem `blocked by` aberto. O agente move a issue para **In Progress** (ENG) ou **Exploring** (PRD) e comenta que começou, com o nome da branch. Se a issue já estiver em andamento, não pega: outro agente está nela.
-2. **Branch.** `<tipo>/<id>-<descricao-curta>`, ex.: `fix/eng-6-placar-wo`. O ID na branch liga o PR à issue pela integração GitHub ↔ Linear. Base: `master`, salvo quando a issue diz outra base.
+1. **Pegar.** Só issues em **Todo** e sem `blocked by` aberto. O agente move a issue para **In Progress** (ENG) ou **Exploring** (PRD), **remove o responsável** e comenta que começou, com o nome da branch. Se a issue já estiver em andamento, não pega: outro agente está nela.
+2. **Branch.** `<tipo>/<id>-<descricao-curta>`, ex.: `fix/eng-6-placar-wo`. O ID na branch liga o PR à issue pela integração GitHub ↔ Linear. Base: `master`, salvo quando a issue diz outra base. **Se a base for uma branch de feature**, confirmar antes que ela tem o `master` mergeado (`git merge-base --is-ancestor origin/master origin/<feature>`). Sem isso ela pode não ter o `.github/workflows/ci.yml`, e o PR fica sem CI.
 3. **Trabalhar só no escopo.** O que aparecer fora do escopo vira comentário na issue afetada ou issue nova em Backlog. O PR não cresce.
 4. **Parar para decidir.** Ver "Needs Decision" abaixo.
 5. **Entregar.** PR seguindo o template, com `Closes ENG-6` na descrição. A integração move a issue para In Review ao abrir o PR e para Done no merge. O agente acompanha a CI até ficar verde.
@@ -68,7 +83,7 @@ O ponto onde o agente para e chama o Gabriel. Usar quando a decisão:
 **Recomendação:** <opção e por quê>
 ```
 
-Depois de comentar, mover a issue para **Needs Decision** e encerrar a sessão com um resumo. O agente não fica esperando: a resposta chega como comentário, e a issue volta para Todo para ser retomada (pela mesma sessão ou por uma nova).
+Depois de comentar, mover a issue para **Needs Decision**, **atribuir ao Gabriel** e encerrar a sessão com um resumo. O agente não fica esperando: a resposta chega como comentário, e a issue volta para Todo para ser retomada (pela mesma sessão ou por uma nova).
 
 Não usar Needs Decision para dúvida técnica que o próprio agente consegue resolver lendo o código, a doc ou testando.
 
@@ -80,16 +95,28 @@ Não usar Needs Decision para dúvida técnica que o próprio agente consegue re
 | --- | --- |
 | Peguei a issue | status In Progress / Exploring + comentário com a branch |
 | Estou bloqueado por outra issue | relação `blocked by` + comentário explicando |
-| Preciso de decisão do Gabriel | status Needs Decision + comentário no formato acima |
+| Preciso de decisão do Gabriel | status Needs Decision + responsável Gabriel + comentário no formato acima |
 | Descobri algo que afeta outra issue | comentário **na outra issue** |
 | Achei trabalho novo fora do escopo | issue nova em Backlog, com label `Tipo` e projeto |
-| Terminei | PR aberto com `Closes <ID>` + comentário final |
+| Terminei | PR aberto com `Closes <ID>` + comentário final + responsável Gabriel (PR para aprovar) |
 
 **Regras:**
 
 - Nunca fazer push em branch de outro agente.
 - Antes de mexer num arquivo que outra issue em andamento também toca, comentar na outra issue.
 - Comentário começa pelo contexto e termina pelo que se pede. Quem lê pode ser um agente sem nenhuma memória da conversa.
+- **Todo comentário de agente termina com a assinatura** `— 🤖 agente <ID>` (ou `— 🤖 agente orquestrador`). Os agentes usam a conta do Gabriel, então sem assinatura não dá para distinguir o que foi ele do que foi um agente.
+
+---
+
+## Merge
+
+O ruleset do `master` exige PR atualizado com a base e CI verde antes do merge (ver `docs/GIT_WORKFLOW.md` > "Proteção de branch"). Para os agentes, isso vira quatro regras:
+
+- **PR desatualizado não é trabalho do agente.** Não atualizar a branch só porque o `master` andou. Quem atualiza é quem vai mergear, na hora do merge (just-in-time).
+- **Conflito é do dono da branch.** Resolver mergeando o `master` na própria branch. Nunca rebase nem force push, e nunca atualizar a branch de outro agente, nem pelo botão nem pela API.
+- **Auto-merge, nunca.** Habilitar auto-merge é mergear por procuração, e a opção fica desligada no repositório de propósito.
+- **Merge delegado só com autorização explícita, por lote.** Quando o Gabriel autoriza um agente a mergear, a autorização vale só para os PRs daquele lote, não para PRs abertos depois. Antes de mergear vários PRs, simular a combinação (`git merge-tree` + lint e testes no resultado combinado) e mergear com `expectedHeadSha`.
 
 ---
 
@@ -100,3 +127,10 @@ O Gabriel escolhe o lote; uma sessão orquestradora abre uma sessão na nuvem po
 - **Máximo de 3 agentes simultâneos.** O gargalo é a revisão de PRs e as respostas a Needs Decision, não a quantidade de agentes.
 - **Só issues independentes no mesmo lote:** sem `blocked by` entre si e, de preferência, sem arquivos em comum.
 - **Issues que compartilham uma branch de feature** (ex.: correções de uma branch ainda não mergeada) vão para **um agente só**, em sequência. Coordenar vários agentes na mesma branch custa mais do que o ganho de paralelismo.
+- **Guarda de uso:** o Gabriel reserva parte do limite semanal do plano Max para uso próprio. A cada check-in, a orquestradora lê o `rate_limit_info` das sessões na nuvem em execução (`get_session`). Ela para tudo se aparecer qualquer um destes sinais:
+  - uso semanal em 80% ou mais (`utilization` ≥ 0.8 na janela `seven_day…`);
+  - `status` diferente de `allowed`;
+  - uso excedente (`isUsingOverage`).
+
+  Parar é interromper todas as sessões, não disparar nenhuma nova e registrar o motivo. O estado e os detalhes operacionais ficam no documento de orquestração do Linear.
+- **Ferramentas cobradas à parte ficam fora** (ex.: Firecrawl no modo Alexandria).

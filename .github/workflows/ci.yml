@@ -26,8 +26,11 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run lint
+      # O type-check do next build ignora *.test.* e *.spec.*, e o Vitest não checa tipos:
+      # o tsc cobre o projeto inteiro, testes unitários e specs E2E inclusive
+      - run: npm run typecheck
       - run: npm test
-      # O build também roda a checagem de tipos do TypeScript
+      # O build também roda a checagem de tipos do TypeScript (só do código do app)
       - run: npm run build
 
   stories:
@@ -43,3 +46,42 @@ jobs:
       - run: npm ci
       - run: npx playwright install --with-deps chromium
       - run: npm run test:stories
+
+  # Fluxos de auth de ponta a ponta contra um Supabase local: agentes sem Docker validam por aqui.
+  # Como o banco sobe do zero, o job também prova que as migrations recriam o schema inteiro.
+  e2e:
+    name: E2E (Playwright + Supabase local)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+      # Sobe só o que os fluxos usam (banco, Auth, REST, Storage, gateway e Mailpit)
+      - run: supabase start -x studio,postgres-meta,realtime,imgproxy,edge-runtime,logflare,vector,supavisor
+      - name: Apontar app e testes para o Supabase local
+        run: |
+          bash scripts/supabase-e2e-env.sh > "$RUNNER_TEMP/e2e.env"
+          # A secret key é a de dev do Supabase local e só vale dentro do runner, mas o log é
+          # público e o GitHub imprime as env de cada passo: mascarada, aparece como ***
+          echo "::add-mask::$(grep '^E2E_SUPABASE_SECRET_KEY=' "$RUNNER_TEMP/e2e.env" | cut -d= -f2-)"
+          cat "$RUNNER_TEMP/e2e.env" >> "$GITHUB_ENV"
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      # Build com as variáveis do Supabase local: as NEXT_PUBLIC_* são embutidas no build
+      - run: npm run build
+      - run: npm run test:e2e
+      - name: Relatório do Playwright
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7

@@ -1,7 +1,8 @@
-# DESIGN_SYSTEM.md — LetzPlay
+# TOKENS.md — LetzPlay
 
-Documento vivo do design system. Registra decisões de arquitetura, tokens, tipografia e componentes.
-Atualizar sempre que uma decisão de design for tomada ou um componente for adicionado ao sistema.
+Documento vivo do design system: arquitetura CSS, tokens primitivos e semânticos, escala tipográfica e padrões de implementação. A documentação de cada componente fica no MDX ao lado dele (ver `CLAUDE.md` > "Documentação de componentes").
+
+Os valores vêm de `styles/tokens/`. Ao mudar um token no CSS, atualizar a tabela aqui no mesmo PR.
 
 ---
 
@@ -20,11 +21,13 @@ styles/
     primitives.css     ← valores brutos (paleta, escala, motion)
     semantic.css       ← intenções de design (background, foreground, border, state)
   reset.css            ← normalização do browser
-  globals.css          ← importa tudo, define base do documento
-components/
-  NomeComponente/
-    NomeComponente.tsx
-    NomeComponente.module.css
+app/
+  globals.css          ← importa reset e tokens, define a base do documento
+src/components/
+  <grupo>/             ← ui, auth, icons…
+    NomeComponente/
+      NomeComponente.tsx
+      NomeComponente.module.css
 ```
 
 ### Regras fundamentais
@@ -65,6 +68,7 @@ Naming: o sufixo numérico representa o valor em centésimos de rem (ex: `150` =
 | `--font-size-100` | 1rem     | 16px |
 | `--font-size-125` | 1.25rem  | 20px |
 | `--font-size-150` | 1.5rem   | 24px |
+| `--font-size-175` | 1.75rem  | 28px |
 | `--font-size-200` | 2rem     | 32px |
 | `--font-size-250` | 2.5rem   | 40px |
 | `--font-size-300` | 3rem     | 48px |
@@ -75,7 +79,7 @@ Naming: o sufixo numérico representa o valor em centésimos de rem (ex: `150` =
 | Token                   | Valor |
 | ----------------------- | ----- |
 | `--font-weight-regular` | 400   |
-| `--font-weight-bold`    | 600   |
+| `--font-weight-bold`    | 700   |
 
 ### Line-heights
 
@@ -88,6 +92,7 @@ Valores absolutos (não relativos) para ritmo vertical consistente independente 
 | `--line-height-150` | 1.5rem  | 24px |
 | `--line-height-175` | 1.75rem | 28px |
 | `--line-height-200` | 2rem    | 32px |
+| `--line-height-225` | 2.25rem | 36px |
 | `--line-height-250` | 2.5rem  | 40px |
 | `--line-height-300` | 3rem    | 48px |
 | `--line-height-350` | 3.5rem  | 56px |
@@ -328,7 +333,7 @@ Cada escala define apenas **size + line-height + tracking**. **O peso é desacop
 | `display-lg` | `--font-size-350` (56px) | `--line-height-400` (64px) | display (`-0.6px`) | Números hero (ranking, score)                 |
 | `display-md` | `--font-size-300` (48px) | `--line-height-350` (56px) | display (`-0.6px`) | Números grandes                               |
 | `display-sm` | `--font-size-250` (40px) | `--line-height-300` (48px) | display (`-0.6px`) | Números médios                                |
-| `title-lg`   | `--font-size-200` (32px) | `--line-height-250` (40px) | —                  | Headers de páginas de auth                    |
+| `title-lg`   | `--font-size-175` (28px) | `--line-height-225` (36px) | —                  | Headers de páginas de auth                    |
 | `title-md`   | `--font-size-150` (24px) | `--line-height-200` (32px) | —                  | Títulos de seção, OTP input                   |
 | `title-sm`   | `--font-size-125` (20px) | `--line-height-175` (28px) | —                  | Subtítulos, headings terciários               |
 | `body-lg`    | `--font-size-100` (16px) | `--line-height-150` (24px) | —                  | Descrições de página, corpo grande            |

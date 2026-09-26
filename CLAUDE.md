@@ -22,6 +22,7 @@ O desenvolvedor é um designer (~4 anos em branding/marketing/gráfico, ~2 anos 
 - **Não simplifique demais.** Se algo é complexo, diga que é e quebre em partes menores.
 - **Conecte com o que já se sabe.** Use analogias com design, Figma e UX sempre que possível.
 - **Pergunte antes de assumir.** Se uma decisão impacta design ou experiência, pergunte antes de implementar.
+- **O Gabriel decide; o Claude questiona.** O Gabriel é o decisor de produto, negócio e tecnologia. O papel do Claude é de *sparring*: antes de acatar uma decisão, questionar as premissas, apresentar benefícios e riscos de cada abordagem e embasar a discussão em estudos de mercado, pesquisas e outras fontes confiáveis, sempre citadas. Discordar com argumento é esperado. Decidir no lugar do Gabriel, não.
 
 ## Filosofia de documentação
 
@@ -33,6 +34,7 @@ Documentamos o que é estável. Decisões, padrões, princípios, hurdles, conve
 
 - `CLAUDE.md` — convenções, padrões, hurdles, filosofia
 - `docs/PRODUCT.md` — visão, escopo MVP, princípios de design, métricas
+- `docs/DISCOVERY.md` — mercado, oportunidades por JTBD ranqueadas por evidência, modelos de negócio, hipóteses do beta
 - `docs/TOKENS.md` — design system
 - `docs/GIT_WORKFLOW.md` — workflow de branches, PR, versionamento
 - `docs/AGENT_WORKFLOW.md` — estrutura do Linear e coordenação de agentes em paralelo
@@ -50,7 +52,7 @@ Documentamos o que é estável. Decisões, padrões, princípios, hurdles, conve
   - `@supabase/supabase-js` ^2.101.1
   - `@supabase/ssr` ^0.10.0
 - **Workshop de componentes:** Storybook 10 (`@storybook/nextjs-vite`) — rodar com `npm run storybook`
-- **Testes:** Vitest 4 — `npm test` (unit) e `npm run test:stories` (browser via Playwright)
+- **Testes:** Vitest 4 — `npm test` (unit) e `npm run test:stories` (browser via Playwright); Playwright — `npm run test:e2e` (E2E contra Supabase local, roda na CI)
 - **Deploy:** Vercel (deploy automático via GitHub)
 - **Repositório:** GitHub (público, `gabriel-vilano/letzplay`) — `master` protegida por ruleset; toda mudança entra via PR com CI verde
 - **Tracker de execução:** Linear (`linear.app/letzplay`)
@@ -144,7 +146,7 @@ Workshop pra desenvolver e testar componentes em isolamento. Cada componente do 
 
 ### Comandos
 
-- `npm run storybook` — sobe dev server em `http://localhost:6006` (acessível via LAN com `-H 0.0.0.0`)
+- `npm run storybook` — sobe dev server em `http://localhost:6006` (o script já usa `--host 0.0.0.0`, então abre pela rede local)
 - `npm run build-storybook` — build estática em `storybook-static/`
 - `npm run test:stories` — roda cada story como teste no Chromium (Playwright + Vitest browser mode)
 - `npm run test:all` — unit + storybook
@@ -243,7 +245,7 @@ Sempre incluir o link pro código-fonte no topo, logo após o Subtitle.
 - ❌ Criar MDX antes de ter stories — MDX referencia stories via `<Canvas of={...} />`. Stories primeiro, MDX depois.
 - ❌ TOC manual — Storybook 10 auto-gera TOC do lado direito a partir dos H2/H3 do MDX.
 
-**`docs/components/` foi deprecado.** MDX é a fonte única de documentação por componente. Decisões de design (rationale, alternativas consideradas) que antes ficavam em `docs/components/<nome>.md` agora vão como **última seção do próprio MDX**, conforme o item 12 abaixo.
+**`docs/components/` foi deprecado.** MDX é a fonte única de documentação por componente. Decisões de design (rationale, alternativas consideradas) que antes ficavam em `docs/components/<nome>.md` agora vão na seção **Decisões de design** do próprio MDX (item 11 da lista acima), logo antes de Referências.
 
 ### Padrão de story
 
@@ -262,11 +264,11 @@ Sempre incluir o link pro código-fonte no topo, logo após o Subtitle.
 
 ### Decisão de adapter
 
-Usamos `@storybook/nextjs-vite` (não `nextjs` webpack). Vite roda mais rápido, alinha com o pipeline do Vitest e é a direção declarada do time do Storybook. Trade aceito: regras webpack do `next.config.ts` não se aplicam — hoje irrelevante porque o `next.config` é vanilla.
+Usamos `@storybook/nextjs-vite` (não `nextjs` webpack). Vite roda mais rápido, alinha com o pipeline do Vitest e é a direção declarada do time do Storybook. Trade aceito: regras webpack do `next.config.ts` não se aplicam — hoje irrelevante porque o `next.config.ts` não tem regras de webpack (só a guarda de segredos e o `allowedDevOrigins`).
 
 ### Sobre RSC e `"use client"`
 
-Storybook + Vite não tem RSC. Stories rodam tudo client-side por default. A regra do projeto sobre `"use client"` em consumidores de Phosphor (do `CLAUDE.md > Common hurdles`) aplica ao app real, não às stories — ali nada quebra.
+Storybook + Vite não tem RSC. Stories rodam tudo client-side por default. A regra sobre Phosphor em Server Components (ver "Common hurdles" > "Phosphor em Server Components") vale para o app real, não para as stories — ali nada quebra.
 
 ## Supabase
 
@@ -346,6 +348,8 @@ O Claude deve sinalizar proativamente quando:
 - **Abordagem equilibrada:** não exige TDD rigoroso, mas todo fluxo crítico ganha teste antes de ser considerado "pronto". Testar imediatamente após implementar — não deixar acumular dívida de teste
 - **Prioridade de cobertura:** auth (login, signup, validações), operações de banco (criar perfil, registrar partida), validações de input, e qualquer fluxo que envolva dados sensíveis
 - **Server actions:** testar com `vi.mock` em `@/src/lib/supabase/server` (fake de `app/(auth)/actions.test-utils.ts`) e em `next/navigation`, com `redirect` lançando `NEXT_REDIRECT:<url>` como o real. Asserção de redirect: `rejects.toThrow(redirectSignal(url))`
+- **E2E:** Playwright em `e2e/`, contra o build de produção e um Supabase local (`supabase start`) com as migrations aplicadas do zero; o código de verificação dos e-mails vem do Mailpit. Roda no job E2E da CI. Sessões de agente não têm Docker: validam pelo resultado desse job no PR, não localmente. Cada teste cria usuário com e-mail único (`uniqueEmail`), e os helpers recusam qualquer Supabase que não seja local
+- **Seletores E2E:** preferir `getByLabel`/`getByRole` com `exact: true`. Alerta sempre filtrado pelo texto (`getByRole("alert").filter({ hasText })`): o anunciador de rota do Next também tem `role="alert"`
 - **Bug fix → teste de regressão.** Todo bug corrigido ganha um teste que reproduziria o bug, para evitar regressão futura
 
 ### Oferecer a versão simples primeiro
@@ -356,7 +360,7 @@ Quando propor uma solução, apresentar a versão mínima viável primeiro. Só 
 
 - [ ] Feature funcionando em mobile
 - [ ] Testes dos fluxos críticos
-- [ ] Sem erros de TypeScript (`npm run build`)
+- [ ] Sem erros de TypeScript (`npm run typecheck`)
 - [ ] CLAUDE.md atualizado (se houve novo hurdle ou padrão)
 - [ ] Commit seguindo conventional commits
 
@@ -401,6 +405,14 @@ Daí acessar `http://<IP-do-dev>:3000` do celular. Em prod tudo funciona.
 **Sintoma:** Primeiro tap em um elemento com regra `:hover` não dispara `click` no iOS — aplica o estado hover e espera o segundo tap.
 
 **Solução:** Envolver todas as regras `:hover` em `@media (hover: hover)` para que só apliquem em dispositivos com cursor real. Padrão seguido em todos os `.module.css` do DS.
+
+### Phosphor em Server Components
+
+**Sintoma:** ícone do `@phosphor-icons/react` falha quando renderizado num Server Component.
+
+**Causa:** o import padrão do Phosphor usa React Context, que não existe em Server Components (README do pacote, seção "React Server Components and SSR").
+
+**Solução:** o componente que importa o ícone roda no cliente. Ou ele tem `"use client"` (`Toast`, `FormInput`, `AvatarUpload`), ou só é usado dentro de componentes client (`Alert` e `PasswordChecklist`, usados só em páginas de auth com `"use client"`). Num Server Component, importar de `@phosphor-icons/react/ssr`.
 
 ### Stack de avatares em duplas no CardHeader
 
