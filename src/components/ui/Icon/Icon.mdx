@@ -1,0 +1,222 @@
+import {
+  Meta,
+  Subtitle,
+  Canvas,
+  ArgTypes,
+} from "@storybook/addon-docs/blocks";
+import * as IconStories from "./Icon.stories";
+
+<Meta of={IconStories} />
+
+<Subtitle>
+  Wrapper sobre Phosphor Icons com tamanhos semânticos, peso e acessibilidade
+  por padrão.
+</Subtitle>
+
+**Código-fonte:** [`src/components/ui/Icon/Icon.tsx`](https://github.com/gabriel-vilano/letzplay/blob/master/src/components/ui/Icon/Icon.tsx)
+
+## Visão geral
+
+`Icon` encapsula as convenções do design system sobre `@phosphor-icons/react`: tamanhos semânticos via prop, cor herdada via `currentColor`, e props de acessibilidade com defaults seguros. **Nenhum componente do projeto importa o Phosphor diretamente** — todo acesso passa por este wrapper.
+
+<Canvas of={IconStories.Default} />
+
+## Variantes
+
+Duas dimensões de variação independentes: **tamanho** (xs/sm/md/lg/xl) e **peso** (thin/light/regular/bold/fill/duotone). Combinam livremente — qualquer tamanho com qualquer peso.
+
+### Tamanhos
+
+Cinco tamanhos semânticos. Todos alinhados com tokens `--dimension-icon-*` em `docs/TOKENS.md`.
+
+<Canvas of={IconStories.AllSizes} />
+
+<table>
+  <thead>
+    <tr>
+      <th>Token</th>
+      <th>px</th>
+      <th>Token CSS</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>xs</code></td>
+      <td>12</td>
+      <td><code>--dimension-icon-xs</code></td>
+    </tr>
+    <tr>
+      <td><code>sm</code></td>
+      <td>16</td>
+      <td><code>--dimension-icon-sm</code></td>
+    </tr>
+    <tr>
+      <td><code>md</code></td>
+      <td>24</td>
+      <td><code>--dimension-icon-md</code> (padrão)</td>
+    </tr>
+    <tr>
+      <td><code>lg</code></td>
+      <td>32</td>
+      <td><code>--dimension-icon-lg</code></td>
+    </tr>
+    <tr>
+      <td><code>xl</code></td>
+      <td>64</td>
+      <td><code>--dimension-icon-xl</code></td>
+    </tr>
+  </tbody>
+</table>
+
+### Pesos
+
+Phosphor oferece seis pesos. O padrão é `regular`. `fill` é tratado como variante separada — necessário pro padrão de tab bar ativo/inativo.
+
+<Canvas of={IconStories.AllWeights} />
+
+<table>
+  <thead>
+    <tr>
+      <th>Peso</th>
+      <th>Uso típico</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>thin</code></td>
+      <td>Decorativo, contextos de muita delicadeza</td>
+    </tr>
+    <tr>
+      <td><code>light</code></td>
+      <td>Hierarquia secundária</td>
+    </tr>
+    <tr>
+      <td><code>regular</code></td>
+      <td>Padrão — uso geral</td>
+    </tr>
+    <tr>
+      <td><code>bold</code></td>
+      <td>Ênfase, contextos compactos</td>
+    </tr>
+    <tr>
+      <td><code>fill</code></td>
+      <td>Estado ativo (tab bar selecionada, toggle ligado)</td>
+    </tr>
+    <tr>
+      <td><code>duotone</code></td>
+      <td>Ilustrativo, contextos especiais</td>
+    </tr>
+  </tbody>
+</table>
+
+## Estados
+
+Estados de acessibilidade controlados pelas props `aria-label` e `aria-hidden`.
+
+### Decorativo
+
+Sem `aria-label` explícito, o ícone é tratado como puramente decorativo — `aria-hidden` aplica automaticamente. Use quando o significado do ícone já está no texto adjacente (ex: ícone ao lado de "Email", "Senha").
+
+<Canvas of={IconStories.Decorative} />
+
+### Com significado semântico
+
+Quando o ícone carrega informação que não está em texto visível ao redor, fornecer `aria-label`. Leitores de tela passam a anunciar o rótulo.
+
+<Canvas of={IconStories.Labeled} />
+
+## Cor
+
+`Icon` **nunca define cor própria**. O Phosphor usa `color="currentColor"` internamente, então o ícone sempre herda a cor do elemento pai via CSS.
+
+<Canvas of={IconStories.InheritsCurrentColor} />
+
+```css
+/* Correto — cor definida no consumidor */
+.navItem {
+  color: var(--color-foreground-secondary);
+}
+.navItem--active {
+  color: var(--color-foreground-accent);
+}
+
+/* Errado — não fazer */
+.icon {
+  color: var(--color-foreground-accent);
+}
+```
+
+## Quando usar
+
+- Acompanhando label de input ou botão (decorativo)
+- Como único conteúdo de botão pequeno (com `aria-label` no botão)
+- Em listas, tab bars, navegação (com peso `fill` no estado ativo)
+- Status visual em alerts, toasts, badges (semântico ou decorativo conforme contexto)
+
+## Componentes relacionados
+
+- Para o **logo da marca**, use [`Logo`](?path=/docs/brand-logo--docs) — não é um ícone do Phosphor
+- Para **ícones customizados** (SVGs próprios da marca, fora do Phosphor), criar em `src/components/icons/` como componentes próprios — não tentar passar pro `Icon`
+
+## Acessibilidade
+
+<table>
+  <thead>
+    <tr>
+      <th>Cenário</th>
+      <th>Configuração</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Ícone puramente decorativo (acompanha texto visível)</td>
+      <td><code>aria-hidden=\{true\}</code> — default, não precisa declarar</td>
+    </tr>
+    <tr>
+      <td>Ícone com significado próprio (sem texto visível)</td>
+      <td><code>aria-label="descrição"</code> + <code>aria-hidden=\{false\}</code></td>
+    </tr>
+    <tr>
+      <td>Botão com apenas ícone, sem texto</td>
+      <td><code>aria-label</code> no <code>&lt;button&gt;</code>, <strong>não</strong> no <code>&lt;Icon&gt;</code></td>
+    </tr>
+  </tbody>
+</table>
+
+```tsx
+// Botão com ícone — aria-label vai no botão
+<button aria-label="Continuar">
+  <Icon icon={ArrowRightIcon} size="sm" />
+</button>
+```
+
+## Evitar
+
+- ❌ **Importar Phosphor direto no consumidor pra renderizar** — sempre via wrapper. Mantém a abstração centralizada
+- ❌ **Definir cor dentro do `Icon`** — quebra `currentColor` e força sincronização manual de cor entre ícone e label
+- ❌ **Usar tamanhos não-semânticos** (px arbitrários). Se o tamanho desejado não existe, expandir o sistema, não burlar
+- ❌ **`aria-label` em ícone decorativo** — leitor de tela passa a anunciar redundantemente o que já está no texto
+
+## API
+
+<ArgTypes of={IconStories} />
+
+## Decisões de design
+
+**Por que Phosphor em vez de Lucide?**
+Phosphor tem suporte nativo a `fill` como variante separada (`weight="fill"`), desenhada especificamente pra funcionar preenchida — não apenas o mesmo path com `fill` aplicado via CSS. Necessário pro padrão de tab bar ativo/inativo.
+
+**Por que wrapper em vez de importar Phosphor direto?**
+Centraliza tamanhos semânticos, peso padrão e props de acessibilidade. Se amanhã o tamanho `md` mudar de 24px pra 20px, muda em um lugar só. Também impede que cor e tamanho sejam definidos ad-hoc no consumidor.
+
+**Por que `currentColor` em vez de prop `color`?**
+Composabilidade. O ícone se comporta como texto — herda a cor do contexto onde está inserido. Elimina sincronização manual de cor entre ícone e label.
+
+**Por que ícones customizados de marca ficam fora do `Icon`?**
+Logos e SVGs próprios não compartilham a API do Phosphor (peso, conjunto de tamanhos). Misturar quebra a abstração — cada caso tem seu próprio componente em `src/components/icons/`.
+
+## Referências
+
+- [Phosphor Icons — Documentation](https://phosphoricons.com/)
+- [WAI-ARIA — `aria-hidden`](https://www.w3.org/TR/wai-aria-1.1/#aria-hidden)
+- Tokens relacionados: `docs/TOKENS.md` (`--dimension-icon-*`)

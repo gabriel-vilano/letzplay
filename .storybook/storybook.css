@@ -1,0 +1,54 @@
+/* =============================================================
+   STORYBOOK UTILITIES
+
+   Helpers de layout usados apenas em stories pra showcase de
+   variantes (linhas, stacks, grids). Mantém as stories enxutas
+   e respeita a regra "sem CSS inline" do projeto.
+
+   Prefixo `sb-` pra distinguir de classes da app.
+   ============================================================= */
+
+.sb-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-200);
+}
+
+.sb-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-200);
+}
+
+.sb-pad {
+  padding: var(--spacing-300);
+}
+
+.sb-color-accent {
+  color: var(--color-foreground-accent);
+}
+
+.sb-color-secondary {
+  color: var(--color-foreground-secondary);
+}
+
+.sb-bg-strong {
+  background-color: var(--color-background-strong);
+  color: var(--color-foreground-on-strong);
+}
+
+.sb-prose {
+  font-size: var(--text-body-md-size);
+  line-height: var(--text-body-md-line-height);
+  max-width: 56ch;
+}
+
+/* Largura útil do card no mobile base (393px − 2 × 16px de margem).
+   Stories do feed usam este frame para reproduzir o layout real. */
+.sb-feed-frame {
+  width: 361px;
+  background-color: var(--color-background-secondary);
+  padding: var(--spacing-200) 0;
+}

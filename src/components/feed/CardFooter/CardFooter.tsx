@@ -24,7 +24,6 @@ export function CardFooter({
         className={`${styles.action} ${liked ? styles["action--liked"] : ""}`}
         onClick={() => setLiked((prev) => !prev)}
         aria-pressed={liked}
-        aria-label={liked ? "Descurtir" : "Curtir"}
       >
         <Icon
           icon={HeartIcon}
@@ -35,12 +34,12 @@ export function CardFooter({
         <span className={styles.action__label}>Curtir</span>
       </button>
 
-      <button className={styles.action} onClick={onComment} aria-label="Comentar">
+      <button className={styles.action} onClick={onComment}>
         <Icon icon={ChatCircleIcon} size="md" weight="regular" aria-hidden={true} />
         <span className={styles.action__label}>Comentar</span>
       </button>
 
-      <button className={styles.action} onClick={onShare} aria-label="Compartilhar">
+      <button className={styles.action} onClick={onShare}>
         <Icon icon={ShareNetworkIcon} size="md" weight="regular" aria-hidden={true} />
         <span className={styles.action__label}>Compartilhar</span>
       </button>

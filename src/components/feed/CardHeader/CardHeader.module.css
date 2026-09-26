@@ -78,8 +78,12 @@
   line-height: var(--text-body-md-line-height);
   font-weight: var(--font-weight-bold);
   color: var(--color-foreground-primary);
+  /* A linha é flex em coluna sem stretch: sem max-width o span cresce até
+     o tamanho do texto e o overflow nunca acontece dentro dele. */
+  max-width: 100%;
   overflow: hidden;
   white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 /* Padrão A e B — line 2: @username · tempo */

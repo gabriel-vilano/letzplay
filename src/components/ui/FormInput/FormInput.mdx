@@ -1,0 +1,143 @@
+import {
+  Meta,
+  Subtitle,
+  Canvas,
+  ArgTypes,
+} from "@storybook/addon-docs/blocks";
+import * as FormInputStories from "./FormInput.stories";
+
+<Meta of={FormInputStories} />
+
+<Subtitle>
+  Input de formulário com label, validação inline e suporte a password.
+</Subtitle>
+
+**Código-fonte:** [`src/components/ui/FormInput/FormInput.tsx`](https://github.com/gabriel-vilano/letzplay/blob/master/src/components/ui/FormInput/FormInput.tsx)
+
+## Visão geral
+
+`FormInput` é o input padrão do projeto — controlado, com label associada, validação inline (ícone + mensagem) e toggle de visibilidade pra senhas. Centraliza espaçamento, foco e estados de erro/sucesso.
+
+<Canvas of={FormInputStories.Empty} />
+
+## Anatomia
+
+```
+┌──────────────────────────────────┐
+│ Label                  Trailing  │  ← label-row
+├──────────────────────────────────┤
+│ ┌────────────────────────────┐   │
+│ │  field                ico  │   │  ← wrapper (input + ícone status/toggle)
+│ └────────────────────────────┘   │
+│ Mensagem de erro                  │  ← error message (quando erro)
+└──────────────────────────────────┘
+```
+
+- **label-row** — label do campo + slot opcional `labelTrailing` à direita (ex: "Esqueci a senha")
+- **wrapper** — contém input + ícone trailing
+- **field** — `<input>` com tipos text/email/password
+- **trailing icon** — check (válido), X (inválido) ou eye toggle (password)
+- **error message** — `role="alert"`, conectada via `aria-describedby`
+
+## Tipos
+
+`FormInput` aceita `text`, `email` e `password`. O tipo afeta validação nativa do browser e o teclado virtual no mobile.
+
+### Text
+
+Padrão. Use pra nome, @username, qualquer texto sem semântica especial.
+
+<Canvas of={FormInputStories.Filled} />
+
+### Email
+
+Aplica `inputMode="email"` no mobile (teclado com `@` em destaque) e validação nativa de formato.
+
+<Canvas of={FormInputStories.Empty} />
+
+### Password
+
+Mostra um toggle (olho/olho riscado) à direita pra revelar/ocultar a senha. Aria-label do botão muda conforme o estado.
+
+<Canvas of={FormInputStories.Password} />
+
+## Estados
+
+Estados visuais derivados das props `value`, `valid`, `error` e `disabled`.
+
+### Vazio
+
+Estado inicial. Sem ícone trailing. Placeholder visível.
+
+<Canvas of={FormInputStories.Empty} />
+
+### Preenchido
+
+Valor digitado. Sem ícone trailing até `valid` ou `error` ser definido.
+
+<Canvas of={FormInputStories.Filled} />
+
+### Válido
+
+Ícone de check à direita. Aparece **só com valor digitado** (`value.length > 0 && valid`). Use após validação bem-sucedida (formato, unicidade, etc).
+
+<Canvas of={FormInputStories.Valid} />
+
+### Inválido
+
+Ícone X à direita + mensagem de erro abaixo. `aria-invalid="true"` aplicado no input. Mensagem com `role="alert"` e `aria-describedby` conectado.
+
+<Canvas of={FormInputStories.Invalid} />
+
+### Disabled
+
+Input bloqueado, sem foco, sem cursor. Use durante submit em andamento ou quando o campo depende de outro ainda não preenchido.
+
+<Canvas of={FormInputStories.Disabled} />
+
+### Com label trailing
+
+Slot `labelTrailing` à direita do label — útil pra ações relacionadas como "Esqueci a senha", "Por que pedimos isso?".
+
+<Canvas of={FormInputStories.WithLabelTrailing} />
+
+## Quando usar
+
+- Qualquer campo de formulário de texto/email/senha
+- Onde precisar de validação visual inline (sucesso ou erro)
+- Inputs com toggle de visibilidade (passwords)
+
+## Componentes relacionados
+
+- Para **códigos OTP de N dígitos**, use [`OtpInput`](?path=/docs/auth-otpinput--docs) — UI dedicada pra códigos numéricos
+- Para **upload de avatar**, use [`AvatarUpload`](?path=/docs/auth-avatarupload--docs)
+- Para **textareas longos**, criar componente próprio quando surgir necessidade — `FormInput` é só pra single-line
+
+## Acessibilidade
+
+- `<label htmlFor>` associado ao `<input id>` — clicar no label foca o input
+- `aria-invalid` aplicado quando `error` está presente
+- `aria-describedby` conecta input à mensagem de erro
+- Mensagem de erro tem `role="alert"` — leitor de tela anuncia imediatamente
+- Toggle de senha tem `aria-label` dinâmico ("Mostrar senha" / "Ocultar senha")
+- Foco visível via `:focus-visible` (outline azul)
+- Tap target do input atende mínimo de 48px
+
+## Evitar
+
+- ❌ **Placeholder como label** — placeholder some quando o usuário começa a digitar; label deve sempre estar visível
+- ❌ **Validar antes do `onBlur`** — validação inline durante a digitação interrompe o usuário. Validar quando o foco sair do campo
+- ❌ **Mensagem de erro genérica** — "Campo obrigatório" não diz qual campo nem como corrigir. Específica: "Email inválido — use o formato voce@exemplo.com"
+- ❌ **Disabled sem feedback** — se o input está disabled por motivo não-óbvio, expor o motivo (ex: helper text ou Alert)
+- ❌ **`required` sem indicação visual** — campos obrigatórios devem ser visualmente diferenciáveis dos opcionais
+
+## API
+
+<ArgTypes of={FormInputStories} />
+
+## Referências
+
+- [WCAG 1.3.1 — Info and Relationships](https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships.html)
+- [WCAG 3.3.2 — Labels or Instructions](https://www.w3.org/WAI/WCAG21/Understanding/labels-or-instructions.html)
+- [WAI-ARIA — `aria-invalid`](https://www.w3.org/TR/wai-aria-1.1/#aria-invalid)
+- [MDN — `<input>` element](https://developer.mozilla.org/docs/Web/HTML/Element/input)

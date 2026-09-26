@@ -3,6 +3,14 @@ import type {
   PlayerInfo,
   OrgInfo,
 } from '@/src/types/feed';
+import {
+  daysAgo,
+  daysFromNow,
+  hoursAgo,
+  minutesAgo,
+  onTheHour,
+  weeksAgo,
+} from './relativeTime';
 
 // --- Shared entities ---
 
@@ -59,7 +67,7 @@ export const mockFeedCards: FeedCard[] = [
   {
     id: 'event-result-1set',
     card_type: 'result',
-    created_at: '2026-04-28T08:00:00Z',
+    created_at: minutesAgo(15),
     header: {
       header_type: 'org',
       org: arenaRM,
@@ -76,7 +84,7 @@ export const mockFeedCards: FeedCard[] = [
     winner: { format: 'singles', player: lucas },
     loser: { format: 'singles', player: pedro },
     score: { type: 'normal', sets: [{ a: 6, b: 4 }] },
-    date: '2026-04-27T19:00:00Z',
+    date: onTheHour(hoursAgo(1)),
     location: 'Arena RM – Beach · Nova Lima/MG',
     h2h_count: 2,
   },
@@ -85,14 +93,14 @@ export const mockFeedCards: FeedCard[] = [
   {
     id: 'event-result-2sets',
     card_type: 'result',
-    created_at: '2026-04-26T20:00:00Z',
+    created_at: hoursAgo(2),
     header: {
       header_type: 'org',
       org: arenaRM,
       phase: 'Rodada 2',
-      competition_name: '1º Torneio Arena Sports Rio',
+      competition_name: 'Open Arena RM de Beach Tennis',
       category: {
-        gender: 'F',
+        gender: 'M',
         modality: 'singles',
         level_min: 'C',
         level_max: 'C',
@@ -102,7 +110,7 @@ export const mockFeedCards: FeedCard[] = [
     winner: { format: 'singles', player: lucas },
     loser: { format: 'singles', player: pedro },
     score: { type: 'normal', sets: [{ a: 6, b: 4 }, { a: 6, b: 3 }] },
-    date: '2026-04-25T19:00:00Z',
+    date: onTheHour(hoursAgo(4)),
     location: 'Arena RM – Beach · Nova Lima/MG',
     h2h_count: 1,
   },
@@ -111,7 +119,7 @@ export const mockFeedCards: FeedCard[] = [
   {
     id: 'event-result-3sets-stb',
     card_type: 'result',
-    created_at: '2026-04-25T21:00:00Z',
+    created_at: hoursAgo(5),
     header: {
       header_type: 'org',
       org: arenaSunset,
@@ -131,7 +139,7 @@ export const mockFeedCards: FeedCard[] = [
       type: 'normal',
       sets: [{ a: 6, b: 4 }, { a: 4, b: 6 }, { a: 10, b: 7 }],
     },
-    date: '2026-04-25T15:00:00Z',
+    date: onTheHour(hoursAgo(7)),
     location: 'Arena Sunset · Carandaí/MG',
     h2h_count: 3,
   },
@@ -140,7 +148,7 @@ export const mockFeedCards: FeedCard[] = [
   {
     id: 'event-result-wo',
     card_type: 'result',
-    created_at: '2026-04-24T10:00:00Z',
+    created_at: hoursAgo(18),
     header: {
       header_type: 'org',
       org: arenaRM,
@@ -157,7 +165,7 @@ export const mockFeedCards: FeedCard[] = [
     winner: { format: 'singles', player: lucas },
     loser: { format: 'singles', player: pedro },
     score: { type: 'wo' },
-    date: '2026-04-23T19:00:00Z',
+    date: onTheHour(daysAgo(1)),
     location: 'Arena RM – Beach · Nova Lima/MG',
     h2h_count: 0,
   },
@@ -166,12 +174,12 @@ export const mockFeedCards: FeedCard[] = [
   {
     id: 'event-result-retired',
     card_type: 'result',
-    created_at: '2026-04-23T20:00:00Z',
+    created_at: daysAgo(1),
     header: {
       header_type: 'org',
       org: arenaRM,
       phase: 'Rodada 2',
-      competition_name: 'Rankin',
+      competition_name: 'Ranking Arena RM 2026',
       category: {
         gender: 'M',
         modality: 'singles',
@@ -183,7 +191,7 @@ export const mockFeedCards: FeedCard[] = [
     winner: { format: 'singles', player: lucas },
     loser: { format: 'singles', player: pedro },
     score: { type: 'retired', completed_sets: [{ a: 6, b: 2 }] },
-    date: '2026-04-22T19:00:00Z',
+    date: onTheHour(daysAgo(2)),
     location: 'Arena RM – Beach · Nova Lima/MG',
     h2h_count: 0,
   },
@@ -192,7 +200,7 @@ export const mockFeedCards: FeedCard[] = [
   {
     id: 'event-match-singles',
     card_type: 'match',
-    created_at: '2026-04-22T15:00:00Z',
+    created_at: daysAgo(2),
     header: {
       header_type: 'org',
       org: arenaSunset,
@@ -208,7 +216,7 @@ export const mockFeedCards: FeedCard[] = [
     },
     side_a: { format: 'singles', player: lucas },
     side_b: { format: 'singles', player: pedro },
-    date: '2026-04-26T14:00:00Z',
+    date: onTheHour(daysFromNow(1)),
     location: 'Arena Sunset · Carandaí/MG',
     cheer_a: 12,
     cheer_b: 8,
@@ -220,7 +228,7 @@ export const mockFeedCards: FeedCard[] = [
   {
     id: 'event-match-doubles',
     card_type: 'match',
-    created_at: '2026-04-21T16:00:00Z',
+    created_at: daysAgo(3),
     header: {
       header_type: 'org',
       org: arenaSunset,
@@ -236,7 +244,7 @@ export const mockFeedCards: FeedCard[] = [
     },
     side_a: { format: 'doubles', players: [lucas, rafael] },
     side_b: { format: 'doubles', players: [pedro, thiago] },
-    date: '2026-04-26T16:00:00Z',
+    date: onTheHour(daysFromNow(1.1)),
     location: 'Arena Sunset · Carandaí/MG',
     cheer_a: 12,
     cheer_b: 8,
@@ -249,7 +257,7 @@ export const mockFeedCards: FeedCard[] = [
     id: 'event-enrollment-singles',
     card_type: 'enrollment',
     enrollment_format: 'singles',
-    created_at: '2026-04-20T12:00:00Z',
+    created_at: daysAgo(4),
     player: lucas,
     competition: {
       id: 'comp-copa-bh',
@@ -273,13 +281,13 @@ export const mockFeedCards: FeedCard[] = [
     id: 'event-enrollment-doubles',
     card_type: 'enrollment',
     enrollment_format: 'doubles',
-    created_at: '2026-04-19T14:00:00Z',
+    created_at: daysAgo(5),
     players: [lucas, rafael],
     competition: {
       id: 'comp-copa-bh-duplas',
       name: 'Copa BH de Beach Tennis',
       category: {
-        gender: 'mixed',
+        gender: 'M',
         modality: 'doubles',
         level_min: 'C',
         level_max: 'C',
@@ -296,7 +304,7 @@ export const mockFeedCards: FeedCard[] = [
   {
     id: 'event-friendship',
     card_type: 'friendship',
-    created_at: '2026-04-18T09:00:00Z',
+    created_at: daysAgo(6),
     player_a: lucas,    // initiator
     player_b: pedro,
     user_is_friend_of_a: true,
@@ -307,7 +315,7 @@ export const mockFeedCards: FeedCard[] = [
   {
     id: 'event-ranking-up',
     card_type: 'ranking',
-    created_at: '2026-04-17T18:00:00Z',
+    created_at: weeksAgo(1),
     player: lucas,
     ranking_name: 'Ranking BH — Duplas Masc. B',
     position: 3,
@@ -320,7 +328,7 @@ export const mockFeedCards: FeedCard[] = [
   {
     id: 'event-ranking-down',
     card_type: 'ranking',
-    created_at: '2026-04-16T18:00:00Z',
+    created_at: weeksAgo(2),
     player: pedro,
     ranking_name: 'Ranking BH — Simples B',
     position: 7,
@@ -333,7 +341,7 @@ export const mockFeedCards: FeedCard[] = [
   {
     id: 'event-ranking-milestone',
     card_type: 'ranking',
-    created_at: '2026-04-15T18:00:00Z',
+    created_at: weeksAgo(3),
     player: lucas,
     ranking_name: 'Ranking BH — Duplas Masc. B',
     position: 1,

@@ -1,0 +1,87 @@
+import {
+  Meta,
+  Subtitle,
+  Canvas,
+  ArgTypes,
+} from "@storybook/addon-docs/blocks";
+import * as AlertStories from "./Alert.stories";
+
+<Meta of={AlertStories} />
+
+<Subtitle>
+  Mensagem de status inline — feedback visual contextualizado dentro de uma
+  tela.
+</Subtitle>
+
+**Código-fonte:** [`src/components/ui/Alert/Alert.tsx`](https://github.com/gabriel-vilano/letzplay/blob/master/src/components/ui/Alert/Alert.tsx)
+
+## Visão geral
+
+`Alert` exibe uma mensagem de status persistente dentro do fluxo da tela — diferente de Toast, não desaparece sozinho. Aplica ícone, cor e role de acessibilidade conforme o status.
+
+<Canvas of={AlertStories.Information} />
+
+## Variantes
+
+Três status, cada um com cor e ícone próprios. O status comunica a natureza da mensagem.
+
+<Canvas of={AlertStories.AllStatuses} />
+
+### Information
+
+Neutro. Use pra contexto adicional, dicas, lembretes não-críticos.
+
+<Canvas of={AlertStories.Information} />
+
+### Success
+
+Positivo. Use pra confirmar uma ação concluída — "perfil criado", "inscrição confirmada".
+
+<Canvas of={AlertStories.Success} />
+
+### Attention
+
+Crítico. Use pra erros, falhas, problemas que exigem atenção do usuário antes de continuar.
+
+<Canvas of={AlertStories.Attention} />
+
+## Conteúdo
+
+`title` é obrigatório. `description` é opcional — use só quando o título sozinho não comunica contexto suficiente.
+
+<Canvas of={AlertStories.TitleOnly} />
+
+## Quando usar
+
+- Confirmação ou erro **persistente** dentro da tela (não some sozinho)
+- Mensagem contextual que precisa estar visível enquanto o usuário toma uma decisão
+- Feedback após uma ação que mudou o estado da tela
+
+## Componentes relacionados
+
+- Para **mensagens transitórias** (some em ~4s), use [`Toast`](?path=/docs/ui-toast--docs) — outro padrão visual e comportamental
+- Para **erro de campo de formulário**, use a prop `error` do [`FormInput`](?path=/docs/ui-forminput--docs) — não Alert
+
+## Acessibilidade
+
+- `role="alert"` aplicado no container — leitores de tela anunciam imediatamente quando o Alert aparece
+- Ícone usa peso `fill` pra contraste visual mais forte; `aria-hidden` automático (significado já está no texto)
+- Cor não é o único sinal — o ícone diferencia status pra usuários daltônicos
+- Contraste mínimo AA atendido nos três status (validar via aba Accessibility do Storybook)
+
+## Evitar
+
+- ❌ **Múltiplos Alerts empilhados** — prioriza um. Se houver três coisas pra avisar, repensar a tela
+- ❌ **Texto genérico** — "Erro!" sem contexto força o usuário a adivinhar o que falhou. Sempre dizer *o que* aconteceu e idealmente *o que fazer*
+- ❌ **Alert pra erro de campo** — usar a prop `error` do `FormInput` que é específica e contextual ao input
+- ❌ **Alert sem possibilidade de resolução** — se o problema é irreversível, pelo menos comunicar próximo passo
+
+## API
+
+<ArgTypes of={AlertStories} />
+
+## Referências
+
+- [WAI-ARIA — Alert role](https://www.w3.org/TR/wai-aria-1.1/#alert)
+- [WCAG 1.4.1 — Use of Color](https://www.w3.org/WAI/WCAG21/Understanding/use-of-color.html)
+- Tokens relacionados: `docs/TOKENS.md` (`--color-background-*-subtle`, `--color-foreground-*`)

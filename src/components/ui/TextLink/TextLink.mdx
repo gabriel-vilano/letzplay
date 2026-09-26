@@ -1,0 +1,91 @@
+import {
+  Meta,
+  Subtitle,
+  Canvas,
+  ArgTypes,
+} from "@storybook/addon-docs/blocks";
+import * as TextLinkStories from "./TextLink.stories";
+
+<Meta of={TextLinkStories} />
+
+<Subtitle>
+  Link textual com semântica adaptativa: vira `<a>` ou `<button>` conforme as
+  props.
+</Subtitle>
+
+**Código-fonte:** [`src/components/ui/TextLink/TextLink.tsx`](https://github.com/gabriel-vilano/letzplay/blob/master/src/components/ui/TextLink/TextLink.tsx)
+
+## Visão geral
+
+`TextLink` é o link textual padrão. Adapta automaticamente sua semântica HTML conforme o uso — vira `<a>` (com next/link) quando recebe `href`, vira `<button>` quando recebe `onClick`. A escolha é exclusiva (discriminated union nas props).
+
+<Canvas of={TextLinkStories.AsLink} />
+
+## Variantes
+
+Quatro formas de uso, ordenadas pela frequência típica em telas de auth e prose.
+
+### Como link (com `href`)
+
+Renderiza `<Link>` do `next/link`. Use pra navegação interna do app — preserva semântica nativa de link (cmd+click, abrir em nova aba, voltar/avançar).
+
+<Canvas of={TextLinkStories.AsLink} />
+
+### Como botão (com `onClick`)
+
+Renderiza `<button>`. Use pra ações que disparam efeito sem navegar — "Reenviar código", "Mostrar mais", abrir um modal.
+
+<Canvas of={TextLinkStories.AsButton} />
+
+### Block (largura total, centralizado)
+
+`block=true` aplica `display: block` + alinhamento centralizado. Padrão em telas de auth onde o link aparece sozinho abaixo do formulário.
+
+<Canvas of={TextLinkStories.Block} />
+
+### Inline em prose
+
+Embedado dentro de parágrafo. O texto continua o ritmo da linha; o link mantém sublinhado por default pra contraste de leitura.
+
+<Canvas of={TextLinkStories.InlineInProse} />
+
+## Quando usar
+
+- Navegação interna entre rotas com **baixo destaque visual** (ex: "Já tem conta? Entre aqui")
+- Ações textuais inline em prose ("Esqueci a senha", "Reenviar código")
+- Links auxiliares em footer, telas de erro, mensagens vazias
+
+## Componentes relacionados
+
+- Para **ação principal da tela** (alta ênfase visual), use [`Button`](?path=/docs/ui-button--docs)
+- Para **navegação principal com forte CTA visual**, use [`ButtonLink`](?path=/docs/ui-buttonlink--docs) — mesma visual de Button, mas semântica de `<a>`
+
+## Acessibilidade
+
+- Quando renderiza `<a>`, leitor de tela anuncia "link" + texto
+- Quando renderiza `<button>`, anuncia "botão" + texto
+- `:focus-visible` produz outline azul de alto contraste — **nunca remover**
+- Sublinhado por padrão garante diferenciação além de cor (não depende só do coral pra distinguir do texto)
+- Para links externos (`target="_blank"`), incluir `rel="noopener"` (já no padrão do projeto)
+
+## Evitar
+
+- ❌ **`<a href="#">` placeholder** — quebra navegação por teclado e screen readers. Se ainda não há destino, usar `onClick` (vira botão) ou esconder o link
+- ❌ **Texto genérico** — "Clique aqui", "Saiba mais" sem contexto. O texto do link deve descrever o destino: "Ver políticas de privacidade"
+- ❌ **`onClick` em link** quando deveria ser navegação — quebra cmd+click e affordances de browser
+- ❌ **Remover o sublinhado** sem outra forma de distinção — usuários daltônicos ou com baixa visão dependem dele
+
+## API
+
+<ArgTypes of={TextLinkStories} />
+
+## Decisões de design
+
+**Por que polimorfismo (link/button no mesmo componente) em vez de dois componentes separados?**
+A intenção visual é a mesma — texto sublinhado em coral, mesmo peso, mesmo focus. Separar em `TextLink` e `TextButton` duplicaria estilo. A discriminated union (`href` vs `onClick`) garante semântica HTML correta sem o consumidor pensar nisso. Trade aceito: a tipagem é um pouco mais complexa internamente, mas o consumidor escreve menos.
+
+## Referências
+
+- [MDN — `<a>` element](https://developer.mozilla.org/docs/Web/HTML/Element/a)
+- [WAI-ARIA — Link Pattern](https://www.w3.org/WAI/ARIA/apg/patterns/link/)
+- [WCAG 2.4.4 — Link Purpose (In Context)](https://www.w3.org/WAI/WCAG21/Understanding/link-purpose-in-context.html)

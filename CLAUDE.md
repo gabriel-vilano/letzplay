@@ -4,6 +4,7 @@
 @docs/PRODUCT.md
 @docs/GIT_WORKFLOW.md
 @docs/TOKENS.md
+@docs/AGENT_WORKFLOW.md
 
 ## Sobre o projeto
 
@@ -24,7 +25,7 @@ O desenvolvedor é um designer (~4 anos em branding/marketing/gráfico, ~2 anos 
 
 ## Filosofia de documentação
 
-Documentamos o que é estável. Decisões, padrões, princípios, hurdles, convenções — coisas que mudam raramente e que, quando mudarem, merecem PR e `git blame`. **Não documentamos estado.** Status de tarefa, progresso de fase, "o que vem depois" volúvel pertence ao tracker (GitHub Issues), não ao repo.
+Documentamos o que é estável. Decisões, padrões, princípios, hurdles, convenções — coisas que mudam raramente e que, quando mudarem, merecem PR e `git blame`. **Não documentamos estado.** Status de tarefa, progresso de fase, "o que vem depois" volúvel pertence ao tracker (Linear), não ao repo.
 
 **Teste antes de criar ou manter um doc:** "Se eu não atualizar isso por 3 meses, ele ainda estará correto?" Se a resposta é não, é estado disfarçado de documentação. Vai pro tracker.
 
@@ -34,8 +35,9 @@ Documentamos o que é estável. Decisões, padrões, princípios, hurdles, conve
 - `docs/PRODUCT.md` — visão, escopo MVP, princípios de design, métricas
 - `docs/TOKENS.md` — design system
 - `docs/GIT_WORKFLOW.md` — workflow de branches, PR, versionamento
-- `docs/components/<nome>.md` — documentação de componente individual
-- **GitHub Issues** — tarefas, progresso, próximos passos
+- `docs/AGENT_WORKFLOW.md` — estrutura do Linear e coordenação de agentes em paralelo
+- `src/components/.../Component.mdx` — **fonte única** de documentação por componente (renderizada no Storybook)
+- **Linear** (`linear.app/letzplay`) — tarefas, progresso, próximos passos
 
 ## Stack técnica
 
@@ -47,8 +49,11 @@ Documentamos o que é estável. Decisões, padrões, princípios, hurdles, conve
 - **Backend:** Supabase (Auth, PostgreSQL, Storage, Data API, RLS automático)
   - `@supabase/supabase-js` ^2.101.1
   - `@supabase/ssr` ^0.10.0
+- **Workshop de componentes:** Storybook 10 (`@storybook/nextjs-vite`) — rodar com `npm run storybook`
+- **Testes:** Vitest 4 — `npm test` (unit) e `npm run test:stories` (browser via Playwright)
 - **Deploy:** Vercel (deploy automático via GitHub)
-- **Repositório:** GitHub (privado, nome "letzplay") — Issues como tracker de execução
+- **Repositório:** GitHub (público, `gabriel-vilano/letzplay`) — `master` protegida por ruleset; toda mudança entra via PR com CI verde
+- **Tracker de execução:** Linear (`linear.app/letzplay`)
 - **IDE:** VS Code com Claude Code (plano Max)
 
 ## Convenções de código
@@ -109,34 +114,170 @@ Restrições mensuráveis, otimizadas para que o agente raciocine sobre o códig
 ### Ícones
 
 - Lib: `@phosphor-icons/react`
-- Sempre via wrapper: `<Icon icon={Trophy} size="md" weight="regular" />`
-- Importar o ícone Phosphor no consumidor: `import { Trophy } from '@phosphor-icons/react'`
+- Sempre via wrapper: `<Icon icon={TrophyIcon} size="md" weight="regular" />`
+- **Sempre importar com sufixo `Icon`:** `import { TrophyIcon } from '@phosphor-icons/react'`. Os nomes legados (`Trophy`, `Heart`) ainda funcionam por compatibilidade, mas o padrão moderno da lib é com sufixo — use sempre o novo.
 - Cor sempre via `currentColor` — nunca definir cor dentro do componente `Icon`
 - Ícones decorativos: `aria-hidden={true}` (default — não precisa declarar)
 - Ícones com significado semântico: `aria-label="descrição"` + `aria-hidden={false}`
 - Botão com ícone sem texto: `aria-label` vai no `<button>`, não no `<Icon>`
 - Ícones customizados de marca: `src/components/icons/` (SVG próprio, fora do Phosphor)
-- Referência completa: `@docs/components/icon.md`
+- Referência completa: ver `Icon.mdx` no Storybook (`UI/Icon > Docs`)
 
 ## Documentação de componentes
 
-Cada novo componente do design system ganha seu arquivo de documentação em `docs/components/`.
-Incluir o arquivo relevante no início da sessão quando for trabalhar num componente específico.
+**Fonte única: arquivos `Component.mdx` ao lado de cada componente, renderizados no Storybook.** Não usamos `docs/components/` — foi deprecado e removido em favor de MDX como source of truth.
 
 ```
-docs/
-  TOKENS.md              ← tokens primitivos e semânticos (referenciado via @ acima)
-  components/
-    icon.md              ← componente Icon
-    ...                  ← um arquivo por componente do DS
+src/components/ui/Button/
+  Button.tsx             ← código
+  Button.module.css      ← estilo
+  Button.stories.tsx     ← stories interativas
+  Button.mdx             ← documentação (fonte canônica)
+  index.ts
 ```
+
+Convenção completa de MDX (estrutura de seções, ordem de conteúdo, blocos do Storybook): ver "Storybook > Padrão de documentação MDX" abaixo.
+
+## Storybook
+
+Workshop pra desenvolver e testar componentes em isolamento. Cada componente do DS deve ter sua story conforme evolui.
+
+### Comandos
+
+- `npm run storybook` — sobe dev server em `http://localhost:6006` (acessível via LAN com `-H 0.0.0.0`)
+- `npm run build-storybook` — build estática em `storybook-static/`
+- `npm run test:stories` — roda cada story como teste no Chromium (Playwright + Vitest browser mode)
+- `npm run test:all` — unit + storybook
+
+### Onde ficam as stories
+
+Ao lado do componente, sufixo `.stories.tsx`:
+
+```
+src/components/ui/Icon/
+  Icon.tsx
+  Icon.module.css
+  Icon.stories.tsx   ← aqui
+  index.ts
+```
+
+### Estratégia de cobertura
+
+Adotamos a estratégia **DS + componentes críticos** — não documentamos tudo, documentamos o que tem ROI real.
+
+**Tier 1 — DS primitivos (sempre).** Átomos reutilizáveis. Ex: Button, Icon, FormInput, Alert, Toast, Avatar, TextLink. Storybook é o catálogo do design system.
+
+**Tier 2 — Compostos com estados ocultos (sim).** Moléculas que têm múltiplos estados difíceis de reproduzir em produção (loading, empty, error, edge cases). Ex: PasswordChecklist, OtpInput, ResendTimer, AvatarUpload.
+
+**Tier 3 — Blocos reutilizáveis de feature (sim).** LEGO pieces recombinados em vários contextos. Ex: blocos do feed (CardShell, CardHeader, ScoreBlock).
+
+**Tier 4 — Composições finais (geralmente não).** Cards completos / telas. Quando vale, criar **uma story-galeria** mostrando todas as variantes lado a lado, em vez de uma story por composição.
+
+**Não documentar:** páginas (`app/**/page.tsx`), server components com data fetching, layouts puros sem variantes, componentes one-shot usados em um único lugar sem estados ocultos.
+
+**Heurísticas pra decidir caso a caso:**
+
+1. **Heurística do designer:** "Um designer entregaria um Figma frame só desse componente, com todas as variantes lado a lado, fora de qualquer tela?" Se sim → story.
+2. **Heurística dos estados invisíveis:** "Esse componente tem estados que produção raramente exibe — loading, empty, error, texto longo, dado faltando?" Se sim → Storybook é o melhor lugar pra surfar.
+
+**Regra do PR:** ao adicionar/evoluir um componente, perguntar antes do merge: *"Esse componente tem 3 ou mais variantes/estados que valem mostrar lado a lado?"* Se sim, story junto no mesmo PR. Se não, segue sem.
+
+### Padrão de documentação MDX
+
+Cada componente do Tier 1 e Tier 2 ganha um arquivo `Component.mdx` ao lado, **complementando** o `.stories.tsx`:
+
+```
+src/components/ui/Button/
+  Button.tsx
+  Button.module.css
+  Button.stories.tsx   ← stories interativas, controls, args
+  Button.mdx           ← documentação rica em prose
+  index.ts
+```
+
+**Por que MDX se já temos auto-docs:** o auto-docs (aba "Docs" gerada do meta) é raso — só descrição + tabela de props + stories embutidas. MDX permite explicar **decisões de design**, **componentes relacionados**, **acessibilidade**, **anti-padrões** — coisas que não cabem em uma description de story.
+
+**Idioma:** títulos de seções e prose em português. Termos técnicos sem tradução natural permanecem em inglês (ex: `Provider`, `hook`, `props`, nomes de tokens CSS, identificadores de código). Sigla `API` mantém. Convenções específicas de DS (`Don'ts`) traduzimos quando há equivalente claro em PT (`Evitar`).
+
+**Inspiração de estrutura:** [Carbon Design System](https://github.com/carbon-design-system/carbon/blob/main/packages/react/src/components/Button/Button.mdx) — adotamos a estrutura por seções (cada variante e cada estado com H2/H3 próprio), `<ArgTypes>` no fim como API, `## References` linkando padrões externos. Diferença: Carbon é DS multi-tenant, então é deliberadamente neutro; o nosso é DS de um produto único, então mantemos **opinião forte** ("uma primary por tela", Don'ts explícitos).
+
+**Imports padrão:**
+
+```mdx
+import { Meta, Subtitle, Canvas, ArgTypes } from "@storybook/addon-docs/blocks";
+import * as ButtonStories from "./Button.stories";
+
+<Meta of={ButtonStories} />
+<Subtitle>Uma linha sobre o propósito do componente.</Subtitle>
+
+**Código-fonte:** [`src/components/ui/Button/Button.tsx`](https://github.com/gabriel-vilano/letzplay/blob/master/src/components/ui/Button/Button.tsx)
+```
+
+Sempre incluir o link pro código-fonte no topo, logo após o Subtitle.
+
+**Tabelas em MDX:** usar HTML (`<table>`, `<thead>`, `<tbody>`, `<tr>`, `<th>`, `<td>`). Sintaxe markdown de pipes não funciona no Storybook 10 + nextjs-vite atual — `remark-gfm` foi tentado mas o `mdxLoaderOptions` hook não propaga remarkPlugins até o compile final do `@mdx-js/mdx` interno do addon-docs. Inline code em cells via `<code>...</code>`. Reavaliar quando upstream resolver.
+
+**Seções recomendadas (na ordem):**
+
+1. **Visão geral** — parágrafo curto descrevendo propósito + `<Canvas>` da story default. Mostra o componente funcionando antes de explicar.
+2. **Variantes** — parágrafo intro + `<Canvas of={Stories.AllVariants} />`, depois um **H3 por variante** com prose + Canvas próprio
+3. **Estados** — parágrafo intro + H3 por estado (Loading, Disabled, FullWidth, etc), cada um com prose + Canvas
+4. **Anatomia** *(opcional)* — partes visuais nomeadas. Só se o componente não for óbvio (FormInput sim, Button não)
+5. **Com ícone** *(quando aplicável)* — H3 separados pra leading e trailing
+6. **Quando usar** — bullets com casos de uso centrais
+7. **Componentes relacionados** — outros componentes próximos e quando preferir cada um (ex: Button vs ButtonLink vs TextLink), com link via `?path=/docs/ui-componente--docs`
+8. **Acessibilidade** — semântica HTML, ARIA, foco, tap target. Citar critérios WCAG quando aplicável
+9. **Evitar** — anti-padrões comuns com `❌`. Única seção negativa do MDX; é onde mora a opinião do nosso DS
+10. **API** — `<ArgTypes of={Stories} />` (não `<Controls>`; Controls é interativo, ArgTypes é documentação read-only)
+11. **Decisões de design** *(opcional)* — formato Q&A: por que essa abordagem em vez de alternativas? (ex: "Por que Phosphor em vez de Lucide?", "Por que wrapper em vez de import direto?"). **Critério estrito: só incluir quando há decisão não-óbvia que justificaria questionamento futuro.** Em componentes onde tudo é convencional, não criar a seção — boilerplate vazio polui mais do que ajuda
+12. **Referências** — links pra MDN, WAI-ARIA, WCAG, e referência cruzada com `docs/TOKENS.md`
+
+**Ordem de conteúdo dentro de qualquer seção/subseção: sempre Heading → Prose → Canvas.** O leitor precisa de contexto antes de processar o exemplo visual; mostrar o componente primeiro força o leitor a inferir o que está vendo. A regra vale tanto pro H2 quanto pro H3. **Nunca Canvas → Prose** — sem exceção.
+
+**Toda H2 que tem H3 abaixo deve ter prose intro de 1-2 linhas antes do primeiro H3** — orienta o leitor sobre o que vai encontrar. Se a H2 só tem prose+Canvas (sem H3), aplica direto a regra Heading → Prose → Canvas.
+
+**Não fazer:**
+
+- ❌ Duplicar prose do `parameters.docs.description` da story dentro do MDX — descrições curtas de story são legendas, MDX é a doc principal. Quando MDX existe, mantenha as descriptions curtas e factuais; o "porquê" mora no MDX.
+- ❌ Documentar implementação interna (estrutura de CSS, lógica de hook). Foco no consumidor: como usar, quando usar, quando não usar.
+- ❌ Criar MDX antes de ter stories — MDX referencia stories via `<Canvas of={...} />`. Stories primeiro, MDX depois.
+- ❌ TOC manual — Storybook 10 auto-gera TOC do lado direito a partir dos H2/H3 do MDX.
+
+**`docs/components/` foi deprecado.** MDX é a fonte única de documentação por componente. Decisões de design (rationale, alternativas consideradas) que antes ficavam em `docs/components/<nome>.md` agora vão como **última seção do próprio MDX**, conforme o item 12 abaixo.
+
+### Padrão de story
+
+- **Nunca nomear `export const X` igual ao componente importado.** `import { Button } from "./Button"` + `export const Button: Story = ...` quebra com "duplicate declaration". Use nomes das *variantes* — `Primary`, `Secondary`, `WithIcon`, `Loading`. (Boilerplate do Storybook 10.3.6 erra isso — não copiar.)
+- Use `satisfies Meta<typeof Component>` no meta pra inferência de tipos das stories
+- `args` no meta = defaults; cada story sobrescreve apenas o que precisa
+- `argTypes.icon: { control: false }` desabilita o control quando o tipo não é serializável (`React.ElementType`)
+- Para showcase de variantes lado a lado, use as utilities `.sb-row`, `.sb-stack`, `.sb-pad` do `.storybook/storybook.css` — não use `style=` inline
+
+### Addons ativos
+
+- **a11y** — cada story passa por axe-core; violações aparecem no painel "Accessibility"
+- **vitest** — stories viram testes via `npm run test:stories`
+- **docs** — auto-doc com MDX e descriptions de stories
+- **chromatic** — preparado pra visual regression (não conectado ainda)
+
+### Decisão de adapter
+
+Usamos `@storybook/nextjs-vite` (não `nextjs` webpack). Vite roda mais rápido, alinha com o pipeline do Vitest e é a direção declarada do time do Storybook. Trade aceito: regras webpack do `next.config.ts` não se aplicam — hoje irrelevante porque o `next.config` é vanilla.
+
+### Sobre RSC e `"use client"`
+
+Storybook + Vite não tem RSC. Stories rodam tudo client-side por default. A regra do projeto sobre `"use client"` em consumidores de Phosphor (do `CLAUDE.md > Common hurdles`) aplica ao app real, não às stories — ali nada quebra.
 
 ## Supabase
 
 - Row Level Security (RLS) ativo em todas as tabelas
 - Sempre definir policies antes de usar uma tabela
-- Nunca expor a `service_role` key no frontend
-- Variáveis de ambiente: `NEXT_PUBLIC_SUPABASE_URL` e `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- Nunca expor chave secreta no frontend — nem a `service_role` legada nem a secret key (`sb_secret_…`). Toda variável `NEXT_PUBLIC_*` vira texto no JavaScript enviado ao navegador; o `next.config.ts` bloqueia o build se detectar segredo numa delas
+- Variáveis de ambiente: `NEXT_PUBLIC_SUPABASE_URL` e `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` (`sb_publishable_…`), lidas só via `getSupabasePublicEnv()` (`src/lib/supabase/env.ts`). A anon key legada (JWT) não é usada
+- **Env vars na Vercel:** a integração Supabase ↔ Vercel sincroniza só o ambiente Production, com os segredos marcados como *sensitive*. Preview e Development recebem apenas as variáveis públicas, cadastradas à mão — build de branch (o repo é público) nunca recebe segredo
+- **Schema versionado em `supabase/migrations/`.** Toda mudança de schema, policy ou bucket entra como migration — nunca editar direto pelo dashboard. O repo é a fonte de verdade do banco; o dashboard é só leitura
+- Migration nasce com `supabase migration new <descricao_em_snake_case>` (gera `<timestamp>_<descricao>.sql`) e entra por PR. **Quem aplica no remoto é o merge na `master`**, via integração GitHub do Supabase (*Deploy to production*). Nunca aplicar à mão (`supabase db push`, `apply_migration` via MCP): o `apply_migration` grava a hora da chamada como versão, diferente do timestamp do arquivo — no merge a integração roda o mesmo SQL de novo e o histórico do banco diverge do repo. Para testar antes do merge: `supabase db reset` local (Docker)
+- **Dados mockados primeiro.** O Supabase é ambiente de testes para ver o produto num cenário real, não banco de produção. Features nascem com mocks tipados; tabela nova só entra quando a feature precisa do cenário real
 
 ## Insights estratégicos
 
@@ -201,9 +342,10 @@ O Claude deve sinalizar proativamente quando:
 
 ### Testes
 
-- **Framework:** Vitest. Rodar com `npm test`. Arquivos `<nome>.test.ts(x)` ao lado do código testado
+- **Framework:** Vitest 4. `npm test` roda só o project `unit` (testes node). `npm run test:stories` roda as stories no Chromium. Arquivos `<nome>.test.ts(x)` ao lado do código testado
 - **Abordagem equilibrada:** não exige TDD rigoroso, mas todo fluxo crítico ganha teste antes de ser considerado "pronto". Testar imediatamente após implementar — não deixar acumular dívida de teste
 - **Prioridade de cobertura:** auth (login, signup, validações), operações de banco (criar perfil, registrar partida), validações de input, e qualquer fluxo que envolva dados sensíveis
+- **Server actions:** testar com `vi.mock` em `@/src/lib/supabase/server` (fake de `app/(auth)/actions.test-utils.ts`) e em `next/navigation`, com `redirect` lançando `NEXT_REDIRECT:<url>` como o real. Asserção de redirect: `rejects.toThrow(redirectSignal(url))`
 - **Bug fix → teste de regressão.** Todo bug corrigido ganha um teste que reproduziria o bug, para evitar regressão futura
 
 ### Oferecer a versão simples primeiro

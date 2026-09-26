@@ -1,0 +1,79 @@
+import {
+  Meta,
+  Subtitle,
+  Canvas,
+  ArgTypes,
+} from "@storybook/addon-docs/blocks";
+import * as ResendTimerStories from "./ResendTimer.stories";
+
+<Meta of={ResendTimerStories} />
+
+<Subtitle>
+  Countdown de 60s antes de permitir reenvio de código.
+</Subtitle>
+
+**Código-fonte:** [`src/components/auth/ResendTimer/ResendTimer.tsx`](https://github.com/gabriel-vilano/letzplay/blob/master/src/components/auth/ResendTimer/ResendTimer.tsx)
+
+## Visão geral
+
+`ResendTimer` mostra um countdown ("Reenviar código em 60s") que decresce a cada segundo. Ao zerar, vira um botão "Reenviar código" clicável. Após clique, o countdown reinicia em 60s. Previne spam de reenvio em fluxos como verificação de email e recuperação de senha.
+
+<Canvas of={ResendTimerStories.CountingDown} />
+
+## Estados
+
+O countdown é gerenciado internamente — começa em 60s no mount e não é controlável externamente.
+
+### Em contagem
+
+Texto "Reenviar código em Ns" (não-clicável). Decresce 1s por segundo.
+
+<Canvas of={ResendTimerStories.CountingDown} />
+
+### Loading
+
+Quando `loading=true`, fica desabilitado mesmo após o countdown terminar — use durante a chamada async de reenvio pra evitar double-submit.
+
+<Canvas of={ResendTimerStories.Loading} />
+
+> **Nota:** estado "available to resend" (countdown=0, clicável) não está documentado como story estática porque o countdown só zera após 60s reais. Espere pra ver, ou veja após reload + 60s. Tracking pra refactor — exposing `initialCountdown` como prop permitiria stories pros 3 estados explicitamente.
+
+## Quando usar
+
+- Após `OtpInput` em telas de verificação (email, recuperar senha)
+- Em qualquer fluxo onde o usuário pode pedir reenvio de algo após uma janela de espera
+
+## Componentes relacionados
+
+- [`OtpInput`](?path=/docs/auth-otpinput--docs) — costuma aparecer logo acima
+- [`Button`](?path=/docs/ui-button--docs) — quando o reenvio precisa de mais ênfase visual
+
+## Acessibilidade
+
+- Renderiza `<span>` durante countdown (texto não-interativo) e `<button>` quando disponível
+- `<button>` é nativo — Enter/Space disparam o reenvio
+- Mudança de "span → button" é detectada por leitores de tela em re-render
+- Sem `aria-live` por enquanto — atualização do número não é anunciada constantemente (decisão deliberada pra não spammar leitor de tela)
+
+## Evitar
+
+- ❌ **Reduzir o countdown abaixo de 30s** — fricção saudável que previne spam não-intencional
+- ❌ **Esconder o componente durante o countdown** — usuário precisa saber que está esperando algo
+- ❌ **Trocar texto do botão** sem alinhar com o resto do produto — "Reenviar código" é específico a códigos OTP; pra outros casos, criar outro componente
+
+## API
+
+<ArgTypes of={ResendTimerStories} />
+
+## Decisões de design
+
+**Por que countdown gerenciado internamente em vez de controlado por prop?**
+O timer é puramente local à UI — não há estado de domínio que faça sentido elevar pra o consumidor. Aceitar `countdown` como prop forçaria todo consumidor a manter `useState` próprio só pra isso, multiplicando boilerplate. Trade aceito: stories estáticas são limitadas (tem que esperar o tempo real). Refactor futuro: aceitar `initialCountdown` opcional preserva o comportamento default e permite stories.
+
+**Por que 60s e não menos?**
+Backend de email transacional (Supabase, Resend) costuma ter rate limit similar. 60s alinha com o esperado pelo provedor e dá fricção saudável contra spam não-intencional.
+
+## Referências
+
+- [MDN — `setInterval`](https://developer.mozilla.org/docs/Web/API/setInterval)
+- [WAI-ARIA — `aria-live` (decisão de não usar)](https://www.w3.org/TR/wai-aria-1.1/#aria-live)

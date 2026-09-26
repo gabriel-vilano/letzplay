@@ -35,10 +35,12 @@ App disponível em [http://localhost:3000](http://localhost:3000). O `dev` roda 
 
 Copiar `.env.example` para `.env.local` e preencher:
 
-| Variável                          | Descrição                                       |
-| --------------------------------- | ----------------------------------------------- |
-| `NEXT_PUBLIC_SUPABASE_URL`        | URL do projeto Supabase                         |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY`   | Anon key do Supabase (RLS protege os dados)     |
+| Variável                               | Descrição                                                          |
+| -------------------------------------- | ------------------------------------------------------------------ |
+| `NEXT_PUBLIC_SUPABASE_URL`             | URL do projeto Supabase                                            |
+| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Publishable key (`sb_publishable_…`), pública por design — RLS protege os dados |
+
+Nunca coloque a secret key (`sb_secret_…`) nem a `service_role` numa variável `NEXT_PUBLIC_*`: ela iria para o JavaScript do navegador. O build falha de propósito se detectar isso.
 
 ## Onde olhar para entender o projeto
 
@@ -48,11 +50,12 @@ Copiar `.env.example` para `.env.local` e preencher:
 | `docs/PRODUCT.md`      | Visão do produto, escopo do MVP, princípios de design, métricas de sucesso              |
 | `docs/TOKENS.md`       | Design system: tokens primitivos, semânticos, padrões de implementação                  |
 | `docs/GIT_WORKFLOW.md` | Estrutura de branches, fluxo de PR, versionamento                                       |
-| `docs/components/`     | Documentação de componentes individuais                                                 |
+| `src/components/**/*.mdx` | Documentação de cada componente (renderizada no Storybook)                         |
+| `supabase/migrations/` | Schema do banco versionado (tabelas, policies, buckets)                                 |
 
 ## Planejamento
 
-Tracking de execução em **GitHub Issues**. Decisões duráveis ficam em markdown no repo (`CLAUDE.md`, `docs/`).
+Tracking de execução no **Linear** (`linear.app/letzplay`). Decisões duráveis ficam em markdown no repo (`CLAUDE.md`, `docs/`).
 
 ## Hurdles conhecidos
 

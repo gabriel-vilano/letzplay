@@ -1,0 +1,105 @@
+import {
+  Meta,
+  Subtitle,
+  Canvas,
+  ArgTypes,
+} from "@storybook/addon-docs/blocks";
+import * as OtpInputStories from "./OtpInput.stories";
+
+<Meta of={OtpInputStories} />
+
+<Subtitle>
+  Input pra código OTP — N dígitos numéricos, autocomplete one-time-code.
+</Subtitle>
+
+**Código-fonte:** [`src/components/auth/OtpInput/OtpInput.tsx`](https://github.com/gabriel-vilano/letzplay/blob/master/src/components/auth/OtpInput/OtpInput.tsx)
+
+## Visão geral
+
+`OtpInput` é um input dedicado pra códigos one-time-password (OTP) de N dígitos. Filtra não-dígitos durante typing, foca automaticamente no mount, e usa `autocomplete="one-time-code"` pra integração com SMS auto-fill no iOS/Android. Default de 8 dígitos via constante `OTP_LENGTH`.
+
+<Canvas of={OtpInputStories.Empty} />
+
+## Estados
+
+Controlado via prop `value` (string). Estados visuais derivam de `value`, `error` e `disabled`.
+
+### Vazio
+
+Estado inicial. Placeholder mostra `00000000` em cinza. Cursor já está focado pelo `useEffect` no mount — usuário pode digitar imediatamente.
+
+<Canvas of={OtpInputStories.Empty} />
+
+### Parcial
+
+Usuário digitou alguns dígitos. Não tem visualização especial (caracteres aparecem normais).
+
+<Canvas of={OtpInputStories.Partial} />
+
+### Completo
+
+Todos os N dígitos preenchidos. Pronto pra submit (responsabilidade do consumidor).
+
+<Canvas of={OtpInputStories.Complete} />
+
+### Inválido
+
+`error` define a mensagem; o input ganha borda vermelha + mensagem abaixo.
+
+<Canvas of={OtpInputStories.Invalid} />
+
+### Disabled
+
+`disabled=true` bloqueia interação. Use durante o submit do código pra evitar double-submit.
+
+<Canvas of={OtpInputStories.Disabled} />
+
+### Interativo
+
+Story com `useArgs` — digite letras e veja serem filtradas silenciosamente.
+
+<Canvas of={OtpInputStories.Interactive} />
+
+## Quando usar
+
+- Verificação de email após signup
+- Recuperação de senha (código enviado por email)
+- 2FA / SMS / autenticação em duas etapas
+
+## Componentes relacionados
+
+- [`FormInput`](?path=/docs/ui-forminput--docs) — pra inputs de texto/email/senha não-OTP
+- [`ResendTimer`](?path=/docs/auth-resendtimer--docs) — costuma aparecer abaixo do OtpInput pra reenviar o código
+
+## Acessibilidade
+
+- `inputMode="numeric"` — mobile mostra teclado numérico em vez do alfabético
+- `autoComplete="one-time-code"` — iOS/Android sugerem auto-fill quando detectam código no SMS
+- `pattern="[0-9]*"` — backup de validação no submit
+- `maxLength` aplica `length` (default 8) — impede typing além
+- Foco automático ao montar — usuário não precisa clicar
+- Mensagem de erro renderizada como `<span>` (sem `role="alert"` ainda — pode evoluir)
+
+## Evitar
+
+- ❌ **Aceitar caracteres não-numéricos** — o filtro `\D` no `handleChange` é proposital; não removê-lo
+- ❌ **Submeter automaticamente quando completar** sem confirmação visual — o usuário deve ver os 8 dígitos antes de algo acontecer (UX padrão do iOS/Android)
+- ❌ **Usar pra senhas** — OtpInput é específico pra códigos numéricos descartáveis. Senha vai em `FormInput type="password"`
+
+## API
+
+<ArgTypes of={OtpInputStories} />
+
+## Decisões de design
+
+**Por que um único `<input>` em vez de N inputs separados (1 por dígito)?**
+N inputs separados (estilo Apple iOS) forçam JS pra mover foco entre eles, lidam mal com paste do código completo, e quebram autoComplete. Um único input com `maxLength` + filtro tem suporte nativo a paste, autoComplete e auto-fill via SMS. Trade aceito: visual menos chamativo (sem separadores entre dígitos), compensado pela robustez funcional.
+
+**Por que constante `OTP_LENGTH` em vez de prop default 6?**
+8 dígitos é decisão deliberada do projeto (Supabase Auth usa 6, mas optamos por 8 pra maior segurança). Centralizar a constante em `validations.ts` deixa consistente entre `OtpInput`, validação backend e mensagens de erro. Mudou o tamanho? Muda em um lugar.
+
+## Referências
+
+- [MDN — `inputmode` attribute](https://developer.mozilla.org/docs/Web/HTML/Global_attributes/inputmode)
+- [WHATWG — `autocomplete` token "one-time-code"](https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#autofill)
+- [Apple — One-time code SMS auto-fill](https://developer.apple.com/documentation/security_keychain_services/password_autofill/enabling_password_autofill_on_an_html_input_element)
