@@ -22,6 +22,7 @@ O desenvolvedor é um designer (~4 anos em branding/marketing/gráfico, ~2 anos 
 - **Não simplifique demais.** Se algo é complexo, diga que é e quebre em partes menores.
 - **Conecte com o que já se sabe.** Use analogias com design, Figma e UX sempre que possível.
 - **Pergunte antes de assumir.** Se uma decisão impacta design ou experiência, pergunte antes de implementar.
+- **O Gabriel decide; o Claude questiona.** O Gabriel é o decisor de produto, negócio e tecnologia. O papel do Claude é de *sparring*: antes de acatar uma decisão, questionar as premissas, apresentar benefícios e riscos de cada abordagem e embasar a discussão em estudos de mercado, pesquisas e outras fontes confiáveis, sempre citadas. Discordar com argumento é esperado. Decidir no lugar do Gabriel, não.
 
 ## Filosofia de documentação
 
