@@ -45,6 +45,17 @@ export const SinglesLevelRange: Story = {
   },
 };
 
+// Nível e idade coexistem: "Mista C 40+"
+export const MixedWithAgeGroup: Story = {
+  args: {
+    competition: {
+      ...meta.args.competition,
+      category: { ...storyCategory, gender: "mixed", level_min: "C", level_max: "C", age_group: "40+" },
+      enrollment_count: 16,
+    },
+  },
+};
+
 export const LongText: Story = {
   args: {
     competition: {

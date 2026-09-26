@@ -57,7 +57,7 @@ function getHeaderProps(card: FeedCard): {
       headerData: {
         header_type: "player",
         player: card.player_a,
-        action_text: `${card.player_a.name} tornou-se amigo de ${card.player_b.name}`,
+        action_text: `${card.player_a.name} e ${card.player_b.name} agora são amigos`,
       },
       showHandshake: true,
     };

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { CalendarBlankIcon, MapPinIcon, UsersIcon } from "@phosphor-icons/react";
 import { Icon } from "@/src/components/ui/Icon";
-import { formatCategoryLabel } from "@/src/lib/formatters";
+import { formatCategoryLabel, formatEnrollmentCount } from "@/src/lib/formatters";
 import type { CompetitionInfo } from "@/src/types/feed";
 import styles from "./CompetitionBlock.module.css";
 
@@ -45,7 +45,7 @@ export function CompetitionBlock({ competition }: CompetitionBlockProps) {
         </span>
         <span className={styles.block__line}>
           <Icon icon={UsersIcon} size="sm" weight="regular" />
-          <span>{enrollment_count} inscritos</span>
+          <span>{formatEnrollmentCount(enrollment_count, category.modality)}</span>
         </span>
       </div>
     </div>

@@ -63,7 +63,7 @@ export const Handshake: Story = {
     data: {
       header_type: "player",
       player: storyPlayer,
-      action_text: "Lucas Silva tornou-se amigo de Rafael Costa",
+      action_text: "Lucas Silva e Rafael Costa agora são amigos",
     },
   },
 };

@@ -16,7 +16,7 @@ const meta = {
       card_type: "ranking",
       created_at: new Date().toISOString(),
       player: storyPlayer,
-      ranking_name: "Ranking BH — Duplas Masc. B",
+      ranking_name: "Ranking BH — Masculino B",
       position: 3,
       delta: 2,
       points: 520,
@@ -82,7 +82,7 @@ export const LongRankingName: Story = {
     data: {
       ...meta.args.data,
       ranking_name:
-        "Ranking Metropolitano de Belo Horizonte — Duplas Masculinas Categoria B 40+",
+        "Ranking Metropolitano de Belo Horizonte — Masculino B 40+",
       points: 12480,
     },
   },
