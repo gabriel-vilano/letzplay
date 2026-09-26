@@ -689,9 +689,15 @@ Decisões de schema e de semântica que os cards assumem. Hoje os cards rodam co
 
 Coluna desnormalizada em `profiles`, atualizada por trigger a cada partida confirmada. Aparece nos cards de confronto ("274 jogos"), na lista de amigos e no perfil do jogador. Por isso mora em `PlayerInfo`, e não no lado da partida (`MatchSide`): cada contexto recebe o dado junto com o jogador, sem buscar separado.
 
-### 11.2 Seguir organização fica fora do MVP
+### 11.2 Organizações no feed: vínculo implícito, sem "Seguir" no MVP
 
-A feature exige uma tabela `follows (follower_id → profiles, followee_id → organizations)`, que não entra no MVP. Por isso `OrgCardHeader` não tem `is_following` e o `CardHeader` não renderiza o botão "Seguir". Quando a tabela existir, o campo volta para `OrgCardHeader` e o botão volta para o `CardHeader`.
+O jogador vê no feed o conteúdo das organizações dos rankings e torneios em que está ou esteve inscrito. O vínculo é derivado das inscrições e não exige ação do jogador. Por isso `OrgCardHeader` não tem `is_following` e o `CardHeader` não renderiza o botão "Seguir".
+
+**Por quê:** um feed que depende de o usuário escolher quem seguir nasce vazio (*cold start*), e a maioria das pessoas não muda o padrão (efeito padrão; Johnson & Goldstein, "Do Defaults Save Lives?", *Science*, 2003). A inscrição já é um sinal forte e gratuito de interesse.
+
+**Consequência:** o jogador competitivo circula por 3 ou mais organizações por semestre, então descobrir organizações novas importa. Esse papel fica com a **tela de competições com filtros por nível e região**, e não com o feed.
+
+**Evolução prevista:** híbrido. O vínculo implícito continua como padrão, com "Seguir" (alcançar organizações sem inscrição) e "Deixar de seguir" (silenciar). A tabela `follows (follower_id → profiles, followee_id → organizations)` só entra nesse momento.
 
 ### 11.3 Torcida: `match_cheers`
 
@@ -701,15 +707,17 @@ A feature exige uma tabela `follows (follower_id → profiles, followee_id → o
 - Torcida reversível: trocar de lado é `UPDATE`, desfazer é `DELETE`
 - Contagem no MVP: `COUNT … GROUP BY side`. Se a escala pedir, migrar para colunas desnormalizadas mantidas por trigger
 
-### 11.4 `enrollment_count` conta jogadores
+### 11.4 `enrollment_count` conta a unidade competidora
 
-O número de inscritos é sempre de jogadores, não de inscrições. Assim a exibição é consistente entre simples (1 jogador por inscrição) e duplas (2 por inscrição).
+O número de inscritos de uma categoria conta **quem compete**: duplas numa categoria de duplas, jogadores numa categoria de simples. É assim que o esporte fala: "categorias com mais de 40 duplas" (regulamento do Rankin), "as 16 melhores duplas".
 
-- Cálculo: `COUNT(enrollments)` em simples, `COUNT(enrollments) × 2` em duplas
+- Exibição: "16 duplas inscritas", "24 jogadores inscritos"
+- Cálculo: `COUNT(enrollments)` da categoria, com o rótulo vindo da modalidade
+- O total de um evento com categorias de simples e de duplas, quando existir, é em **jogadores** (a única unidade que soma)
 - Calculado ao gerar o `metadata` da activity, não guardado como contador em `categories`
 
 ### 11.5 Categorias
 
 - **Faixa de nível:** `level_min` / `level_max` no lugar de um `level` único. Representa categorias como "Feminina A/B" (`level_min = 'A'`, `level_max = 'B'`). Categoria de um nível só tem os dois iguais
-- **Nível ou faixa etária:** nível técnico e `age_group` são mutuamente exclusivos. Uma categoria é definida por um ou pelo outro
+- **Nível e faixa etária são opcionais e independentes:** o comum é gênero + nível ("Masculino B") ou gênero + faixa etária ("Feminino 40+"), mas os dois podem coexistir ("Mista C 40+"). A categoria precisa ter pelo menos um dos dois
 - **Mista implica duplas:** constraint no banco bloqueia `gender = 'mixed' AND modality = 'singles'`
