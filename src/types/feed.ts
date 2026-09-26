@@ -127,7 +127,7 @@ export interface CompetitionInfo {
   category: Category;
   date_display: string;     // pre-formatted, e.g. "20 e 21 de maio de 2026"
   location: string;
-  enrollment_count: number;
+  enrollment_count: number; // unidade competidora: duplas em categoria de duplas, jogadores em simples (FEED_CARDS.md §11.4)
   org_avatar_url: string | null;
 }
 
