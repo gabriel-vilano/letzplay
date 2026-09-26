@@ -57,7 +57,7 @@ export function RankingBlock({ data }: RankingBlockProps) {
 }
 
 function getMilestoneLabel(milestone: RankingMilestone): string {
-  if (milestone === "leader") return "Líder";
+  if (milestone === "leader") return "Assumiu a liderança";
   if (milestone === "top10") return "Top 10";
   return "Finals";
 }

@@ -1,14 +1,10 @@
 import type { Category } from '@/src/types/feed';
 
+// Como as arenas escrevem nas inscrições: "Masculino B", "Mista C" (FEED_CARDS.md §11.5)
 const genderLabel: Record<Category['gender'], string> = {
-  M: 'Masculina',
-  F: 'Feminina',
+  M: 'Masculino',
+  F: 'Feminino',
   mixed: 'Mista',
-};
-
-const modalityLabel: Record<Category['modality'], string> = {
-  singles: 'Simples',
-  doubles: 'Duplas',
 };
 
 const TIMEZONE = "America/Sao_Paulo";
@@ -41,21 +37,28 @@ export function formatMatchDateTime(iso: string): string {
   return `${date}, ${weekday} às ${time}`;
 }
 
+/**
+ * Nome da categoria: gênero + nível + idade. A modalidade só aparece em simples,
+ * porque duplas é o padrão do Beach Tennis.
+ * Ex.: "Masculino B", "Mista C 40+", "Feminino A · Simples".
+ */
 export function formatCategoryLabel(category: Category): string {
-  const { gender, modality, level_min, level_max, age_group } = category;
+  const name = [genderLabel[category.gender], formatLevel(category), category.age_group]
+    .filter(Boolean)
+    .join(' ');
+  return category.modality === 'singles' ? `${name} · Simples` : name;
+}
 
-  let detail: string | null = null;
-  if (age_group) {
-    detail = age_group;
-  } else if (level_min && level_max && level_min !== level_max) {
-    detail = `${level_min}/${level_max}`;
-  } else if (level_min) {
-    detail = level_min;
-  }
+function formatLevel({ level_min, level_max }: Category): string | null {
+  if (level_min && level_max && level_min !== level_max) return `${level_min}/${level_max}`;
+  return level_min ?? level_max;
+}
 
-  const genderWithDetail = detail
-    ? `${genderLabel[gender]} ${detail}`
-    : genderLabel[gender];
-
-  return `${genderWithDetail} · ${modalityLabel[modality]}`;
+/**
+ * Inscritos contados pela unidade competidora (FEED_CARDS.md §11.4).
+ * Ex.: "16 duplas inscritas", "24 jogadores inscritos".
+ */
+export function formatEnrollmentCount(count: number, modality: Category['modality']): string {
+  if (modality === 'doubles') return count === 1 ? '1 dupla inscrita' : `${count} duplas inscritas`;
+  return count === 1 ? '1 jogador inscrito' : `${count} jogadores inscritos`;
 }
