@@ -359,7 +359,7 @@ Quando propor uma solução, apresentar a versão mínima viável primeiro. Só 
 
 - [ ] Feature funcionando em mobile
 - [ ] Testes dos fluxos críticos
-- [ ] Sem erros de TypeScript (`npm run build`)
+- [ ] Sem erros de TypeScript (`npm run typecheck`)
 - [ ] CLAUDE.md atualizado (se houve novo hurdle ou padrão)
 - [ ] Commit seguindo conventional commits
 
